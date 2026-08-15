@@ -117,6 +117,7 @@ struct CloudFileBrowserView: View {
         .sheet(isPresented: $isManualConnectPresented) {
             ManualConnectSheet(
                 provider: session.provider,
+                presentationAnchor: presentationAnchor,
                 onConnected: { account in
                     session.adoptManualAccount(account)
                     isManualConnectPresented = false
@@ -295,6 +296,7 @@ struct CloudFolderPickerView: View {
         .sheet(isPresented: $isManualConnectPresented) {
             ManualConnectSheet(
                 provider: session.provider,
+                presentationAnchor: presentationAnchor,
                 onConnected: { account in
                     session.adoptManualAccount(account)
                     isManualConnectPresented = false
@@ -360,12 +362,18 @@ struct CloudFolderPickerView: View {
 /// hosted sign-in.
 private struct ManualConnectSheet: View {
     let provider: CloudProvider?
+    let presentationAnchor: @MainActor () -> ASPresentationAnchor
     let onConnected: (CloudAccount) -> Void
     let onCancel: () -> Void
 
     var body: some View {
         if let connector = provider as? WebDAVConnecting {
-            WebDAVConnectView(connector: connector, onConnected: onConnected, onCancel: onCancel)
+            WebDAVConnectView(
+                connector: connector,
+                presentationAnchor: presentationAnchor,
+                onConnected: onConnected,
+                onCancel: onCancel
+            )
         } else if let connector = provider as? FTPConnecting {
             FTPConnectView(connector: connector, onConnected: onConnected, onCancel: onCancel)
         }
