@@ -10,11 +10,11 @@ import Foundation
 /// Library, Documents, and tmp — so a paired Mac can pull it after a
 /// reproduction:
 /// `xcrun devicectl device copy from --domain-type appGroupDataContainer
-///  --domain-identifier group.com.keevault.shared
+///  --domain-identifier group.at.kw.nextpass.shared
 ///  --source Library/autofill-diagnostics.log`
 enum AutoFillDiagnostics {
     #if DEBUG
-    private static let queue = DispatchQueue(label: "com.keevault.autofill-diagnostics", qos: .utility)
+    private static let queue = DispatchQueue(label: "at.kw.nextpass.autofill-diagnostics", qos: .utility)
     private static let maxBytes = 128 * 1024
 
     private static let timestampFormatter: DateFormatter = {

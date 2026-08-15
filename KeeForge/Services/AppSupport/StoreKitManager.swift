@@ -19,9 +19,9 @@ final class StoreKitManager {
     }
 
     static let tipProductIDs: [String] = [
-        "com.keevault.app.tip.small",
-        "com.keevault.app.tip.nice",
-        "com.keevault.app.tip.big",
+        "at.kw.nextpass.tip.small",
+        "at.kw.nextpass.tip.nice",
+        "at.kw.nextpass.tip.big",
     ]
 
     private static let tipProductIDSet = Set(tipProductIDs)

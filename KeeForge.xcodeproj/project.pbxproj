@@ -2784,7 +2784,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.uitests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = KeeForge;
@@ -2801,10 +2801,10 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.tests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KeeForge.app/KeeForge";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NextPass.app/NextPass";
 				TEST_TARGET_NAME = KeeForge;
 			};
 			name = Debug;
@@ -2813,7 +2813,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = KeeForge;
-				CLOUD_KEYCHAIN_ACCESS_GROUP = "$(AppIdentifierPrefix)com.keevault.sharedkeychain";
+				CLOUD_KEYCHAIN_ACCESS_GROUP = "$(AppIdentifierPrefix)at.kw.nextpass.sharedkeychain";
 				CODE_SIGN_ENTITLEMENTS = KeeForgeMac/KeeForgeMac.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -2827,7 +2827,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.10.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass;
 				PRODUCT_MODULE_NAME = KeeForge;
 				PRODUCT_NAME = NextPass;
 				SDKROOT = macosx;
@@ -2853,7 +2853,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.10.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.autofill;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.autofill;
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
@@ -2930,7 +2930,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.uitests;
 				SDKROOT = macosx;
 				TEST_TARGET_NAME = KeeForgeMac;
 			};
@@ -2947,9 +2947,9 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.tests;
 				SDKROOT = macosx;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KeeForgeMac.app/Contents/MacOS/KeeForgeMac";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NextPass.app/Contents/MacOS/NextPass";
 				TEST_TARGET_NAME = KeeForgeMac;
 			};
 			name = Debug;
@@ -2964,7 +2964,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.uitests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = KeeForge;
@@ -2982,9 +2982,9 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.tests;
 				SDKROOT = macosx;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KeeForgeMac.app/Contents/MacOS/KeeForgeMac";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NextPass.app/Contents/MacOS/NextPass";
 				TEST_TARGET_NAME = KeeForgeMac;
 			};
 			name = Release;
@@ -3007,7 +3007,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.10.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.autofill;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.autofill;
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
@@ -3017,7 +3017,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = KeeForge;
-				CLOUD_KEYCHAIN_ACCESS_GROUP = "$(AppIdentifierPrefix)com.keevault.sharedkeychain";
+				CLOUD_KEYCHAIN_ACCESS_GROUP = "$(AppIdentifierPrefix)at.kw.nextpass.sharedkeychain";
 				CODE_SIGN_ENTITLEMENTS = KeeForgeMac/KeeForgeMac.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -3031,7 +3031,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.10.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass;
 				PRODUCT_MODULE_NAME = KeeForge;
 				PRODUCT_NAME = NextPass;
 				SDKROOT = macosx;
@@ -3054,7 +3054,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.14.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.autofill;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.autofill;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3071,10 +3071,10 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.tests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KeeForge.app/KeeForge";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NextPass.app/NextPass";
 				TEST_TARGET_NAME = KeeForge;
 			};
 			name = Release;
@@ -3090,7 +3090,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.uitests;
 				SDKROOT = macosx;
 				TEST_TARGET_NAME = KeeForgeMac;
 			};
@@ -3100,7 +3100,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = KeeForge;
-				CLOUD_KEYCHAIN_ACCESS_GROUP = "$(AppIdentifierPrefix)com.keevault.sharedkeychain";
+				CLOUD_KEYCHAIN_ACCESS_GROUP = "$(AppIdentifierPrefix)at.kw.nextpass.sharedkeychain";
 				CODE_SIGN_ENTITLEMENTS = KeeForge/KeeForge.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -3113,7 +3113,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.14.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass;
 				PRODUCT_MODULE_NAME = KeeForge;
 				PRODUCT_NAME = NextPass;
 				SDKROOT = iphoneos;
@@ -3204,7 +3204,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.14.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.autofill;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.autofill;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3215,7 +3215,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = KeeForge;
-				CLOUD_KEYCHAIN_ACCESS_GROUP = "$(AppIdentifierPrefix)com.keevault.sharedkeychain";
+				CLOUD_KEYCHAIN_ACCESS_GROUP = "$(AppIdentifierPrefix)at.kw.nextpass.sharedkeychain";
 				CODE_SIGN_ENTITLEMENTS = KeeForge/KeeForge.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -3228,7 +3228,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.14.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass;
 				PRODUCT_MODULE_NAME = KeeForge;
 				PRODUCT_NAME = NextPass;
 				SDKROOT = iphoneos;

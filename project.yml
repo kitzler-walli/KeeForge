@@ -1,6 +1,6 @@
 name: KeeForge
 options:
-  bundleIdPrefix: com.keevault
+  bundleIdPrefix: at.kw
   developmentLanguage: en
   deploymentTarget:
     iOS: "18.0"
@@ -39,7 +39,7 @@ targets:
     settings:
       base:
         INFOPLIST_FILE: KeeForge/Info.plist
-        PRODUCT_BUNDLE_IDENTIFIER: com.keevault.app
+        PRODUCT_BUNDLE_IDENTIFIER: at.kw.nextpass
         TARGETED_DEVICE_FAMILY: "1,2"
         ASSETCATALOG_COMPILER_APPICON_NAME: KeeForge
         CODE_SIGN_STYLE: Automatic
@@ -48,7 +48,7 @@ targets:
         PRODUCT_MODULE_NAME: KeeForge
         MARKETING_VERSION: "1.14.0"
         CURRENT_PROJECT_VERSION: "44"
-        CLOUD_KEYCHAIN_ACCESS_GROUP: $(AppIdentifierPrefix)com.keevault.sharedkeychain
+        CLOUD_KEYCHAIN_ACCESS_GROUP: $(AppIdentifierPrefix)at.kw.nextpass.sharedkeychain
         GENERATE_INFOPLIST_FILE: false
         SWIFT_EMIT_LOC_STRINGS: "YES"
         LOCALIZATION_PREFERS_STRING_CATALOGS: "YES"
@@ -91,7 +91,7 @@ targets:
     settings:
       base:
         INFOPLIST_FILE: KeeForgeMac/Info.plist
-        PRODUCT_BUNDLE_IDENTIFIER: com.keevault.app
+        PRODUCT_BUNDLE_IDENTIFIER: at.kw.nextpass
         # Reuse the shared Icon Composer bundle (KeeForge.icon) so the Mac app
         # has an archivable icon; lower-risk than bumping xcodeVersion since
         # the installed Xcode (26.x) already compiles it for the iOS target.
@@ -103,7 +103,7 @@ targets:
         PRODUCT_MODULE_NAME: KeeForge
         MARKETING_VERSION: "1.10.1"
         CURRENT_PROJECT_VERSION: "1"
-        CLOUD_KEYCHAIN_ACCESS_GROUP: $(AppIdentifierPrefix)com.keevault.sharedkeychain
+        CLOUD_KEYCHAIN_ACCESS_GROUP: $(AppIdentifierPrefix)at.kw.nextpass.sharedkeychain
         GENERATE_INFOPLIST_FILE: false
         SWIFT_EMIT_LOC_STRINGS: "YES"
         LOCALIZATION_PREFERS_STRING_CATALOGS: "YES"
@@ -151,7 +151,7 @@ targets:
     settings:
       base:
         INFOPLIST_FILE: AutoFillExtension/Info.plist
-        PRODUCT_BUNDLE_IDENTIFIER: com.keevault.app.autofill
+        PRODUCT_BUNDLE_IDENTIFIER: at.kw.nextpass.autofill
         CODE_SIGN_STYLE: Automatic
         CODE_SIGN_ENTITLEMENTS: AutoFillExtension/AutoFillExtension.entitlements
         MARKETING_VERSION: "1.14.0"
@@ -214,7 +214,7 @@ targets:
     settings:
       base:
         INFOPLIST_FILE: AutoFillExtension/InfoMac.plist
-        PRODUCT_BUNDLE_IDENTIFIER: com.keevault.app.autofill
+        PRODUCT_BUNDLE_IDENTIFIER: at.kw.nextpass.autofill
         ENABLE_HARDENED_RUNTIME: "YES"
         CODE_SIGN_STYLE: Automatic
         CODE_SIGN_ENTITLEMENTS: AutoFillExtension/AutoFillExtensionMac.entitlements
@@ -276,7 +276,7 @@ targets:
     platform: iOS
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.keevault.app.uitests
+        PRODUCT_BUNDLE_IDENTIFIER: at.kw.nextpass.uitests
         GENERATE_INFOPLIST_FILE: true
         TEST_TARGET_NAME: KeeForge
     dependencies:
@@ -314,10 +314,10 @@ targets:
     platform: iOS
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.keevault.app.tests
+        PRODUCT_BUNDLE_IDENTIFIER: at.kw.nextpass.tests
         GENERATE_INFOPLIST_FILE: true
         TEST_TARGET_NAME: KeeForge
-        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/KeeForge.app/KeeForge"
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/NextPass.app/NextPass"
     # Copy the four RAW .xcstrings catalog sources verbatim into the built
     # .xctest bundle so LocalizationTests can read them from its own bundle at
     # runtime. On Xcode Cloud the test action ("test-without-building") runs on
@@ -433,7 +433,7 @@ targets:
     platform: macOS
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.keevault.app.uitests
+        PRODUCT_BUNDLE_IDENTIFIER: at.kw.nextpass.uitests
         GENERATE_INFOPLIST_FILE: true
         TEST_TARGET_NAME: KeeForgeMac
     dependencies:
@@ -457,10 +457,10 @@ targets:
     platform: macOS
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.keevault.app.tests
+        PRODUCT_BUNDLE_IDENTIFIER: at.kw.nextpass.tests
         GENERATE_INFOPLIST_FILE: true
         TEST_TARGET_NAME: KeeForgeMac
-        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/KeeForgeMac.app/Contents/MacOS/KeeForgeMac"
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/NextPass.app/Contents/MacOS/NextPass"
         BUNDLE_LOADER: "$(TEST_HOST)"
     # Same raw-catalog copy as on KeeForgeTests (see the comment there):
     # LocalizationTests compiles into this bundle too, and reads the four raw

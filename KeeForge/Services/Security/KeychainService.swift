@@ -3,7 +3,7 @@ import LocalAuthentication
 import Security
 
 enum KeychainService {
-    private static let service = "com.keevault.app"
+    private static let service = "at.kw.nextpass"
     private static let compositeKeyAccount = "compositeKey"
 
     private static func accountKey(for databaseID: UUID) -> String {

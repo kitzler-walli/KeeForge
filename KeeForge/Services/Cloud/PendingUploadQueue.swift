@@ -114,7 +114,7 @@ enum PendingUploadQueue {
         )
     }
 
-    static let notificationName = "com.keevault.app.pending-upload-enqueued"
+    static let notificationName = "at.kw.nextpass.pending-upload-enqueued"
 
     static func enqueue(_ marker: Marker, notifying: Bool = true) throws -> StoredMarker {
         try enqueue(marker, notifying: notifying, environment: .live)

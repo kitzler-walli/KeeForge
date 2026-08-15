@@ -76,14 +76,14 @@ final class CloudProviderDesktopAuthTests: XCTestCase {
         // Dropbox's desktop OAuth completes via the db-<appkey> scheme handled
         // by onOpenURL -> handleRedirectURL; MSAL requires the msauth scheme.
         XCTAssertTrue(schemes.contains { $0.hasPrefix("db-") })
-        XCTAssertTrue(schemes.contains("msauth.com.keevault.app"))
+        XCTAssertTrue(schemes.contains("msauth.at.kw.nextpass"))
     }
 
     func testOneDriveHandleRedirectURLDefersToOtherHandlersOnMac() throws {
         // MSAL has no handleMSALResponse on macOS: the web session intercepts
         // the msauth redirect internally, so the provider must decline the URL
         // and let other handlers (e.g. Dropbox, file opens) inspect it.
-        let url = try XCTUnwrap(URL(string: "msauth.com.keevault.app://auth"))
+        let url = try XCTUnwrap(URL(string: "msauth.at.kw.nextpass://auth"))
         XCTAssertFalse(OneDriveCloudProvider.shared.handleRedirectURL(url))
     }
 

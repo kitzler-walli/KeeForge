@@ -12,7 +12,7 @@
 	<true/>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.com.keevault.shared</string>
+		<string>group.at.kw.nextpass.shared</string>
 	</array>
 	<!-- MSAL's macOS token cache defaults to the com.microsoft.identity.universalstorage
 	     keychain group (MSIDKeychainTokenCache / MSIDMacKeychainTokenCache), unlike the
@@ -21,7 +21,7 @@
 	     relaunch depends on this entry. Keep the shared keychain group first. -->
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)com.keevault.sharedkeychain</string>
+		<string>$(AppIdentifierPrefix)at.kw.nextpass.sharedkeychain</string>
 		<string>$(AppIdentifierPrefix)com.microsoft.identity.universalstorage</string>
 	</array>
 </dict>

@@ -59,7 +59,7 @@ final class MacScreenshotAuditUITests: MacUITestCase {
         }
     }
 
-    private static let appBundleIdentifier = "com.keevault.app"
+    private static let appBundleIdentifier = "at.kw.nextpass"
 
     /// PID of the running app-under-test.
     private var appProcessID: pid_t? {

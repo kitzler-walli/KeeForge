@@ -1,7 +1,7 @@
 import Foundation
 
 enum SharedVaultStore {
-    static let appGroupID = "group.com.keevault.shared"
+    static let appGroupID = "group.at.kw.nextpass.shared"
 
     private static let bookmarkKey = "savedDatabaseBookmark"
     private static let databaseFilenameKey = "savedDatabaseFilename"

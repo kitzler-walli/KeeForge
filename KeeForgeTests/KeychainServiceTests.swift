@@ -135,7 +135,7 @@ final class KeychainServiceTests: XCTestCase {
     // tests seed it directly with the same service/account-key shape the
     // service uses internally, minus the biometric access control — which
     // keeps retrieval deterministic here.
-    private static let legacyKeychainService = "com.keevault.app"
+    private static let legacyKeychainService = "at.kw.nextpass"
 
     private func legacyAccountKey(forFilename filename: String) -> String {
         "compositeKey:\(filename)"
