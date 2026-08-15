@@ -4,7 +4,7 @@ import os
 
 /// One-time notice for people arriving from the "Designed for iPad" build.
 ///
-/// Two builds sharing `com.keevault.app` make the App Group's availability
+/// Two builds sharing `at.kw.nextpass` make the App Group's availability
 /// itself a signal. macOS binds the container to one signing
 /// `validationCategory`, and the losing build is denied — so on first launch
 /// the Mac app sees one of exactly three things, and the notice has to be

@@ -2230,7 +2230,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -euo pipefail\n\n# TARGET_BUILD_DIR (not BUILT_PRODUCTS_DIR) is the location the test\n# bundle is actually assembled and run from — for a host-app-embedded\n# unit test that is KeeForge.app/Contents/PlugIns/KeeForgeMacTests.xctest,\n# which is what Bundle(for:) resolves to at runtime.\ndest=\"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\nmkdir -p \"${dest}\"\n\ncopy_catalog() {\n  src=\"$1\"\n  dst=\"$2\"\n  if [ ! -f \"${src}\" ]; then\n    echo \"error: raw xcstrings source missing: ${src}\" >&2\n    exit 1\n  fi\n  /bin/cp -f \"${src}\" \"${dest}/${dst}\"\n}\n\ncopy_catalog \"${SRCROOT}/KeeForge/Resources/Localizable.xcstrings\" \"KeeForge_Localizable.xcstrings\"\ncopy_catalog \"${SRCROOT}/KeeForge/Resources/InfoPlist.xcstrings\" \"KeeForge_InfoPlist.xcstrings\"\ncopy_catalog \"${SRCROOT}/AutoFillExtension/Localizable.xcstrings\" \"AutoFillExtension_Localizable.xcstrings\"\ncopy_catalog \"${SRCROOT}/AutoFillExtension/InfoPlist.xcstrings\" \"AutoFillExtension_InfoPlist.xcstrings\"\n";
+			shellScript = "set -euo pipefail\n\n# TARGET_BUILD_DIR (not BUILT_PRODUCTS_DIR) is the location the test\n# bundle is actually assembled and run from — for a host-app-embedded\n# unit test that is NextPass.app/Contents/PlugIns/KeeForgeMacTests.xctest,\n# which is what Bundle(for:) resolves to at runtime.\ndest=\"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\nmkdir -p \"${dest}\"\n\ncopy_catalog() {\n  src=\"$1\"\n  dst=\"$2\"\n  if [ ! -f \"${src}\" ]; then\n    echo \"error: raw xcstrings source missing: ${src}\" >&2\n    exit 1\n  fi\n  /bin/cp -f \"${src}\" \"${dest}/${dst}\"\n}\n\ncopy_catalog \"${SRCROOT}/KeeForge/Resources/Localizable.xcstrings\" \"KeeForge_Localizable.xcstrings\"\ncopy_catalog \"${SRCROOT}/KeeForge/Resources/InfoPlist.xcstrings\" \"KeeForge_InfoPlist.xcstrings\"\ncopy_catalog \"${SRCROOT}/AutoFillExtension/Localizable.xcstrings\" \"AutoFillExtension_Localizable.xcstrings\"\ncopy_catalog \"${SRCROOT}/AutoFillExtension/InfoPlist.xcstrings\" \"AutoFillExtension_InfoPlist.xcstrings\"\n";
 		};
 		804041F2AB24067D2581A5CF /* Bundle raw .xcstrings catalogs for LocalizationTests */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2257,7 +2257,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -euo pipefail\n\n# TARGET_BUILD_DIR (not BUILT_PRODUCTS_DIR) is the location the test\n# bundle is actually assembled and run from — for a host-app-embedded\n# unit test that is KeeForge.app/PlugIns/KeeForgeTests.xctest, which is\n# what Bundle(for:) resolves to at runtime.\ndest=\"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\nmkdir -p \"${dest}\"\n\ncopy_catalog() {\n  src=\"$1\"\n  dst=\"$2\"\n  if [ ! -f \"${src}\" ]; then\n    echo \"error: raw xcstrings source missing: ${src}\" >&2\n    exit 1\n  fi\n  /bin/cp -f \"${src}\" \"${dest}/${dst}\"\n}\n\ncopy_catalog \"${SRCROOT}/KeeForge/Resources/Localizable.xcstrings\" \"KeeForge_Localizable.xcstrings\"\ncopy_catalog \"${SRCROOT}/KeeForge/Resources/InfoPlist.xcstrings\" \"KeeForge_InfoPlist.xcstrings\"\ncopy_catalog \"${SRCROOT}/AutoFillExtension/Localizable.xcstrings\" \"AutoFillExtension_Localizable.xcstrings\"\ncopy_catalog \"${SRCROOT}/AutoFillExtension/InfoPlist.xcstrings\" \"AutoFillExtension_InfoPlist.xcstrings\"\n";
+			shellScript = "set -euo pipefail\n\n# TARGET_BUILD_DIR (not BUILT_PRODUCTS_DIR) is the location the test\n# bundle is actually assembled and run from — for a host-app-embedded\n# unit test that is NextPass.app/PlugIns/KeeForgeTests.xctest, which is\n# what Bundle(for:) resolves to at runtime.\ndest=\"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\nmkdir -p \"${dest}\"\n\ncopy_catalog() {\n  src=\"$1\"\n  dst=\"$2\"\n  if [ ! -f \"${src}\" ]; then\n    echo \"error: raw xcstrings source missing: ${src}\" >&2\n    exit 1\n  fi\n  /bin/cp -f \"${src}\" \"${dest}/${dst}\"\n}\n\ncopy_catalog \"${SRCROOT}/KeeForge/Resources/Localizable.xcstrings\" \"KeeForge_Localizable.xcstrings\"\ncopy_catalog \"${SRCROOT}/KeeForge/Resources/InfoPlist.xcstrings\" \"KeeForge_InfoPlist.xcstrings\"\ncopy_catalog \"${SRCROOT}/AutoFillExtension/Localizable.xcstrings\" \"AutoFillExtension_Localizable.xcstrings\"\ncopy_catalog \"${SRCROOT}/AutoFillExtension/InfoPlist.xcstrings\" \"AutoFillExtension_InfoPlist.xcstrings\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3032,7 +3032,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.uitests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = KeeForge;
@@ -3049,10 +3049,10 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.tests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KeeForge.app/KeeForge";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NextPass.app/NextPass";
 				TEST_TARGET_NAME = KeeForge;
 			};
 			name = Debug;
@@ -3061,7 +3061,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = KeeForge;
-				CLOUD_KEYCHAIN_ACCESS_GROUP = "$(AppIdentifierPrefix)com.keevault.sharedkeychain";
+				CLOUD_KEYCHAIN_ACCESS_GROUP = "$(AppIdentifierPrefix)at.kw.nextpass.sharedkeychain";
 				CODE_SIGN_ENTITLEMENTS = KeeForgeMac/KeeForgeMac.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -3075,7 +3075,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.16.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass;
 				PRODUCT_MODULE_NAME = KeeForge;
 				PRODUCT_NAME = NextPass;
 				SDKROOT = macosx;
@@ -3104,7 +3104,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.16.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.autofill;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.autofill;
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
@@ -3181,7 +3181,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.uitests;
 				SDKROOT = macosx;
 				TEST_TARGET_NAME = KeeForgeMac;
 			};
@@ -3198,9 +3198,9 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.tests;
 				SDKROOT = macosx;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KeeForge.app/Contents/MacOS/KeeForge";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NextPass.app/Contents/MacOS/NextPass";
 				TEST_TARGET_NAME = KeeForgeMac;
 			};
 			name = Debug;
@@ -3215,7 +3215,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.uitests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = KeeForge;
@@ -3233,9 +3233,9 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.tests;
 				SDKROOT = macosx;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KeeForge.app/Contents/MacOS/KeeForge";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NextPass.app/Contents/MacOS/NextPass";
 				TEST_TARGET_NAME = KeeForgeMac;
 			};
 			name = Release;
@@ -3258,7 +3258,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.16.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.autofill;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.autofill;
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
@@ -3268,7 +3268,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = KeeForge;
-				CLOUD_KEYCHAIN_ACCESS_GROUP = "$(AppIdentifierPrefix)com.keevault.sharedkeychain";
+				CLOUD_KEYCHAIN_ACCESS_GROUP = "$(AppIdentifierPrefix)at.kw.nextpass.sharedkeychain";
 				CODE_SIGN_ENTITLEMENTS = KeeForgeMac/KeeForgeMac.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -3282,7 +3282,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.16.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass;
 				PRODUCT_MODULE_NAME = KeeForge;
 				PRODUCT_NAME = NextPass;
 				SDKROOT = macosx;
@@ -3308,7 +3308,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.16.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.autofill;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.autofill;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3325,10 +3325,10 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.tests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KeeForge.app/KeeForge";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NextPass.app/NextPass";
 				TEST_TARGET_NAME = KeeForge;
 			};
 			name = Release;
@@ -3344,7 +3344,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.uitests;
 				SDKROOT = macosx;
 				TEST_TARGET_NAME = KeeForgeMac;
 			};
@@ -3354,7 +3354,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = KeeForge;
-				CLOUD_KEYCHAIN_ACCESS_GROUP = "$(AppIdentifierPrefix)com.keevault.sharedkeychain";
+				CLOUD_KEYCHAIN_ACCESS_GROUP = "$(AppIdentifierPrefix)at.kw.nextpass.sharedkeychain";
 				CODE_SIGN_ENTITLEMENTS = KeeForge/KeeForge.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -3367,7 +3367,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.16.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass;
 				PRODUCT_MODULE_NAME = KeeForge;
 				PRODUCT_NAME = NextPass;
 				SDKROOT = iphoneos;
@@ -3458,7 +3458,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.16.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app.autofill;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass.autofill;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3469,7 +3469,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = KeeForge;
-				CLOUD_KEYCHAIN_ACCESS_GROUP = "$(AppIdentifierPrefix)com.keevault.sharedkeychain";
+				CLOUD_KEYCHAIN_ACCESS_GROUP = "$(AppIdentifierPrefix)at.kw.nextpass.sharedkeychain";
 				CODE_SIGN_ENTITLEMENTS = KeeForge/KeeForge.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -3482,7 +3482,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.16.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app;
+				PRODUCT_BUNDLE_IDENTIFIER = at.kw.nextpass;
 				PRODUCT_MODULE_NAME = KeeForge;
 				PRODUCT_NAME = NextPass;
 				SDKROOT = iphoneos;

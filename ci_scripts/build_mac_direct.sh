@@ -11,8 +11,8 @@
 #
 # Prerequisites, none of which live in the repo:
 #   * A "Developer ID Application" certificate in the login keychain.
-#   * Developer ID provisioning profiles for com.keevault.app and
-#     com.keevault.app.autofill. Xcode creates both on demand — the archive and
+#   * Developer ID provisioning profiles for at.kw.nextpass and
+#     at.kw.nextpass.autofill. Xcode creates both on demand — the archive and
 #     export below pass -allowProvisioningUpdates — so no portal visit is
 #     needed. Making them by hand still works if you prefer to pin the
 #     entitlements a profile authorizes.

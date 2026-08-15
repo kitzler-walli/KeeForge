@@ -5,7 +5,7 @@ import XCTest
 ///
 /// `KeeForgeMacTests` is hosted by the real signed Mac app, so before
 /// `AppGroupContainer` existed a Mac run operated on
-/// `~/Library/Group Containers/group.com.keevault.shared` — the developer's own
+/// `~/Library/Group Containers/group.at.kw.nextpass.shared` — the developer's own
 /// storage — and the `DatabaseListStore.clearAll()` in several suites' `setUp`
 /// deleted their database list and on-device backups (observed 2026-09-09).
 /// These tests fail if the suite is ever pointed back at real shared storage.

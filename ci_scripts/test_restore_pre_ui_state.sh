@@ -23,8 +23,8 @@ make_backup() {
   mkdir -p "${root}/app-group/databases" "${root}/app-group/Library/Application Scripts"
   printf 'original database bytes\n' >"${root}/app-group/databases/original.kdbx"
   printf 'original registry\n' >"${root}/app-group/database-list.json"
-  ln -s '../../../../Application Scripts/group.com.keevault.shared' \
-    "${root}/app-group/Library/Application Scripts/group.com.keevault.shared"
+  ln -s '../../../../Application Scripts/group.at.kw.nextpass.shared' \
+    "${root}/app-group/Library/Application Scripts/group.at.kw.nextpass.shared"
   /usr/bin/swift "${HELPER}" write-manifest --root "${root}" --output "${root}/sha256.json" >/dev/null
 }
 
@@ -62,14 +62,14 @@ printf 'baseline without scripts link\n' >"${TMP_ROOT}/empty-link-baseline/app-g
 echo 'fixture=empty-application-scripts-link-baseline result=passed'
 
 cp -R "${TMP_ROOT}/backup" "${TMP_ROOT}/missing-link"
-rm "${TMP_ROOT}/missing-link/app-group/Library/Application Scripts/group.com.keevault.shared"
+rm "${TMP_ROOT}/missing-link/app-group/Library/Application Scripts/group.at.kw.nextpass.shared"
 expect_failure missing-application-scripts-link \
   /usr/bin/swift "${HELPER}" verify-backup-manifest --root "${TMP_ROOT}/missing-link"
 
 cp -R "${TMP_ROOT}/backup" "${TMP_ROOT}/altered-link"
-rm "${TMP_ROOT}/altered-link/app-group/Library/Application Scripts/group.com.keevault.shared"
+rm "${TMP_ROOT}/altered-link/app-group/Library/Application Scripts/group.at.kw.nextpass.shared"
 ln -s '../../../../Application Scripts/other-group' \
-  "${TMP_ROOT}/altered-link/app-group/Library/Application Scripts/group.com.keevault.shared"
+  "${TMP_ROOT}/altered-link/app-group/Library/Application Scripts/group.at.kw.nextpass.shared"
 expect_failure altered-application-scripts-link \
   /usr/bin/swift "${HELPER}" verify-backup-manifest --root "${TMP_ROOT}/altered-link"
 
@@ -117,7 +117,7 @@ cp "${FIXTURE}" "${TMP_ROOT}/fixture-live/databases/test.kdbx"
   --backup "${TMP_ROOT}/backup/app-group" --live "${TMP_ROOT}/fixture-live" --fixture "${FIXTURE}"
 /usr/bin/swift "${HELPER}" compare-groups \
   --backup "${TMP_ROOT}/backup/app-group" --live "${TMP_ROOT}/fixture-live" | grep -Fq 'live_extra=0 backup_missing=1'
-rm "${TMP_ROOT}/fixture-live/Library/Application Scripts/group.com.keevault.shared"
+rm "${TMP_ROOT}/fixture-live/Library/Application Scripts/group.at.kw.nextpass.shared"
 /usr/bin/rsync -a --checksum "${TMP_ROOT}/backup/app-group/" "${TMP_ROOT}/fixture-live/"
 /usr/bin/swift "${HELPER}" verify-restored-group \
   --root "${TMP_ROOT}/backup" --group "${TMP_ROOT}/fixture-live"

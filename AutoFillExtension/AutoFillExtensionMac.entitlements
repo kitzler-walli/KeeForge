@@ -8,7 +8,7 @@
 	<true/>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.com.keevault.shared</string>
+		<string>group.at.kw.nextpass.shared</string>
 	</array>
 	<!-- keychain-access-groups MUST stay in the SAME ORDER as the iOS
 	     AutoFillExtension.entitlements: items stored without an explicit
@@ -18,7 +18,7 @@
 	     MSAL's keychain group is app-only and intentionally absent here. -->
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)com.keevault.sharedkeychain</string>
+		<string>$(AppIdentifierPrefix)at.kw.nextpass.sharedkeychain</string>
 	</array>
 </dict>
 </plist>

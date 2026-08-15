@@ -362,7 +362,7 @@ testers or the direct build is called a release candidate.
    Xcode lock, following the owner-readiness preflight above. The harness
    can touch live App Group/defaults state. This is an explicit before/after
    operation, not a shell `trap`: do not restore while an app or UI-test process may still be running.
-   The helper is fixed to `group.com.keevault.shared` and `com.keevault.app`, and accepts state roots
+   The helper is fixed to `group.at.kw.nextpass.shared` and `at.kw.nextpass`, and accepts state roots
    only directly under `scratch/release-session`.
 
    When driving this multi-step native UI sequence through Codex tools, keep a single supervised

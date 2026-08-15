@@ -62,7 +62,7 @@ enum CloudTokenStore {
     private static func itemQuery(provider: String, accountId: String?, includeData: Bool) -> [String: Any] {
         var query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
-            kSecAttrService as String: "com.keevault.cloud-token.\(provider)",
+            kSecAttrService as String: "at.kw.nextpass.cloud-token.\(provider)",
             // Required on macOS to use the iOS-style data-protection keychain
             // instead of the legacy file keychain; harmless no-op on iOS.
             kSecUseDataProtectionKeychain as String: true,

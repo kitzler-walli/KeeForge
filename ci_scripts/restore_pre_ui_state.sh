@@ -6,8 +6,8 @@ umask 077
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 STATE_PARENT="${REPO_ROOT}/scratch/release-session"
-LIVE_GROUP="${HOME}/Library/Group Containers/group.com.keevault.shared"
-DEFAULTS_DOMAIN="com.keevault.app"
+LIVE_GROUP="${HOME}/Library/Group Containers/group.at.kw.nextpass.shared"
+DEFAULTS_DOMAIN="at.kw.nextpass"
 SCREENSHOT_FIXTURE="${REPO_ROOT}/TestFixtures/test.kdbx"
 HELPER="${SCRIPT_DIR}/restore_pre_ui_state.swift"
 
@@ -101,7 +101,7 @@ if (( self_test_processes == 0 )); then
     echo "error: required KeeForge restore helper or screenshot fixture is unavailable" >&2
     exit 1
   }
-  [[ "${DEFAULTS_DOMAIN}" == "com.keevault.app" && "${LIVE_GROUP}" == "${HOME}/Library/Group Containers/group.com.keevault.shared" ]] || {
+  [[ "${DEFAULTS_DOMAIN}" == "at.kw.nextpass" && "${LIVE_GROUP}" == "${HOME}/Library/Group Containers/group.at.kw.nextpass.shared" ]] || {
     echo "error: unexpected KeeForge state ownership configuration" >&2
     exit 1
   }

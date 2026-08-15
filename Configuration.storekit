@@ -18,7 +18,7 @@
           "locale": "de_DE"
         }
       ],
-      "productID": "com.keevault.app.tip.small",
+      "productID": "at.kw.nextpass.tip.small",
       "referenceName": "Small Tip",
       "type": "Consumable"
     },
@@ -38,7 +38,7 @@
           "locale": "de_DE"
         }
       ],
-      "productID": "com.keevault.app.tip.nice",
+      "productID": "at.kw.nextpass.tip.nice",
       "referenceName": "Nice Tip",
       "type": "Consumable"
     },
@@ -58,7 +58,7 @@
           "locale": "de_DE"
         }
       ],
-      "productID": "com.keevault.app.tip.big",
+      "productID": "at.kw.nextpass.tip.big",
       "referenceName": "Big Tip",
       "type": "Consumable"
     }

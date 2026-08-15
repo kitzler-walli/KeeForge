@@ -9,7 +9,7 @@ enum RestoreError: Error {
     case verificationFailed
 }
 
-let managedDefaultsDomain = "com.keevault.app"
+let managedDefaultsDomain = "at.kw.nextpass"
 
 func requireManagedDefaultsDomain(_ domain: String) throws {
     guard domain == managedDefaultsDomain else { throw RestoreError.invalidInput }
@@ -88,8 +88,8 @@ func verifyDefaultsFile(expected: URL, actual: URL) throws {
     print("defaults-file-verify=matched")
 }
 
-let applicationScriptsLinkPath = "Library/Application Scripts/group.com.keevault.shared"
-let applicationScriptsLinkTarget = "../../../../Application Scripts/group.com.keevault.shared"
+let applicationScriptsLinkPath = "Library/Application Scripts/group.at.kw.nextpass.shared"
+let applicationScriptsLinkTarget = "../../../../Application Scripts/group.at.kw.nextpass.shared"
 
 struct GroupContents {
     let regularFiles: Set<String>

@@ -20,7 +20,7 @@ gotchas, and what a given change has to test.
 
 Why it went unfound for so long: every check that was run looked at the extension, where the entitlement was present and correct. Nothing compared the Mac app target against its iOS counterpart.
 
-The App ID `com.keevault.app` already carries the AutoFill Credential Provider capability — the iOS app uses it — and the Developer ID profile already authorizes the entitlement, so the fix was the entitlements file alone: no portal change, no hand-made profile, no rebuild of the extension.
+The App ID `at.kw.nextpass` already carries the AutoFill Credential Provider capability — the iOS app uses it — and the Developer ID profile already authorizes the entitlement, so the fix was the entitlements file alone: no portal change, no hand-made profile, no rebuild of the extension.
 
 Verifying on a Mac:
 
@@ -29,7 +29,7 @@ codesign -d --entitlements - --xml /Applications/KeeForge.app | plutil -p - | gr
 pluginkit -mAvvv -p com.apple.authentication-services-credential-provider-ui
 ```
 
-The first must print the entitlement. The second should list exactly one provider, at the `/Applications` path. More than one registration of `com.keevault.app.autofill` means a stale build is competing for the identifier; macOS resolves an identifier to a single winner, so clear the strays before trusting what the pane shows. DerivedData `Debug/KeeForge.app` products and old `/Applications` copies are the usual sources, and `mdfind "kMDItemCFBundleIdentifier == 'com.keevault.app'"` lists the candidates.
+The first must print the entitlement. The second should list exactly one provider, at the `/Applications` path. More than one registration of `at.kw.nextpass.autofill` means a stale build is competing for the identifier; macOS resolves an identifier to a single winner, so clear the strays before trusting what the pane shows. DerivedData `Debug/KeeForge.app` products and old `/Applications` copies are the usual sources, and `mdfind "kMDItemCFBundleIdentifier == 'at.kw.nextpass'"` lists the candidates.
 
 ## AutoFill Suggestions Come From One Database At A Time
 
@@ -62,7 +62,7 @@ transition notice before approval. The remaining platform constraints are:
   not in Mac v1: let the iPhone or iPad app finish syncing first, then open the provider's
   synced folder as a local file. Never present a cached AutoFill copy as the live vault.
 - **Keychain sharing is expected but unproven in production.** Both bundles carry the
-  `com.keevault.sharedkeychain` access group, so a stored composite key may remain usable
+  `at.kw.nextpass.sharedkeychain` access group, so a stored composite key may remain usable
   once the same database is added natively — verify it without exposing key material
   before relying on it.
 - **AutoFill has to be re-enabled once**, in System Settings → General → AutoFill &
@@ -89,8 +89,8 @@ behavior here or in focused tests rather than rebuilding a release checklist in
 
 ## Entitlements Gotchas
 
-- App Sandbox + Hardened Runtime, user-selected read-write files, network client, app-scoped security bookmarks, App Group `group.com.keevault.shared`.
-- `keychain-access-groups`: the app and the extension both list exactly one group, `com.keevault.sharedkeychain`. Ordering matters the moment a second one is added — items stored without an explicit `kSecAttrAccessGroup` land in the **first** listed group, so the shared group must stay first (see comments in both entitlements files). MSAL's macOS token cache group (`com.microsoft.identity.universalstorage`) is deliberately absent: macOS ships WebDAV only, so nothing authenticates through MSAL. Re-enabling OneDrive means adding it back *and* regenerating the Developer ID profiles, which embed the entitlements.
+- App Sandbox + Hardened Runtime, user-selected read-write files, network client, app-scoped security bookmarks, App Group `group.at.kw.nextpass.shared`.
+- `keychain-access-groups`: the app and the extension both list exactly one group, `at.kw.nextpass.sharedkeychain`. Ordering matters the moment a second one is added — items stored without an explicit `kSecAttrAccessGroup` land in the **first** listed group, so the shared group must stay first (see comments in both entitlements files). MSAL's macOS token cache group (`com.microsoft.identity.universalstorage`) is deliberately absent: macOS ships WebDAV only, so nothing authenticates through MSAL. Re-enabling OneDrive means adding it back *and* regenerating the Developer ID profiles, which embed the entitlements.
 
 ## Info.plist Sync
 

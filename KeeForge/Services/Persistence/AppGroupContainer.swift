@@ -7,7 +7,7 @@ import Foundation
 /// Under an injected XCTest unit-test bundle both are redirected to throwaway
 /// per-process locations. `KeeForgeMacTests` is hosted by the real signed Mac
 /// app, so a test run would otherwise operate on
-/// `~/Library/Group Containers/group.com.keevault.shared` — the developer's own
+/// `~/Library/Group Containers/group.at.kw.nextpass.shared` — the developer's own
 /// storage — and several suites call `DatabaseListStore.clearAll()` from
 /// `setUp`, which deletes the database list, the backups root, and pending
 /// upload markers outright. The redirect lives here rather than in each store
@@ -17,7 +17,7 @@ import Foundation
 /// Extension-safe: pure Foundation.
 enum AppGroupContainer {
     /// The App Group declared in every target's entitlements.
-    static let identifier = "group.com.keevault.shared"
+    static let identifier = "group.at.kw.nextpass.shared"
 
     /// True when this process hosts an injected XCTest unit-test bundle.
     ///
