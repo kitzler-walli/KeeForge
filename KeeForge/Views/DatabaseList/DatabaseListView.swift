@@ -252,7 +252,7 @@ struct DatabaseListView: View {
                 )
             }
         }
-        .navigationTitle("KeeForge")
+        .navigationTitle("NextPass")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             // `EditButton` does not exist on macOS; list rows reorder via
