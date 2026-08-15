@@ -612,7 +612,7 @@ private struct AboutSectionContent: View {
 
     private var aboutSection: some View {
         Section("About") {
-            LabeledContent("App", value: "KeeForge")
+            LabeledContent("App", value: "NextPass")
 
             LabeledContent("Version", value: appVersion)
 

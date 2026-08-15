@@ -417,9 +417,9 @@ private struct AppRootView: View {
                 }
                 .navigationSplitViewStyle(.balanced)
                 #if os(macOS)
-                // Window title stays "KeeForge" until a database is unlocked;
+                // Window title stays "NextPass" until a database is unlocked;
                 // the unlocked workspace sets the title to the database name.
-                .navigationTitle("KeeForge")
+                .navigationTitle("NextPass")
                 #endif
             }
         } else {
@@ -815,7 +815,7 @@ private struct LaunchRoutingView: View {
                     .font(.system(size: 44))
                     .foregroundStyle(.tint)
 
-                Text("KeeForge")
+                Text("NextPass")
                     .font(.title2.weight(.semibold))
 
                 ProgressView()

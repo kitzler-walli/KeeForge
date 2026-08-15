@@ -279,7 +279,7 @@ private final class CredentialIdentityStoreMutationQueue: @unchecked Sendable {
 }
 
 enum CredentialIdentityStoreManager: Sendable {
-    private static let logger = Logger(subsystem: "KeeForge", category: "CredentialIdentityStore")
+    private static let logger = Logger(subsystem: "NextPass", category: "CredentialIdentityStore")
     private static let mutationQueue = CredentialIdentityStoreMutationQueue()
 
     #if DEBUG

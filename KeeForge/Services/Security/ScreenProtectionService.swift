@@ -74,7 +74,7 @@ private final class ScreenProtectionViewController: UIViewController {
         blur.contentView.addSubview(icon)
 
         let title = UILabel()
-        title.text = "KeeForge"
+        title.text = "NextPass"
         title.font = .preferredFont(forTextStyle: .headline)
         title.textColor = .secondaryLabel
         title.translatesAutoresizingMaskIntoConstraints = false
