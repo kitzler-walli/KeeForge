@@ -2829,7 +2829,7 @@
 				MARKETING_VERSION = 1.10.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app;
 				PRODUCT_MODULE_NAME = KeeForge;
-				PRODUCT_NAME = KeeForgeMac;
+				PRODUCT_NAME = NextPass;
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
@@ -3033,7 +3033,7 @@
 				MARKETING_VERSION = 1.10.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app;
 				PRODUCT_MODULE_NAME = KeeForge;
-				PRODUCT_NAME = KeeForgeMac;
+				PRODUCT_NAME = NextPass;
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
@@ -3115,7 +3115,7 @@
 				MARKETING_VERSION = 1.14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app;
 				PRODUCT_MODULE_NAME = KeeForge;
-				PRODUCT_NAME = KeeForge;
+				PRODUCT_NAME = NextPass;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3230,7 +3230,7 @@
 				MARKETING_VERSION = 1.14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.keevault.app;
 				PRODUCT_MODULE_NAME = KeeForge;
-				PRODUCT_NAME = KeeForge;
+				PRODUCT_NAME = NextPass;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";

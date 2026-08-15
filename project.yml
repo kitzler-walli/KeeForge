@@ -44,7 +44,7 @@ targets:
         ASSETCATALOG_COMPILER_APPICON_NAME: KeeForge
         CODE_SIGN_STYLE: Automatic
         CODE_SIGN_ENTITLEMENTS: KeeForge/KeeForge.entitlements
-        PRODUCT_NAME: KeeForge
+        PRODUCT_NAME: NextPass
         PRODUCT_MODULE_NAME: KeeForge
         MARKETING_VERSION: "1.14.0"
         CURRENT_PROJECT_VERSION: "44"
@@ -99,7 +99,7 @@ targets:
         ENABLE_HARDENED_RUNTIME: "YES"
         CODE_SIGN_STYLE: Automatic
         CODE_SIGN_ENTITLEMENTS: KeeForgeMac/KeeForgeMac.entitlements
-        PRODUCT_NAME: KeeForgeMac
+        PRODUCT_NAME: NextPass
         PRODUCT_MODULE_NAME: KeeForge
         MARKETING_VERSION: "1.10.1"
         CURRENT_PROJECT_VERSION: "1"

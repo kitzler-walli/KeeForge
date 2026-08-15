@@ -97,11 +97,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>KeeForge uses the camera to scan verification-code QR codes.</string>
+	<string>NextPass uses the camera to scan verification-code QR codes.</string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>KeeForge uses Face ID to quickly unlock your password database.</string>
+	<string>NextPass uses Face ID to quickly unlock your password database.</string>
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>KeeForge uses your local network to connect to WebDAV servers you add.</string>
+	<string>NextPass uses your local network to connect to WebDAV servers you add.</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<!--
