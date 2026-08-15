@@ -70,7 +70,7 @@ struct UnlockView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("“\(viewModel.databaseDisplayName)” will be removed from KeeForge, including its cached copy and saved biometric key.")
+            Text("“\(viewModel.databaseDisplayName)” will be removed from NextPass, including its cached copy and saved biometric key.")
         }
         .onAppear {
             loadUITestKeyFileIfNeeded()

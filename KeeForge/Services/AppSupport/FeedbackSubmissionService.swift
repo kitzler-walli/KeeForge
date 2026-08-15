@@ -38,7 +38,7 @@ struct FeedbackComposerContext: Identifiable, Equatable, Sendable {
         FeedbackComposerContext(
             id: "general-feedback",
             title: String(localized: "Send Feedback"),
-            prompt: String(localized: "Tell us what happened or what would make KeeForge better."),
+            prompt: String(localized: "Tell us what happened or what would make NextPass better."),
             initialMessage: "",
             errorCode: "",
             errorCategory: "",
@@ -50,8 +50,8 @@ struct FeedbackComposerContext: Identifiable, Equatable, Sendable {
         FeedbackComposerContext(
             id: "open-failure-\(failure.errorCode)",
             title: String(localized: "Send Feedback"),
-            prompt: String(localized: "Tell us what you were doing when KeeForge tried to open the database."),
-            initialMessage: String(localized: "KeeForge couldn't open my database."),
+            prompt: String(localized: "Tell us what you were doing when NextPass tried to open the database."),
+            initialMessage: String(localized: "NextPass couldn't open my database."),
             errorCode: failure.errorCode,
             errorCategory: failure.category.rawValue,
             details: failure.reportDetails
@@ -94,9 +94,9 @@ enum FeedbackSubmissionError: LocalizedError, Equatable, Sendable {
         case .photoTooLarge:
             String(localized: "The attached photo is too large. Choose a smaller photo.")
         case .photoUnreadable:
-            String(localized: "KeeForge couldn't read that photo. Choose a different one.")
+            String(localized: "NextPass couldn't read that photo. Choose a different one.")
         case .invalidResponse:
-            String(localized: "KeeForge couldn't submit the feedback right now. Please try again later.")
+            String(localized: "NextPass couldn't submit the feedback right now. Please try again later.")
         }
     }
 }

@@ -88,7 +88,7 @@ struct DatabaseRowView: View {
                     }
 
                     if status.isDocumentsFileMissing {
-                        Text("File removed from KeeForge’s folder")
+                        Text("File removed from NextPass’s folder")
                             .font(.caption)
                             .foregroundStyle(.orange)
                             .accessibilityIdentifier("database-row.documents-file-missing")

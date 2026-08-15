@@ -45,7 +45,7 @@ struct FeedbackComposerView: View {
                         }
 
                         Section("Privacy") {
-                            Text("No GitHub or email required. KeeForge only sends the message you type, plus visible attached error details, the follow-up email if you enable follow-up, and the photo if you attach one. Database-open reports may include visible app/device metadata, cloud sync status, and short file hash prefixes, but never database contents, passwords, key files, or raw vault files.")
+                            Text("No GitHub or email required. NextPass only sends the message you type, plus visible attached error details, the follow-up email if you enable follow-up, and the photo if you attach one. Database-open reports may include visible app/device metadata, cloud sync status, and short file hash prefixes, but never database contents, passwords, key files, or raw vault files.")
                         }
                     }
                 }
@@ -184,7 +184,7 @@ struct FeedbackComposerView: View {
         ContentUnavailableView(
             "Feedback Sent",
             systemImage: "paperplane.circle.fill",
-            description: Text("Thanks for helping improve KeeForge.")
+            description: Text("Thanks for helping improve NextPass.")
         )
         .padding()
     }

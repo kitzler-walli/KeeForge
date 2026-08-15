@@ -69,8 +69,8 @@ enum WhatsNewCatalog {
                 ),
                 WhatsNewFeature(
                     id: "chinese-localization",
-                    title: "Use KeeForge in Chinese",
-                    detail: "KeeForge is now fully translated into Simplified and Traditional Chinese throughout the app and AutoFill.",
+                    title: "Use NextPass in Chinese",
+                    detail: "NextPass is now fully translated into Simplified and Traditional Chinese throughout the app and AutoFill.",
                     systemImage: "globe"
                 ),
             ]
@@ -85,7 +85,7 @@ enum WhatsNewCatalog {
                 WhatsNewFeature(
                     id: "device-backups",
                     title: "Reach your on-device backups",
-                    detail: "Database Details now lists the last five backups KeeForge made on this device before saving or replacing a database, and each one can be exported to Files.",
+                    detail: "Database Details now lists the last five backups NextPass made on this device before saving or replacing a database, and each one can be exported to Files.",
                     systemImage: "clock.arrow.circlepath"
                 ),
             ]
@@ -94,7 +94,7 @@ enum WhatsNewCatalog {
                 WhatsNewFeature(
                     id: "file-sharing",
                     title: "Copy databases from your computer",
-                    detail: "KeeForge's Documents folder now appears in Finder and Windows File Sharing. Drop a .kdbx file there and it joins your database list automatically.",
+                    detail: "NextPass's Documents folder now appears in Finder and Windows File Sharing. Drop a .kdbx file there and it joins your database list automatically.",
                     systemImage: "folder.badge.plus",
                     platforms: [.iOS]
                 ),
@@ -122,8 +122,8 @@ enum WhatsNewCatalog {
                 ),
                 WhatsNewFeature(
                     id: "passkey-registration",
-                    title: "Save new passkeys with KeeForge",
-                    detail: "Choose KeeForge when an app or website offers to add a passkey, and save it directly to your default AutoFill database.",
+                    title: "Save new passkeys with NextPass",
+                    detail: "Choose NextPass when an app or website offers to add a passkey, and save it directly to your default AutoFill database.",
                     systemImage: "person.badge.key",
                     platforms: [.iOS]
                 ),
@@ -135,8 +135,8 @@ enum WhatsNewCatalog {
                 ),
                 WhatsNewFeature(
                     id: "french-spanish-localization",
-                    title: "Use KeeForge in French or Spanish",
-                    detail: "KeeForge is now fully translated into French and Spanish throughout the app and AutoFill.",
+                    title: "Use NextPass in French or Spanish",
+                    detail: "NextPass is now fully translated into French and Spanish throughout the app and AutoFill.",
                     systemImage: "globe"
                 ),
             ]
@@ -198,7 +198,7 @@ enum WhatsNewCatalog {
                 ),
                 WhatsNewFeature(
                     id: "reliability-improvements",
-                    title: "A more reliable KeeForge",
+                    title: "A more reliable NextPass",
                     detail: "This update includes a broad set of fixes and refinements across unlocking, search, AutoFill, cloud sync, WebDAV, passkeys, one-time codes, and more.",
                     systemImage: "checkmark.circle",
                     platforms: [.iOS]
@@ -214,14 +214,14 @@ enum WhatsNewCatalog {
                 ),
                 WhatsNewFeature(
                     id: "german-localization",
-                    title: "Use KeeForge in German",
-                    detail: "KeeForge is now fully translated into German throughout the app and AutoFill.",
+                    title: "Use NextPass in German",
+                    detail: "NextPass is now fully translated into German throughout the app and AutoFill.",
                     systemImage: "globe"
                 ),
                 WhatsNewFeature(
                     id: "keeotp-codes",
                     title: "Use KeeOTP verification codes",
-                    detail: "KeeForge now recognizes one-time passwords saved by the KeeOTP and KeeOtp2 plugins, so you can use their verification codes normally.",
+                    detail: "NextPass now recognizes one-time passwords saved by the KeeOTP and KeeOtp2 plugins, so you can use their verification codes normally.",
                     systemImage: "timer"
                 ),
             ]
@@ -230,19 +230,19 @@ enum WhatsNewCatalog {
                 WhatsNewFeature(
                     id: "database-compatibility",
                     title: "Open more KeePass databases",
-                    detail: "KeeForge can now open older KeePass 3.1 vaults and databases protected with Twofish — and keeps their original encryption when you save.",
+                    detail: "NextPass can now open older KeePass 3.1 vaults and databases protected with Twofish — and keeps their original encryption when you save.",
                     systemImage: "lock.doc"
                 ),
                 WhatsNewFeature(
                     id: "local-webdav",
                     title: "Connect to local WebDAV servers",
-                    detail: "Use KeeForge with a trusted local WebDAV server even when it doesn't support HTTPS. The option lives under Advanced and includes a clear security warning.",
+                    detail: "Use NextPass with a trusted local WebDAV server even when it doesn't support HTTPS. The option lives under Advanced and includes a clear security warning.",
                     systemImage: "network"
                 ),
                 WhatsNewFeature(
                     id: "autofill-setup",
                     title: "Set up AutoFill more easily",
-                    detail: "If AutoFill is off, KeeForge now lets you know and helps you turn it on right from your database list or Settings.",
+                    detail: "If AutoFill is off, NextPass now lets you know and helps you turn it on right from your database list or Settings.",
                     systemImage: "text.cursor",
                     platforms: [.iOS]
                 ),

@@ -22,7 +22,7 @@
                                     <constraint firstAttribute="height" constant="96" id="dSm-Wo-9uz"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="KeeForge" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PY5-Nm-9xL">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="NextPass" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PY5-Nm-9xL">
                                 <rect key="frame" x="157" y="472" width="79.333333333333343" height="23"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
                                 <nil key="textColor"/>

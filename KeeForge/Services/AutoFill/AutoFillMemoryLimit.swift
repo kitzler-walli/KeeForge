@@ -16,7 +16,7 @@ enum AutoFillMemoryLimit {
         let availableBytes: UInt64
 
         var errorDescription: String? {
-            String(localized: "This database needs about \(Self.byteText(requiredBytes)) of memory to unlock, more than the \(Self.byteText(availableBytes)) AutoFill is allowed to use. Open the entry in the KeeForge app, or lower the database's Argon2 memory setting in a desktop KeePass app.")
+            String(localized: "This database needs about \(Self.byteText(requiredBytes)) of memory to unlock, more than the \(Self.byteText(availableBytes)) AutoFill is allowed to use. Open the entry in the NextPass app, or lower the database's Argon2 memory setting in a desktop KeePass app.")
         }
 
         private static func byteText(_ bytes: UInt64) -> String {

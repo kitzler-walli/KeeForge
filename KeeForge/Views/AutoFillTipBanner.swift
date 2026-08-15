@@ -22,7 +22,7 @@ struct AutoFillTipBanner: View {
                 .accessibilityIdentifier("autofill-tip.dismiss")
             }
 
-            Text("To fill passwords from KeeForge in Safari and other apps, enable KeeForge in iOS AutoFill settings.")
+            Text("To fill passwords from NextPass in Safari and other apps, enable NextPass in iOS AutoFill settings.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
 

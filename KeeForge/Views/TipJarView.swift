@@ -33,7 +33,7 @@ struct TipJarView: View {
         } header: {
             Text("Tip Jar")
         } footer: {
-            Text("KeeForge is free and open source. Tips help support development. ❤️")
+            Text("NextPass is free and open source. Tips help support development. ❤️")
         }
         .task {
             await store.loadProducts()
@@ -61,7 +61,7 @@ struct TipJarView: View {
         .alert("Thank You! 🎉", isPresented: $showThankYou) {
             Button("OK", role: .cancel) {}
         } message: {
-            Text("Your support means the world. Thank you for helping keep KeeForge alive!")
+            Text("Your support means the world. Thank you for helping keep NextPass alive!")
         }
         .alert(item: $purchaseNotice) { notice in
             Alert(
@@ -81,7 +81,7 @@ struct TipJarView: View {
                 Text("Thank you for tipping!")
                     .foregroundStyle(.primary)
             }
-            Text("Your support helps keep KeeForge free and open source.")
+            Text("Your support helps keep NextPass free and open source.")
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }

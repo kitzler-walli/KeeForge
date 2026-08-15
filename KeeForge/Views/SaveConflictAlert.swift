@@ -48,7 +48,7 @@ struct SaveConflictAlertModifier: ViewModifier {
                 Button("Cancel", role: .cancel) {}
                     .accessibilityIdentifier("save-conflict.cancel")
             } message: {
-                Text("The database changed outside KeeForge. Merge both sets of changes, reload it, or save your draft as a sibling conflict copy.")
+                Text("The database changed outside NextPass. Merge both sets of changes, reload it, or save your draft as a sibling conflict copy.")
             }
             .alert(
                 "Changes Merged",

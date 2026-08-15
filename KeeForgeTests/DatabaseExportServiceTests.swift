@@ -73,7 +73,7 @@ final class DatabaseExportServiceTests: XCTestCase {
         )
 
         XCTAssertEqual(payload.data, cached)
-        XCTAssertEqual(payload.suggestedFilename, "personal (KeeForge copy 2024-08-14 133530).kdbx")
+        XCTAssertEqual(payload.suggestedFilename, "personal (NextPass copy 2024-08-14 133530).kdbx")
     }
 
     func testExportCurrentCopyReturnsFileBytesForLocalReference() async throws {
@@ -87,7 +87,7 @@ final class DatabaseExportServiceTests: XCTestCase {
         )
 
         XCTAssertEqual(payload.data, contents)
-        XCTAssertEqual(payload.suggestedFilename, "work (KeeForge copy 2024-08-14 133530).kdbx")
+        XCTAssertEqual(payload.suggestedFilename, "work (NextPass copy 2024-08-14 133530).kdbx")
     }
 
     func testExportCurrentCopyReturnsFileBytesForDocumentsResidentReference() async throws {
@@ -104,7 +104,7 @@ final class DatabaseExportServiceTests: XCTestCase {
         let payload = try await DatabaseExportService.exportCurrentCopy(for: reference)
 
         XCTAssertEqual(payload.data, contents)
-        XCTAssertTrue(payload.suggestedFilename.hasPrefix("resident (KeeForge copy "))
+        XCTAssertTrue(payload.suggestedFilename.hasPrefix("resident (NextPass copy "))
         XCTAssertTrue(payload.suggestedFilename.hasSuffix(").kdbx"))
     }
 
@@ -243,11 +243,11 @@ final class DatabaseExportServiceTests: XCTestCase {
 
         XCTAssertEqual(
             DatabaseExportService.currentCopyFilename(for: reference, date: Self.fixedDate, timeZone: berlin),
-            "Family Vault (KeeForge copy 2024-08-14 153530).kdbx"
+            "Family Vault (NextPass copy 2024-08-14 153530).kdbx"
         )
         XCTAssertEqual(
             DatabaseExportService.currentCopyFilename(for: reference, date: Self.fixedDate, timeZone: Self.utc),
-            "Family Vault (KeeForge copy 2024-08-14 133530).kdbx"
+            "Family Vault (NextPass copy 2024-08-14 133530).kdbx"
         )
     }
 
@@ -256,7 +256,7 @@ final class DatabaseExportServiceTests: XCTestCase {
 
         XCTAssertEqual(
             DatabaseExportService.currentCopyFilename(for: reference, date: Self.fixedDate, timeZone: Self.utc),
-            "vault (KeeForge copy 2024-08-14 133530).kdbx"
+            "vault (NextPass copy 2024-08-14 133530).kdbx"
         )
     }
 

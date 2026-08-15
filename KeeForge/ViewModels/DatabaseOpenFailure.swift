@@ -294,7 +294,7 @@ struct DatabaseOpenFailure: Equatable, Sendable {
         if case DatabaseListStore.LocalDatabaseFileError.databaseInTrash = error {
             return DatabaseOpenFailure(
                 title: String(localized: "Database Is in Recently Deleted"),
-                summary: String(localized: "The database file was moved to Recently Deleted in the Files app — it may have been deleted, or replaced by a newer copy. Restore it in Files, or remove this database in KeeForge and add the current file again."),
+                summary: String(localized: "The database file was moved to Recently Deleted in the Files app — it may have been deleted, or replaced by a newer copy. Restore it in Files, or remove this database in NextPass and add the current file again."),
                 technicalDetails: technicalDetails(for: error),
                 errorCode: "file.in_recently_deleted",
                 category: .fileAccess,
@@ -343,7 +343,7 @@ struct DatabaseOpenFailure: Equatable, Sendable {
 
         return DatabaseOpenFailure(
             title: isCloudBacked ? String(localized: "Couldn't Open Cloud Database") : String(localized: "Couldn't Open Database"),
-            summary: String(localized: "KeeForge hit an unexpected problem while opening this database."),
+            summary: String(localized: "NextPass hit an unexpected problem while opening this database."),
             technicalDetails: technicalDetails(for: error),
             errorCode: isCloudBacked ? "cloud.unexpected" : "open.unexpected",
             category: isCloudBacked ? .cloud : .unexpected,
@@ -396,7 +396,7 @@ struct DatabaseOpenFailure: Equatable, Sendable {
         case .unsupportedCipher:
             return DatabaseOpenFailure(
                 title: String(localized: "Unsupported Database Format"),
-                summary: String(localized: "This database uses an encryption format that KeeForge does not support yet."),
+                summary: String(localized: "This database uses an encryption format that NextPass does not support yet."),
                 technicalDetails: technicalDetails(for: error),
                 errorCode: "format.unsupported_cipher",
                 category: .unsupportedFormat,
@@ -406,7 +406,7 @@ struct DatabaseOpenFailure: Equatable, Sendable {
         case .unsupportedKDF:
             return DatabaseOpenFailure(
                 title: String(localized: "Unsupported Database Format"),
-                summary: String(localized: "This database uses a key-derivation format that KeeForge does not support yet."),
+                summary: String(localized: "This database uses a key-derivation format that NextPass does not support yet."),
                 technicalDetails: technicalDetails(for: error),
                 errorCode: "format.unsupported_kdf",
                 category: .unsupportedFormat,
@@ -416,7 +416,7 @@ struct DatabaseOpenFailure: Equatable, Sendable {
         case .encryptionFailed, .compressionFailed, .decompressionFailed:
             return DatabaseOpenFailure(
                 title: String(localized: "Couldn't Open Database"),
-                summary: String(localized: "KeeForge hit an unexpected problem while processing this database."),
+                summary: String(localized: "NextPass hit an unexpected problem while processing this database."),
                 technicalDetails: technicalDetails(for: error),
                 errorCode: "open.crypto_failed",
                 category: .unexpected,
@@ -441,7 +441,7 @@ struct DatabaseOpenFailure: Equatable, Sendable {
         case .unsupportedVersion:
             return DatabaseOpenFailure(
                 title: String(localized: "Unsupported Database Format"),
-                summary: String(localized: "This database uses a KeePass format that KeeForge does not support yet."),
+                summary: String(localized: "This database uses a KeePass format that NextPass does not support yet."),
                 technicalDetails: technicalDetails(for: error),
                 errorCode: "format.unsupported_version",
                 category: .unsupportedFormat,
@@ -451,7 +451,7 @@ struct DatabaseOpenFailure: Equatable, Sendable {
         case .unsupportedProtectedFieldStream:
             return DatabaseOpenFailure(
                 title: String(localized: "Unsupported Database Format"),
-                summary: String(localized: "This database uses a protected-field format that KeeForge does not support yet."),
+                summary: String(localized: "This database uses a protected-field format that NextPass does not support yet."),
                 technicalDetails: technicalDetails(for: error),
                 errorCode: "format.unsupported_protected_stream",
                 category: .unsupportedFormat,
@@ -461,7 +461,7 @@ struct DatabaseOpenFailure: Equatable, Sendable {
         case .invalidSignature:
             return DatabaseOpenFailure(
                 title: String(localized: "Not a KeePass Database"),
-                summary: String(localized: "KeeForge couldn't recognize this file as a valid KDBX database."),
+                summary: String(localized: "NextPass couldn't recognize this file as a valid KDBX database."),
                 technicalDetails: technicalDetails(for: error),
                 errorCode: "format.invalid_signature",
                 category: .unsupportedFormat,
@@ -481,7 +481,7 @@ struct DatabaseOpenFailure: Equatable, Sendable {
         default:
             return DatabaseOpenFailure(
                 title: String(localized: "Couldn't Open Database"),
-                summary: String(localized: "KeeForge couldn't finish reading this database file."),
+                summary: String(localized: "NextPass couldn't finish reading this database file."),
                 technicalDetails: technicalDetails(for: error),
                 errorCode: "open.parse_failed",
                 category: .unexpected,
@@ -496,7 +496,7 @@ struct DatabaseOpenFailure: Equatable, Sendable {
         case .notAuthenticated:
             return DatabaseOpenFailure(
                 title: String(localized: "Reconnect Cloud Account"),
-                summary: String(localized: "KeeForge needs you to reconnect this cloud account before it can open the database."),
+                summary: String(localized: "NextPass needs you to reconnect this cloud account before it can open the database."),
                 technicalDetails: technicalDetails(for: error),
                 errorCode: "cloud.not_authenticated",
                 category: .cloud,
@@ -506,7 +506,7 @@ struct DatabaseOpenFailure: Equatable, Sendable {
         case .networkUnavailable:
             return DatabaseOpenFailure(
                 title: String(localized: "Network Unavailable"),
-                summary: String(localized: "KeeForge couldn't reach the cloud provider. Try again when your connection is back."),
+                summary: String(localized: "NextPass couldn't reach the cloud provider. Try again when your connection is back."),
                 technicalDetails: technicalDetails(for: error),
                 errorCode: "cloud.network_unavailable",
                 category: .cloud,
@@ -516,7 +516,7 @@ struct DatabaseOpenFailure: Equatable, Sendable {
         case .fileNotFound:
             return DatabaseOpenFailure(
                 title: String(localized: "Cloud Database Unavailable"),
-                summary: String(localized: "KeeForge couldn't find this cloud database. It may have moved, been deleted, or the account may need to reconnect."),
+                summary: String(localized: "NextPass couldn't find this cloud database. It may have moved, been deleted, or the account may need to reconnect."),
                 technicalDetails: technicalDetails(for: error),
                 errorCode: "cloud.file_not_found",
                 category: .cloud,
@@ -526,7 +526,7 @@ struct DatabaseOpenFailure: Equatable, Sendable {
         case .authenticationCancelled:
             return DatabaseOpenFailure(
                 title: String(localized: "Cloud Sign-In Cancelled"),
-                summary: String(localized: "The cloud sign-in flow was cancelled before KeeForge could open the database."),
+                summary: String(localized: "The cloud sign-in flow was cancelled before NextPass could open the database."),
                 technicalDetails: technicalDetails(for: error),
                 errorCode: "cloud.authentication_cancelled",
                 category: .cloud,
@@ -536,7 +536,7 @@ struct DatabaseOpenFailure: Equatable, Sendable {
         case .invalidConfiguration:
             return DatabaseOpenFailure(
                 title: String(localized: "Cloud Sync Not Configured"),
-                summary: String(localized: "This build of KeeForge is missing the cloud sync configuration it needs to open that database."),
+                summary: String(localized: "This build of NextPass is missing the cloud sync configuration it needs to open that database."),
                 technicalDetails: technicalDetails(for: error),
                 errorCode: "cloud.invalid_configuration",
                 category: .cloud,
@@ -546,7 +546,7 @@ struct DatabaseOpenFailure: Equatable, Sendable {
         case .writeScopeRequired:
             return DatabaseOpenFailure(
                 title: String(localized: "Reconnect Cloud Account"),
-                summary: String(localized: "KeeForge needs refreshed cloud access before it can continue with this database."),
+                summary: String(localized: "NextPass needs refreshed cloud access before it can continue with this database."),
                 technicalDetails: technicalDetails(for: error),
                 errorCode: "cloud.write_scope_required",
                 category: .cloud,
@@ -566,7 +566,7 @@ struct DatabaseOpenFailure: Equatable, Sendable {
         case .conflict, .insufficientSpace, .permissionDenied, .invalidName, .unknown:
             return DatabaseOpenFailure(
                 title: String(localized: "Couldn't Open Cloud Database"),
-                summary: String(localized: "KeeForge hit an unexpected cloud-sync problem while opening this database."),
+                summary: String(localized: "NextPass hit an unexpected cloud-sync problem while opening this database."),
                 technicalDetails: technicalDetails(for: error),
                 errorCode: "cloud.unexpected",
                 category: .cloud,
@@ -588,16 +588,16 @@ struct DatabaseOpenFailure: Equatable, Sendable {
 
         switch code {
         case .userCancel, .appCancel, .systemCancel:
-            summary = String(localized: "Biometric unlock was cancelled before KeeForge could open the database.")
+            summary = String(localized: "Biometric unlock was cancelled before NextPass could open the database.")
             errorCode = "biometric.cancelled"
         case .authenticationFailed:
-            summary = String(localized: "Face ID or Touch ID didn't verify, so KeeForge could not continue unlocking.")
+            summary = String(localized: "Face ID or Touch ID didn't verify, so NextPass could not continue unlocking.")
             errorCode = "biometric.authentication_failed"
         case .biometryNotAvailable, .biometryNotEnrolled, .biometryLockout:
             summary = String(localized: "Biometric unlock isn't available right now. You can still use your password and key file.")
             errorCode = "biometric.unavailable"
         default:
-            summary = String(localized: "KeeForge couldn't finish the biometric unlock flow.")
+            summary = String(localized: "NextPass couldn't finish the biometric unlock flow.")
             errorCode = "biometric.unexpected"
         }
 
@@ -623,7 +623,7 @@ struct DatabaseOpenFailure: Equatable, Sendable {
         case .fileReadNoSuchFile:
             return DatabaseOpenFailure(
                 title: String(localized: "Database File Unavailable"),
-                summary: String(localized: "KeeForge couldn't find the selected database file. It may have moved, been deleted, or the saved bookmark may need to be refreshed."),
+                summary: String(localized: "NextPass couldn't find the selected database file. It may have moved, been deleted, or the saved bookmark may need to be refreshed."),
                 technicalDetails: technicalDetails(for: error),
                 errorCode: "file.not_found",
                 category: .fileAccess,
@@ -633,7 +633,7 @@ struct DatabaseOpenFailure: Equatable, Sendable {
         case .fileReadNoPermission:
             return DatabaseOpenFailure(
                 title: String(localized: "Database Permission Needed"),
-                summary: String(localized: "KeeForge no longer has permission to read this database file. Choose it again from the database list to refresh access."),
+                summary: String(localized: "NextPass no longer has permission to read this database file. Choose it again from the database list to refresh access."),
                 technicalDetails: technicalDetails(for: error),
                 errorCode: "file.permission_denied",
                 category: .fileAccess,
@@ -643,7 +643,7 @@ struct DatabaseOpenFailure: Equatable, Sendable {
         default:
             return DatabaseOpenFailure(
                 title: String(localized: "Couldn't Access Database File"),
-                summary: String(localized: "KeeForge couldn't access the selected database file."),
+                summary: String(localized: "NextPass couldn't access the selected database file."),
                 technicalDetails: technicalDetails(for: error),
                 errorCode: "file.read_failed",
                 category: .fileAccess,

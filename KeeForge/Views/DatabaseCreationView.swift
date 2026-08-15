@@ -207,7 +207,7 @@ struct DatabaseCreationView: View {
     private var advancedFooter: String {
         let cipherName = viewModel.cipher.displayName
         let kdfSummary = viewModel.kdfPreset.parameterSummary
-        return String(localized: "KeeForge creates KDBX 4 databases encrypted with \(cipherName) and Argon2id key derivation (\(kdfSummary)). Stronger settings take longer to unlock and may exceed AutoFill's memory limit on some devices.")
+        return String(localized: "NextPass creates KDBX 4 databases encrypted with \(cipherName) and Argon2id key derivation (\(kdfSummary)). Stronger settings take longer to unlock and may exceed AutoFill's memory limit on some devices.")
     }
 
     private var destinationFooter: String {

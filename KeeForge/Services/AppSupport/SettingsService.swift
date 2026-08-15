@@ -95,7 +95,7 @@ enum SettingsService {
             case .screenLockOrSleep:
                 return String(localized: "When the Screen Locks or Sleeps")
             case .appDeactivates:
-                return String(localized: "When KeeForge Is Not the Active App")
+                return String(localized: "When NextPass Is Not the Active App")
             }
         }
     }

@@ -33,7 +33,7 @@ struct EntryListView: View {
                 title: Text(action.sendToRecycleBin ? "Delete Entry?" : "Delete Permanently?"),
                 message: Text(action.sendToRecycleBin
                     ? "The entry will be moved to the recycle bin."
-                    : "This entry will be removed immediately and cannot be restored from KeeForge."),
+                    : "This entry will be removed immediately and cannot be restored from NextPass."),
                 primaryButton: .destructive(Text(action.sendToRecycleBin ? "Delete" : "Delete Permanently")) {
                     do {
                         try viewModel.deleteEntry(action.entryID, sendToRecycleBin: action.sendToRecycleBin)

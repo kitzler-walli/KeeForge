@@ -252,7 +252,7 @@ extension CredentialProviderViewController: CredentialProviderPresenting {
         onCancel: @escaping () -> Void
     ) {
         let alert = NSAlert()
-        alert.messageText = String(localized: "Unlock KeeForge")
+        alert.messageText = String(localized: "Unlock NextPass")
         alert.informativeText = String(localized: "Enter your master password or use biometrics.")
 
         let passwordField = NSSecureTextField(frame: NSRect(x: 0, y: 0, width: 240, height: 24))

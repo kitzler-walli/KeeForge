@@ -2670,7 +2670,7 @@ final class DatabaseViewModel {
     private func lockoutFailure(seconds: Int, diagnostics: DatabaseOpenDiagnostics? = nil) -> DatabaseOpenFailure {
         DatabaseOpenFailure(
             title: String(localized: "Too Many Failed Attempts"),
-            summary: String(localized: "KeeForge is temporarily slowing down unlock attempts. Try again in \(seconds) seconds."),
+            summary: String(localized: "NextPass is temporarily slowing down unlock attempts. Try again in \(seconds) seconds."),
             technicalDetails: "Unlock temporarily rate-limited after repeated authentication failures.",
             errorCode: "auth.locked_out",
             category: .authentication,

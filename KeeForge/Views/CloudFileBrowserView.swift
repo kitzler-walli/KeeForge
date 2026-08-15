@@ -364,7 +364,7 @@ private struct DropboxLowUserWarningNote: View {
 
     var body: some View {
         if provider.id == CloudProviderKind.dropbox.rawValue {
-            Text("Note: Dropbox may warn that KeeForge has low number of users. That is normal for an indie app. KeeForge is open source and will only use the database file you choose to open or create.")
+            Text("Note: Dropbox may warn that NextPass has low number of users. That is normal for an indie app. NextPass is open source and will only use the database file you choose to open or create.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
         }

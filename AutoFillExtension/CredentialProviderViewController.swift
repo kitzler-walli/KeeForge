@@ -276,7 +276,7 @@ extension CredentialProviderViewController: CredentialProviderPresenting {
         onCancel: @escaping () -> Void
     ) {
         let alert = UIAlertController(
-            title: String(localized: "Unlock KeeForge"),
+            title: String(localized: "Unlock NextPass"),
             message: String(localized: "Enter your master password or use biometrics."),
             preferredStyle: .alert
         )

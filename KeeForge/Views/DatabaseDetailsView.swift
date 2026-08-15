@@ -160,7 +160,7 @@ struct DatabaseDetailsView: View {
         } footer: {
             Text(
                 isFormatReadOnly
-                    ? "Legacy KDBX 3.1 databases can be opened, but KeeForge intentionally keeps them read-only."
+                    ? "Legacy KDBX 3.1 databases can be opened, but NextPass intentionally keeps them read-only."
                     : "You can still open this database, but create, edit, and delete actions stay blocked until you turn editing back on."
             )
             .accessibilityIdentifier("database-details.read-only-footer")
@@ -205,7 +205,7 @@ struct DatabaseDetailsView: View {
         } header: {
             Text("Key File")
         } footer: {
-            Text("KeeForge remembers this key file and prefills it when unlocking. To change the key file the database requires, change the master key.")
+            Text("NextPass remembers this key file and prefills it when unlocking. To change the key file the database requires, change the master key.")
         }
     }
 
@@ -263,9 +263,9 @@ struct DatabaseDetailsView: View {
             Text("Export")
         } footer: {
             if currentReference.isCloudBacked {
-                Text("Saves the locally cached copy of the database as KeeForge currently has it. Use it to merge changes into your main file with another KeePass app when a cloud upload is stuck.")
+                Text("Saves the locally cached copy of the database as NextPass currently has it. Use it to merge changes into your main file with another KeePass app when a cloud upload is stuck.")
             } else {
-                Text("Saves a copy of the database as KeeForge currently has it. Use it to merge changes into your main file with another KeePass app when a cloud upload is stuck.")
+                Text("Saves a copy of the database as NextPass currently has it. Use it to merge changes into your main file with another KeePass app when a cloud upload is stuck.")
             }
         }
     }
@@ -293,7 +293,7 @@ struct DatabaseDetailsView: View {
         } header: {
             Text("Backups")
         } footer: {
-            Text("KeeForge keeps the last five backups it made before saving or replacing this database on this device.")
+            Text("NextPass keeps the last five backups it made before saving or replacing this database on this device.")
         }
     }
 
@@ -339,7 +339,7 @@ struct DatabaseDetailsView: View {
                 if cloudState.isConnected {
                     Text("Cloud databases are cached locally and refreshed whenever you open them in the main app. AutoFill uses the cached copy only.")
                 } else {
-                    Text("This account is disconnected. KeeForge keeps the cached copy until you remove the database.")
+                    Text("This account is disconnected. NextPass keeps the cached copy until you remove the database.")
                 }
             }
         }

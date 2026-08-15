@@ -375,7 +375,7 @@ private struct AppRootView: View {
         case .unlockNeeded:
             Alert(
                 title: Text("Unlock a Database"),
-                message: Text("Open and unlock a database, and KeeForge will then add the verification code."),
+                message: Text("Open and unlock a database, and NextPass will then add the verification code."),
                 dismissButton: .default(Text("OK"))
             )
         case .linkExpired:
@@ -967,7 +967,7 @@ struct DatabaseSavingOverlay: View {
                 Text("Saving changes...")
                     .font(.headline)
 
-                Text("KeeForge is writing the updated database securely.")
+                Text("NextPass is writing the updated database securely.")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
@@ -1051,7 +1051,7 @@ struct CloudSyncWarningButton: View {
     @State private var isShowingDetails = false
 
     private var explanation: String {
-        String(localized: "\(message)\n\nKeeForge opened the cached copy for now. Cloud sync needs attention before this database can be refreshed from its provider.")
+        String(localized: "\(message)\n\nNextPass opened the cached copy for now. Cloud sync needs attention before this database can be refreshed from its provider.")
     }
 
     var body: some View {

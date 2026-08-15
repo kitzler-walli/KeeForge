@@ -216,7 +216,7 @@ struct WebDAVClient: Sendable {
 
         case NSURLErrorClientCertificateRejected,     // -1205
              NSURLErrorClientCertificateRequired:     // -1206
-            return .unknown(String(localized: "Could not establish a secure connection. The server requires a client certificate, which KeeForge does not support."))
+            return .unknown(String(localized: "Could not establish a secure connection. The server requires a client certificate, which NextPass does not support."))
 
         case NSURLErrorAppTransportSecurityRequiresSecureConnection: // -1022
             return .unknown(String(localized: "Could not establish a secure connection. This device requires an https:// server address."))

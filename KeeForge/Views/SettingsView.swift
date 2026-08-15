@@ -290,7 +290,7 @@ struct SettingsView: View {
                                 pendingCloudAccountSignOut = nil
                             }
                         } message: {
-                            Text("Disconnect \(account.displayName)? KeeForge will keep any cached cloud databases until you remove them.")
+                            Text("Disconnect \(account.displayName)? NextPass will keep any cached cloud databases until you remove them.")
                         }
                         .accessibilityIdentifier("settings.cloud.signout.button")
                     }
@@ -348,9 +348,9 @@ private struct SecuritySettingsView: View {
                 }
             } footer: {
                 if BiometricAutoUnlockPolicy.allowsAutomaticUnlock {
-                    Text("Auto-Unlock with Face ID prompts after a database is opened. When background locking is off, KeeForge still uses the auto-lock timeout and locks the next time the app becomes active after that deadline has passed.")
+                    Text("Auto-Unlock with Face ID prompts after a database is opened. When background locking is off, NextPass still uses the auto-lock timeout and locks the next time the app becomes active after that deadline has passed.")
                 } else {
-                    Text("When background locking is off, KeeForge still uses the auto-lock timeout and locks the next time the app becomes active after that deadline has passed.")
+                    Text("When background locking is off, NextPass still uses the auto-lock timeout and locks the next time the app becomes active after that deadline has passed.")
                 }
             }
         }
@@ -382,7 +382,7 @@ private struct AutoFillSettingsView: View {
             Section {
                 Toggle("Quick AutoFill", isOn: $quickAutoFillEnabled)
             } footer: {
-                Text("KeeForge suggests credentials from the databases selected below in the keyboard bar. Authentication is required when you tap a suggestion.")
+                Text("NextPass suggests credentials from the databases selected below in the keyboard bar. Authentication is required when you tap a suggestion.")
             }
 
             databasesSection
@@ -391,7 +391,7 @@ private struct AutoFillSettingsView: View {
                 Toggle("Copy Verification Code on AutoFill", isOn: $autoFillCopyTOTP)
                     .accessibilityIdentifier("settings.autofill.copy-totp")
             } footer: {
-                Text("When AutoFill fills a password, it also copies the entry's verification code for code fields iOS does not recognize. You'll confirm the fill in KeeForge, and the code clears after the Clipboard Clear Timeout.")
+                Text("When AutoFill fills a password, it also copies the entry's verification code for code fields iOS does not recognize. You'll confirm the fill in NextPass, and the code clears after the Clipboard Clear Timeout.")
             }
 
             clearEntriesSection
@@ -433,7 +433,7 @@ private struct AutoFillSettingsView: View {
         } footer: {
             VStack(alignment: .leading, spacing: 8) {
                 if isProviderEnabled == false {
-                    Text("These selections only take effect once KeeForge is enabled as an AutoFill provider above.")
+                    Text("These selections only take effect once NextPass is enabled as an AutoFill provider above.")
                 }
 
                 if quickAutoFillEnabled,
@@ -497,13 +497,13 @@ private struct AutoFillSettingsView: View {
         } footer: {
             VStack(alignment: .leading, spacing: 8) {
                 if isProviderEnabled == false {
-                    Text("KeeForge isn't enabled as an AutoFill provider yet. Turn it on to fill passwords in Safari and other apps.")
+                    Text("NextPass isn't enabled as an AutoFill provider yet. Turn it on to fill passwords in Safari and other apps.")
 
                     if listViewModel.isAutoFillEnableRequestRejected {
-                        Text("The last attempt did not turn it on. Open iOS AutoFill Settings and enable KeeForge there.")
+                        Text("The last attempt did not turn it on. Open iOS AutoFill Settings and enable NextPass there.")
                     }
                 } else if isProviderEnabled == true {
-                    Text("KeeForge is enabled as an AutoFill provider.")
+                    Text("NextPass is enabled as an AutoFill provider.")
                 }
             }
         }
@@ -562,7 +562,7 @@ private struct DisplaySettingsView: View {
         } header: {
             Text("Privacy")
         } footer: {
-            Text("When off, KeeForge hides last-opened activity from the locked database list.")
+            Text("When off, NextPass hides last-opened activity from the locked database list.")
         }
     }
 
@@ -620,11 +620,11 @@ private struct AboutSectionContent: View {
                 Label("Contact Support", systemImage: "envelope")
             }
 
-            Link(destination: URL(string: "https://github.com/KeeForge/KeeForge/issues")!) {
+            Link(destination: URL(string: "https://github.com/kitzler-walli/KeeForge/issues")!) {
                 Label("Report a Bug", systemImage: "ladybug")
             }
 
-            Link(destination: URL(string: "https://github.com/KeeForge/KeeForge")!) {
+            Link(destination: URL(string: "https://github.com/kitzler-walli/KeeForge")!) {
                 Label("Source Code", systemImage: "chevron.left.forwardslash.chevron.right")
             }
 
@@ -681,7 +681,7 @@ private struct MacSecuritySettingsTab: View {
                     Toggle("Auto-Unlock with Touch ID", isOn: $autoUnlockWithBiometrics)
                 }
             } footer: {
-                Text("KeeForge always locks on screen lock, screensaver, system sleep, and user switching. The stricter option also locks whenever another app becomes active.")
+                Text("NextPass always locks on screen lock, screensaver, system sleep, and user switching. The stricter option also locks whenever another app becomes active.")
             }
 
             Section {
@@ -690,7 +690,7 @@ private struct MacSecuritySettingsTab: View {
             } header: {
                 Text("Screen Privacy")
             } footer: {
-                Text("Asks macOS to exclude KeeForge's windows from screenshots and screen recordings. This is best-effort: on macOS 15 and later, ScreenCaptureKit-based recorders can capture the window anyway. When it works, a screenshot of KeeForge comes out black or fails — that is the protection doing its job. Regardless of this setting, KeeForge blurs its windows whenever it loses focus.")
+                Text("Asks macOS to exclude NextPass's windows from screenshots and screen recordings. This is best-effort: on macOS 15 and later, ScreenCaptureKit-based recorders can capture the window anyway. When it works, a screenshot of NextPass comes out black or fails — that is the protection doing its job. Regardless of this setting, NextPass blurs its windows whenever it loses focus.")
             }
 
             Section {

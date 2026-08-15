@@ -261,7 +261,7 @@ struct AutoFillNoEnabledDatabasesView: View {
                 Label("No Databases for AutoFill", systemImage: "lock.slash")
                     .accessibilityIdentifier("autofill.no-enabled-databases")
             } description: {
-                Text("Turn on AutoFill for a database in KeeForge’s settings to use it here.")
+                Text("Turn on AutoFill for a database in NextPass’s settings to use it here.")
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
