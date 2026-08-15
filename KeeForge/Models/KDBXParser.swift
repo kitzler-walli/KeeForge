@@ -139,7 +139,7 @@ enum KDBXParser {
             switch self {
             case .invalidSignature: String(localized: "Not a valid KDBX file")
             case .unsupportedVersion:
-                String(localized: "This database uses an older KeePass format that KeeForge does not support yet.")
+                String(localized: "This database uses an older KeePass format that NextPass does not support yet.")
             case .truncatedFile: String(localized: "File is truncated")
             case .headerFieldMissing(let f): String(localized: "Missing header field: \(f)")
             case .xmlParsingFailed: String(localized: "Failed to parse database XML")

@@ -24,7 +24,7 @@ struct AutoFillTipBanner: View {
             }
 
             #if os(macOS)
-            Text("To fill passwords from KeeForge in Safari and other apps, enable KeeForge in System Settings under General > AutoFill & Passwords.")
+            Text("To fill passwords from NextPass in Safari and other apps, enable NextPass in System Settings under General > AutoFill & Passwords.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
 
@@ -34,7 +34,7 @@ struct AutoFillTipBanner: View {
                 .buttonStyle(.borderedProminent)
                 .accessibilityIdentifier("autofill-tip.enable")
             #else
-            Text("To fill passwords from KeeForge in Safari and other apps, enable KeeForge in iOS AutoFill settings.")
+            Text("To fill passwords from NextPass in Safari and other apps, enable NextPass in iOS AutoFill settings.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
 

@@ -399,7 +399,7 @@ struct DatabaseListView: View {
                 pendingRemoval = nil
             }
         } message: { target in
-            Text("“\(target.displayName)” will be removed from KeeForge, including its cached copy and saved biometric key.")
+            Text("“\(target.displayName)” will be removed from NextPass, including its cached copy and saved biometric key.")
         }
         .confirmationDialog(
             "Discard Pending Upload?",
@@ -424,7 +424,7 @@ struct DatabaseListView: View {
                 pendingUploadDiscardTarget = nil
             }
         } message: { target in
-            Text("The pending change for “\(target.displayName)” could not be uploaded because the copy in the cloud changed. KeeForge keeps a timestamped backup on this device before discarding it.")
+            Text("The pending change for “\(target.displayName)” could not be uploaded because the copy in the cloud changed. NextPass keeps a timestamped backup on this device before discarding it.")
         }
     }
 

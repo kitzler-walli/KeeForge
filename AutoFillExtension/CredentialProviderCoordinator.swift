@@ -438,7 +438,7 @@ final class CredentialProviderCoordinator {
         }
 
         guard databaseReference.isReadOnly == false else {
-            pendingReadOnlyCancellationMessage = String(localized: "This database is read-only. Open KeeForge to enable editing.")
+            pendingReadOnlyCancellationMessage = String(localized: "This database is read-only. Open NextPass to enable editing.")
             activatePresentationIfPossible()
             return
         }
@@ -576,7 +576,7 @@ final class CredentialProviderCoordinator {
             }
             do {
                 guard let self, self.isRequestActive(generation) else { return }
-                let context = try await BiometricService.authenticate(reason: String(localized: "AutoFill with KeeForge"))
+                let context = try await BiometricService.authenticate(reason: String(localized: "AutoFill with NextPass"))
                 let compositeKey = try self.retrieveCompositeKey(for: databaseReference, context: context)
                 try await self.loadEntries(
                     compositeKey: compositeKey,
@@ -686,7 +686,7 @@ final class CredentialProviderCoordinator {
             didAttemptAutoBiometricUnlock = false
             pendingUnlock = false
             pendingGeneratePasswordPresentation = false
-            pendingReadOnlyCancellationMessage = String(localized: "This database is read-only. Open KeeForge to enable editing.")
+            pendingReadOnlyCancellationMessage = String(localized: "This database is read-only. Open NextPass to enable editing.")
             activatePresentationIfPossible()
             return
         }
@@ -767,7 +767,7 @@ final class CredentialProviderCoordinator {
             }
             do {
                 guard let self, self.isRequestActive(generation) else { return }
-                let context = try await BiometricService.authenticate(reason: String(localized: "Passkey sign-in with KeeForge"))
+                let context = try await BiometricService.authenticate(reason: String(localized: "Passkey sign-in with NextPass"))
                 let compositeKey = try self.retrieveCompositeKey(for: databaseReference, context: context)
                 try await self.loadEntries(
                     compositeKey: compositeKey,
@@ -1144,7 +1144,7 @@ final class CredentialProviderCoordinator {
         databaseReference: DatabaseReference,
         generation: Int
     ) async throws {
-        let context = try await BiometricService.authenticate(reason: String(localized: "Unlock KeeForge for AutoFill"))
+        let context = try await BiometricService.authenticate(reason: String(localized: "Unlock NextPass for AutoFill"))
         AutoFillDiagnostics.log("biometric auth ok")
         let compositeKey = try retrieveCompositeKey(for: databaseReference, context: context)
         AutoFillDiagnostics.log("composite key retrieved")
@@ -1198,7 +1198,7 @@ final class CredentialProviderCoordinator {
         pendingSavePasswordRequest = nil
         if parsedFormatVersion?.requiresReadOnlyMode == true {
             presentReadOnlyAlertAndCancel(
-                message: String(localized: "Legacy KDBX 3.1 databases can be opened, but KeeForge only allows them in read-only mode.")
+                message: String(localized: "Legacy KDBX 3.1 databases can be opened, but NextPass only allows them in read-only mode.")
             )
             return true
         }
@@ -1216,7 +1216,7 @@ final class CredentialProviderCoordinator {
         pendingPasskeyRegistrationRequest = nil
         if parsedFormatVersion?.requiresReadOnlyMode == true {
             presentReadOnlyAlertAndCancel(
-                message: String(localized: "Legacy KDBX 3.1 databases can be opened, but KeeForge only allows them in read-only mode.")
+                message: String(localized: "Legacy KDBX 3.1 databases can be opened, but NextPass only allows them in read-only mode.")
             )
             return true
         }
@@ -1806,7 +1806,7 @@ final class CredentialProviderCoordinator {
                 }
                 return .completed
             case .conflict:
-                return .showWarningAndCancel(String(localized: "Database changed — open KeeForge to save"))
+                return .showWarningAndCancel(String(localized: "Database changed — open NextPass to save"))
             }
         } catch {
             return .showError(error.localizedDescription)
@@ -1876,7 +1876,7 @@ final class CredentialProviderCoordinator {
                 }
                 return .completed
             case .conflict:
-                return .showWarningAndCancel(String(localized: "Database changed — open KeeForge to save"))
+                return .showWarningAndCancel(String(localized: "Database changed — open NextPass to save"))
             }
         } catch {
             return .showError(error.localizedDescription)
@@ -2033,7 +2033,7 @@ final class CredentialProviderCoordinator {
                 }
                 return .completed
             case .conflict:
-                return .showWarningAndCancel(String(localized: "Database changed — open KeeForge to save"))
+                return .showWarningAndCancel(String(localized: "Database changed — open NextPass to save"))
             }
         } catch {
             return .showError(error.localizedDescription)
@@ -2122,7 +2122,7 @@ final class CredentialProviderCoordinator {
             }
             do {
                 guard let self, self.isRequestActive(generation) else { return }
-                let context = try await BiometricService.authenticate(reason: String(localized: "AutoFill with KeeForge"))
+                let context = try await BiometricService.authenticate(reason: String(localized: "AutoFill with NextPass"))
                 let compositeKey = try self.retrieveCompositeKey(for: databaseReference, context: context)
                 try await self.loadEntries(
                     compositeKey: compositeKey,

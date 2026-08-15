@@ -242,9 +242,9 @@ struct DatabaseCreationView: View {
         let cipherName = viewModel.cipher.displayName
         let kdfSummary = viewModel.kdfPreset.parameterSummary
         #if os(macOS)
-        return String(localized: "KeeForge creates KDBX 4 databases encrypted with \(cipherName) and Argon2id key derivation (\(kdfSummary)). Stronger settings take longer to unlock.")
+        return String(localized: "NextPass creates KDBX 4 databases encrypted with \(cipherName) and Argon2id key derivation (\(kdfSummary)). Stronger settings take longer to unlock.")
         #else
-        return String(localized: "KeeForge creates KDBX 4 databases encrypted with \(cipherName) and Argon2id key derivation (\(kdfSummary)). Stronger settings take longer to unlock and may exceed AutoFill's memory limit on some devices.")
+        return String(localized: "NextPass creates KDBX 4 databases encrypted with \(cipherName) and Argon2id key derivation (\(kdfSummary)). Stronger settings take longer to unlock and may exceed AutoFill's memory limit on some devices.")
         #endif
     }
 
@@ -252,7 +252,7 @@ struct DatabaseCreationView: View {
         switch viewModel.destinationChoice {
         case .files:
             #if os(macOS)
-            return String(localized: "After you click Create, KeeForge asks where to save the encrypted .kdbx database.")
+            return String(localized: "After you click Create, NextPass asks where to save the encrypted .kdbx database.")
             #else
             return String(localized: "After you tap Create, Files will ask where to save the encrypted .kdbx database.")
             #endif

@@ -47,7 +47,7 @@ struct WhatsNewView: View {
                 .background(.tint.opacity(0.12), in: Circle())
                 .accessibilityHidden(true)
 
-            Text("What's New in KeeForge")
+            Text("What's New in NextPass")
                 .font(.largeTitle.bold())
                 .multilineTextAlignment(.center)
                 .accessibilityIdentifier("whats-new.title")

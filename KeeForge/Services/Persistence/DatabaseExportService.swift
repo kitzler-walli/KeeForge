@@ -9,7 +9,7 @@ enum DatabaseExportError: Error, LocalizedError, Equatable, Sendable {
     var errorDescription: String? {
         switch self {
         case .cloudCacheMissing:
-            String(localized: "KeeForge has no local copy of this database yet. Open it once while online, then try exporting again.")
+            String(localized: "NextPass has no local copy of this database yet. Open it once while online, then try exporting again.")
         case .localFileUnavailable:
             String(localized: "The database file could not be found. Make sure it is still available in the Files app.")
         case .backupMissing:
@@ -95,7 +95,7 @@ enum DatabaseExportService {
     // MARK: - Filenames
 
     static func currentCopyFilename(for reference: DatabaseReference, date: Date, timeZone: TimeZone = .current) -> String {
-        "\(baseName(of: reference)) (KeeForge copy \(suffixTimestamp(for: date, timeZone: timeZone))).kdbx"
+        "\(baseName(of: reference)) (NextPass copy \(suffixTimestamp(for: date, timeZone: timeZone))).kdbx"
     }
 
     static func backupFilename(for reference: DatabaseReference, backup: Backup, timeZone: TimeZone = .current) -> String {

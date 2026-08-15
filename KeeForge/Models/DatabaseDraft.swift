@@ -27,7 +27,7 @@ struct DatabaseDraft: Sendable {
             case .historyVersionNotFound:
                 String(localized: "That earlier version is no longer available.")
             case .customIconNotStorable:
-                String(localized: "This database's icons are stored in a form KeeForge cannot add to without risking the ones already there.")
+                String(localized: "This database's icons are stored in a form NextPass cannot add to without risking the ones already there.")
             case .moveDestinationInsideMovedGroup:
                 String(localized: "A group cannot be moved into itself or one of its subgroups.")
             }
