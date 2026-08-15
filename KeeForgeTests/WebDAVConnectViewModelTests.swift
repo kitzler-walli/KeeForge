@@ -1,3 +1,4 @@
+import AuthenticationServices
 import XCTest
 @testable import KeeForge
 
@@ -138,6 +139,181 @@ final class WebDAVConnectViewModelTests: XCTestCase {
         XCTAssertEqual(connector.connectCallCount, 1)
         XCTAssertEqual(viewModel.errorMessage, CloudProviderError.fileNotFound.localizedDescription)
         XCTAssertFalse(viewModel.isConnecting)
+    }
+
+    // MARK: - signInWithNextcloud
+
+    func testSignInWithNextcloudRejectsEmptyServerURLWithoutCallingCoordinator() async {
+        let connector = MockWebDAVConnector()
+        let nextcloudSignIn = MockNextcloudSigningIn()
+        let viewModel = WebDAVConnectViewModel(connector: connector, nextcloudSignIn: nextcloudSignIn)
+        viewModel.serverURL = "   "
+
+        let account = await viewModel.signInWithNextcloud(presentationAnchor: Self.testAnchor)
+
+        XCTAssertNil(account)
+        XCTAssertEqual(nextcloudSignIn.signInCallCount, 0)
+        XCTAssertNotNil(viewModel.errorMessage)
+    }
+
+    func testSignInWithNextcloudRejectsHTTPServerURLUnlessExplicitlyAllowed() async {
+        let connector = MockWebDAVConnector()
+        let nextcloudSignIn = MockNextcloudSigningIn()
+        let viewModel = WebDAVConnectViewModel(connector: connector, nextcloudSignIn: nextcloudSignIn)
+        viewModel.serverURL = "http://cloud.example.com"
+
+        let account = await viewModel.signInWithNextcloud(presentationAnchor: Self.testAnchor)
+
+        XCTAssertNil(account)
+        XCTAssertEqual(nextcloudSignIn.signInCallCount, 0)
+        XCTAssertEqual(
+            viewModel.errorMessage,
+            String(localized: "Turn on Allow Unencrypted HTTP in Advanced to use an http:// server address.")
+        )
+    }
+
+    func testSignInWithNextcloudNormalizesServerURLBeforeCallingCoordinator() async {
+        let connector = MockWebDAVConnector()
+        let nextcloudSignIn = MockNextcloudSigningIn()
+        nextcloudSignIn.result = .success(
+            NextcloudLoginFlow.Credential(
+                serverURL: URL(string: "https://cloud.example.com/")!,
+                loginName: "alice",
+                appPassword: "app-pw"
+            )
+        )
+        let viewModel = WebDAVConnectViewModel(connector: connector, nextcloudSignIn: nextcloudSignIn)
+        viewModel.serverURL = "  https://cloud.example.com  "
+
+        _ = await viewModel.signInWithNextcloud(presentationAnchor: Self.testAnchor)
+
+        XCTAssertEqual(nextcloudSignIn.lastServerURL, URL(string: "https://cloud.example.com/"))
+    }
+
+    func testSignInWithNextcloudSuccessBuildsWebDAVConfigurationAndCallsConnector() async {
+        let connector = MockWebDAVConnector()
+        let nextcloudSignIn = MockNextcloudSigningIn()
+        nextcloudSignIn.result = .success(
+            NextcloudLoginFlow.Credential(
+                serverURL: URL(string: "https://cloud.example.com/")!,
+                loginName: "alice",
+                appPassword: "app-pw-12345"
+            )
+        )
+        let viewModel = WebDAVConnectViewModel(connector: connector, nextcloudSignIn: nextcloudSignIn)
+        viewModel.serverURL = "https://cloud.example.com"
+
+        let account = await viewModel.signInWithNextcloud(presentationAnchor: Self.testAnchor)
+
+        XCTAssertNotNil(account)
+        XCTAssertEqual(connector.connectCallCount, 1)
+        XCTAssertEqual(connector.lastConfiguration?.serverURL, "https://cloud.example.com/remote.php/dav/files/alice/")
+        XCTAssertEqual(connector.lastConfiguration?.username, "alice")
+        XCTAssertEqual(connector.lastConfiguration?.password, "app-pw-12345")
+        XCTAssertNil(viewModel.errorMessage)
+        XCTAssertFalse(viewModel.isConnecting)
+    }
+
+    func testSignInWithNextcloudCancellationClearsErrorAndReturnsNil() async {
+        let connector = MockWebDAVConnector()
+        let nextcloudSignIn = MockNextcloudSigningIn()
+        nextcloudSignIn.result = .failure(CloudProviderError.authenticationCancelled)
+        let viewModel = WebDAVConnectViewModel(connector: connector, nextcloudSignIn: nextcloudSignIn)
+        viewModel.serverURL = "https://cloud.example.com"
+
+        let account = await viewModel.signInWithNextcloud(presentationAnchor: Self.testAnchor)
+
+        XCTAssertNil(account)
+        XCTAssertNil(viewModel.errorMessage)
+        XCTAssertEqual(connector.connectCallCount, 0)
+    }
+
+    func testSignInWithNextcloudFailureSurfacesErrorMessage() async {
+        let connector = MockWebDAVConnector()
+        let nextcloudSignIn = MockNextcloudSigningIn()
+        nextcloudSignIn.result = .failure(
+            CloudProviderError.unknown("This doesn't look like a Nextcloud server. Check the server address.")
+        )
+        let viewModel = WebDAVConnectViewModel(connector: connector, nextcloudSignIn: nextcloudSignIn)
+        viewModel.serverURL = "https://not-nextcloud.example.com"
+
+        let account = await viewModel.signInWithNextcloud(presentationAnchor: Self.testAnchor)
+
+        XCTAssertNil(account)
+        XCTAssertEqual(connector.connectCallCount, 0)
+        XCTAssertEqual(viewModel.errorMessage, "This doesn't look like a Nextcloud server. Check the server address.")
+    }
+
+    func testCancelNextcloudSignInForwardsToCoordinator() {
+        let connector = MockWebDAVConnector()
+        let nextcloudSignIn = MockNextcloudSigningIn()
+        let viewModel = WebDAVConnectViewModel(connector: connector, nextcloudSignIn: nextcloudSignIn)
+
+        viewModel.cancelNextcloudSignIn()
+
+        XCTAssertEqual(nextcloudSignIn.cancelCallCount, 1)
+    }
+
+    // MARK: - WebDAV URL construction from a Nextcloud credential
+
+    func testWebDAVURLBuildsStandardNextcloudDavPath() {
+        let url = WebDAVConnectViewModel.webDAVURL(
+            server: URL(string: "https://cloud.example.com/")!,
+            loginName: "alice"
+        )
+
+        XCTAssertEqual(url, URL(string: "https://cloud.example.com/remote.php/dav/files/alice/"))
+    }
+
+    func testWebDAVURLPercentEncodesLoginName() {
+        let url = WebDAVConnectViewModel.webDAVURL(
+            server: URL(string: "https://cloud.example.com/")!,
+            loginName: "alice bob"
+        )
+
+        XCTAssertEqual(url, URL(string: "https://cloud.example.com/remote.php/dav/files/alice%20bob/"))
+    }
+
+    func testWebDAVURLHandlesServerInstalledUnderSubpath() {
+        let url = WebDAVConnectViewModel.webDAVURL(
+            server: URL(string: "https://example.com/nextcloud/")!,
+            loginName: "alice"
+        )
+
+        XCTAssertEqual(url, URL(string: "https://example.com/nextcloud/remote.php/dav/files/alice/"))
+    }
+
+    @MainActor
+    private static func testAnchor() -> ASPresentationAnchor {
+        ASPresentationAnchor()
+    }
+}
+
+@MainActor
+private final class MockNextcloudSigningIn: NextcloudSigningIn {
+    var result: Result<NextcloudLoginFlow.Credential, Error> = .success(
+        NextcloudLoginFlow.Credential(
+            serverURL: URL(string: "https://cloud.example.com/")!,
+            loginName: "alice",
+            appPassword: "app-pw"
+        )
+    )
+    private(set) var signInCallCount = 0
+    private(set) var cancelCallCount = 0
+    private(set) var lastServerURL: URL?
+
+    func signIn(
+        serverURL: URL,
+        allowsUnencryptedHTTP: Bool,
+        presentationAnchor: @escaping @MainActor () -> ASPresentationAnchor
+    ) async throws -> NextcloudLoginFlow.Credential {
+        signInCallCount += 1
+        lastServerURL = serverURL
+        return try result.get()
+    }
+
+    func cancel() {
+        cancelCallCount += 1
     }
 }
 

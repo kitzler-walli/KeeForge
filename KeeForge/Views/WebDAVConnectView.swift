@@ -1,10 +1,15 @@
+import AuthenticationServices
 import SwiftUI
 
-/// Manual connect form for WebDAV servers (Nextcloud, Synology, Apache mod_dav,
-/// etc.). Presented in place of a hosted OAuth flow. On success the created
+/// Connect form for WebDAV servers (Nextcloud, Synology, Apache mod_dav,
+/// etc.). Presented in place of a hosted OAuth flow. Offers two paths to the
+/// same result: a browser-based sign-in for Nextcloud servers (Login Flow
+/// v2 — no app password to create or type), and a manual server/username/
+/// password form underneath for everything else. On success the created
 /// `CloudAccount` is handed back through `onConnected`.
 struct WebDAVConnectView: View {
     @State private var viewModel: WebDAVConnectViewModel
+    let presentationAnchor: @MainActor () -> ASPresentationAnchor
     let onConnected: (CloudAccount) -> Void
     let onCancel: () -> Void
 
@@ -12,10 +17,12 @@ struct WebDAVConnectView: View {
 
     init(
         connector: any WebDAVConnecting,
+        presentationAnchor: @escaping @MainActor () -> ASPresentationAnchor,
         onConnected: @escaping (CloudAccount) -> Void,
         onCancel: @escaping () -> Void
     ) {
         _viewModel = State(initialValue: WebDAVConnectViewModel(connector: connector))
+        self.presentationAnchor = presentationAnchor
         self.onConnected = onConnected
         self.onCancel = onCancel
     }
@@ -38,7 +45,26 @@ struct WebDAVConnectView: View {
                 } header: {
                     Text("Server")
                 } footer: {
-                    Text("Example: https://cloud.example.com/remote.php/dav/files/USERNAME/ — for Nextcloud, use an app password")
+                    Text("Nextcloud: enter your server address, e.g. https://cloud.example.com, then use Sign in with Nextcloud below. Other WebDAV servers: enter the full WebDAV address instead, e.g. https://example.com/remote.php/dav/files/USERNAME/, and connect manually.")
+                }
+
+                Section {
+                    Button {
+                        signInWithNextcloud()
+                    } label: {
+                        if viewModel.isConnecting {
+                            HStack {
+                                ProgressView()
+                                Text("Signing In…")
+                            }
+                        } else {
+                            Label("Sign in with Nextcloud", systemImage: "person.badge.key.fill")
+                        }
+                    }
+                    .disabled(viewModel.isConnecting || trimmedServerURLIsEmpty)
+                    .accessibilityIdentifier("webdav.connect.nextcloud-signin")
+                } footer: {
+                    Text("Opens your Nextcloud server in the browser to sign in — no app password to create or type.")
                 }
 
                 Section {
@@ -56,7 +82,7 @@ struct WebDAVConnectView: View {
                         visibilityAccessibilityIdentifier: "webdav.connect.password-visibility-button"
                     )
                 } header: {
-                    Text("Account")
+                    Text("Or Connect Manually")
                 }
 
                 Section {
@@ -91,6 +117,7 @@ struct WebDAVConnectView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
+                        viewModel.cancelNextcloudSignIn()
                         onCancel()
                     }
                     .accessibilityIdentifier("webdav.connect.cancel")
@@ -110,9 +137,21 @@ struct WebDAVConnectView: View {
         }
     }
 
+    private var trimmedServerURLIsEmpty: Bool {
+        viewModel.serverURL.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
     private func connect() {
         Task {
             if let account = await viewModel.connect() {
+                onConnected(account)
+            }
+        }
+    }
+
+    private func signInWithNextcloud() {
+        Task {
+            if let account = await viewModel.signInWithNextcloud(presentationAnchor: presentationAnchor) {
                 onConnected(account)
             }
         }

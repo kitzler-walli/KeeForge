@@ -299,6 +299,7 @@
 		6E9CE1A6F7656C0A901A1633 /* kdbx41-public-custom-data.kdbx in Resources */ = {isa = PBXBuildFile; fileRef = B768B63FEA29736435D3E922 /* kdbx41-public-custom-data.kdbx */; };
 		7088E67D3FBF351954CD70F2 /* AutoFillPasskeyCreatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C412174AA21900D65A646A54 /* AutoFillPasskeyCreatorView.swift */; };
 		70B5DFF94CC20D6BD049C9AB /* ChaCha20Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B37308F603CF890C96ED80 /* ChaCha20Tests.swift */; };
+		70D57A837BE4C4564F8546C6 /* NextcloudSignInCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFD076EF5CDCCDB986E5E53 /* NextcloudSignInCoordinator.swift */; };
 		711E28602252C35A2481E769 /* WebDAVClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16B7DC25FE8C1CEE117E7FD /* WebDAVClientTests.swift */; };
 		7144C6048A793ACF7AD5E2B5 /* MacLockMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266DACD09B3263F9CCEDE2A6 /* MacLockMonitorTests.swift */; };
 		715289CA9B37F2D1C8DFBC2E /* GroupEditViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECEDBFE3791A3AF8121C4DD /* GroupEditViewModelTests.swift */; };
@@ -331,6 +332,7 @@
 		7C249710427EF896850775E7 /* CredentialMatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952D7703E80D468B1A3168D8 /* CredentialMatcherTests.swift */; };
 		7C2C41AF9DC6A330122202C2 /* KDBXMergerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D763140F783B299E5E1BD920 /* KDBXMergerTests.swift */; };
 		7CE7F2D598280A675D89FB02 /* FeedbackSubmissionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 993E60D930DBEB81D759AF57 /* FeedbackSubmissionService.swift */; };
+		7D07D3B1A037045CB4C481D0 /* NextcloudSignInCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFD076EF5CDCCDB986E5E53 /* NextcloudSignInCoordinator.swift */; };
 		7E566829A52A8932E6424E28 /* PasswordGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD42E436B84E873D08B91ACA /* PasswordGenerator.swift */; };
 		7F61686D97496F8187B577BF /* AutoFillStatusService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90677EA696815FC200740F0A /* AutoFillStatusService.swift */; };
 		7FE2210E6E580757720E6153 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A785C829BFA44B1D7EC69DC /* SettingsView.swift */; };
@@ -1056,6 +1058,7 @@
 		EEE77955BBD928FFC22F1048 /* CloudProviderRegistryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudProviderRegistryTests.swift; sourceTree = "<group>"; };
 		EF452B28958E3FCF8EE8A60E /* EntryHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryHistoryView.swift; sourceTree = "<group>"; };
 		EF6FBD0976DB77F511EDBFFA /* foreign-chacha20.kdbx */ = {isa = PBXFileReference; path = "foreign-chacha20.kdbx"; sourceTree = "<group>"; };
+		EFFD076EF5CDCCDB986E5E53 /* NextcloudSignInCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextcloudSignInCoordinator.swift; sourceTree = "<group>"; };
 		F010A269DB2C2D6FD2B162EF /* UITestDropboxCloudProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestDropboxCloudProvider.swift; sourceTree = "<group>"; };
 		F0E36B86BDCAAD4E3C120428 /* EntryEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryEdit.swift; sourceTree = "<group>"; };
 		F1036AABC590833FFFA1B8A2 /* DatabaseReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseReference.swift; sourceTree = "<group>"; };
@@ -1635,6 +1638,7 @@
 				859C701D22CBF7ABEF51E825 /* CloudTokenStore.swift */,
 				6AFBBC10051B412E85947EB5 /* DropboxCloudProvider.swift */,
 				2A7B2590C6156850BC36E638 /* NextcloudLoginFlow.swift */,
+				EFFD076EF5CDCCDB986E5E53 /* NextcloudSignInCoordinator.swift */,
 				B942B75B67043A4CB397BE27 /* OneDriveCloudProvider.swift */,
 				0B85CAF10E8CFC72802590A3 /* PendingUploadDrainer.swift */,
 				E6B7062FC711FD8F8EA1BEE3 /* PendingUploadQueue.swift */,
@@ -2358,6 +2362,7 @@
 				C303B9FB39FA229F9EF5016D /* MoveToGroupPickerView.swift in Sources */,
 				03818561964079C90324F54F /* NavigationConformances.swift in Sources */,
 				6807B52419F51A68D122B0BB /* NextcloudLoginFlow.swift in Sources */,
+				70D57A837BE4C4564F8546C6 /* NextcloudSignInCoordinator.swift in Sources */,
 				DFA18DA04E592BE59E29ED71 /* OTPAuthURI.swift in Sources */,
 				30FAB87495E057E7C880DC28 /* OneDriveCloudProvider.swift in Sources */,
 				A245A3D66638D81F572CF8B1 /* OpaqueXMLNodes.swift in Sources */,
@@ -2500,6 +2505,7 @@
 				839FF1AF9939A05170CE6672 /* MoveToGroupPickerView.swift in Sources */,
 				85F4BF94918B5C26592668EA /* NavigationConformances.swift in Sources */,
 				06E055FA825750114D4B6095 /* NextcloudLoginFlow.swift in Sources */,
+				7D07D3B1A037045CB4C481D0 /* NextcloudSignInCoordinator.swift in Sources */,
 				62DBCF9BA98C3C2C7DE17704 /* OTPAuthURI.swift in Sources */,
 				A9E880DCC3B893C3D6E337EC /* OneDriveCloudProvider.swift in Sources */,
 				A5BFF2A90A55B2DCA322D1EB /* OpaqueXMLNodes.swift in Sources */,

@@ -116,6 +116,7 @@ struct CloudFileBrowserView: View {
             if let connector = session.provider as? WebDAVConnecting {
                 WebDAVConnectView(
                     connector: connector,
+                    presentationAnchor: presentationAnchor,
                     onConnected: { account in
                         session.adoptManualAccount(account)
                         isWebDAVConnectPresented = false
@@ -295,6 +296,7 @@ struct CloudFolderPickerView: View {
             if let connector = session.provider as? WebDAVConnecting {
                 WebDAVConnectView(
                     connector: connector,
+                    presentationAnchor: presentationAnchor,
                     onConnected: { account in
                         session.adoptManualAccount(account)
                         isWebDAVConnectPresented = false
