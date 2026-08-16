@@ -228,7 +228,6 @@
 		55842C2074D95DB5E37EB360 /* KDBXParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB771146F2B327CB67076403 /* KDBXParser.swift */; };
 		558D0939BACAC13AB5FAA369 /* DocumentsVaultScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCF6EB947198A5036649625 /* DocumentsVaultScanner.swift */; };
 		558EA4C87B09976264E8A3AC /* WhatsNewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7551C0188199B9860061E734 /* WhatsNewUITests.swift */; };
-		55A34A82938974B326D41AA0 /* KeeForge.icon in Resources */ = {isa = PBXBuildFile; fileRef = 1028DFCD0B2E32B19BDA02FE /* KeeForge.icon */; };
 		56141B98B9D88A9B94777C25 /* OneDriveCloudProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5335012167FBEBF40FE67EC7 /* OneDriveCloudProviderTests.swift */; };
 		566852336FB7AB379F6C6F83 /* DatabaseFileInfoLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF04A69BD290E352459B8D /* DatabaseFileInfoLoader.swift */; };
 		5677D213553595D19807B8E5 /* CustomIconXML.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED7A7090DB2824091A0352C /* CustomIconXML.swift */; };
@@ -1989,7 +1988,6 @@
 			files = (
 				9441CDEE74E78B413B9B6034 /* Assets.xcassets in Resources */,
 				E74C80CC00040B23E68289C6 /* InfoPlist.xcstrings in Resources */,
-				55A34A82938974B326D41AA0 /* KeeForge.icon in Resources */,
 				9DB0CADADD671CB695D0A79A /* LaunchScreen.storyboard in Resources */,
 				1FC2BE613C35E9359707D14E /* Localizable.xcstrings in Resources */,
 			);
@@ -3117,7 +3115,7 @@
 		C22BE7828C8703CE354D1F5C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = KeeForge;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLOUD_KEYCHAIN_ACCESS_GROUP = "$(AppIdentifierPrefix)at.kw.nextpass.sharedkeychain";
 				CODE_SIGN_ENTITLEMENTS = KeeForge/KeeForge.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3232,7 +3230,7 @@
 		FF29994C3089ACBFCC9CE6B9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = KeeForge;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLOUD_KEYCHAIN_ACCESS_GROUP = "$(AppIdentifierPrefix)at.kw.nextpass.sharedkeychain";
 				CODE_SIGN_ENTITLEMENTS = KeeForge/KeeForge.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

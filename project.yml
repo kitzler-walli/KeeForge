@@ -41,7 +41,7 @@ targets:
         INFOPLIST_FILE: KeeForge/Info.plist
         PRODUCT_BUNDLE_IDENTIFIER: at.kw.nextpass
         TARGETED_DEVICE_FAMILY: "1,2"
-        ASSETCATALOG_COMPILER_APPICON_NAME: KeeForge
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         CODE_SIGN_STYLE: Automatic
         CODE_SIGN_ENTITLEMENTS: KeeForge/KeeForge.entitlements
         PRODUCT_NAME: NextPass
@@ -82,8 +82,6 @@ targets:
       # Platform-neutral AutoFill coordinator is compiled into the app target
       # too so KeeForgeTests (hosted by the app) can unit-test it.
       - path: AutoFillExtension/CredentialProviderCoordinator.swift
-      - path: KeeForge.icon
-        buildPhase: resources
 
   KeeForgeMac:
     type: application
