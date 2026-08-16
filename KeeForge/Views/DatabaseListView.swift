@@ -432,6 +432,19 @@ struct DatabaseListView: View {
         }
         .accessibilityIdentifier("database.add.files")
 
+        // Nextcloud rides on the WebDAV provider (Login Flow v2 just supplies
+        // the WebDAV credential a different way), so this opens the same
+        // screen `.webDAV` does — which already leads with "Sign in with
+        // Nextcloud" above the manual form. A separate menu entry exists
+        // purely for discoverability: a Nextcloud user shouldn't have to know
+        // Nextcloud is WebDAV under the hood to find their way here.
+        Button {
+            activeCloudProvider = .webDAV
+        } label: {
+            Label("Nextcloud", systemImage: "person.badge.key.fill")
+        }
+        .accessibilityIdentifier("database.add.nextcloud")
+
         ForEach(CloudProviderRegistry.availableProviders) { providerKind in
             Button {
                 activeCloudProvider = providerKind
