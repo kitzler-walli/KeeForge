@@ -84,42 +84,42 @@
         }
       }
     },
-    "“%@” is already used by a KeeForge-only database." : {
+    "“%@” is already used by a NextPass-only database." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "„%@“ wird bereits von einer Datenbank verwendet, die nur in KeeForge verfügbar ist."
+            "value" : "„%@“ wird bereits von einer Datenbank verwendet, die nur in NextPass verfügbar ist."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "«%@» ya lo utiliza una base de datos exclusiva de KeeForge."
+            "value" : "«%@» ya lo utiliza una base de datos exclusiva de NextPass."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "« %@ » est déjà utilisé par une base de données disponible uniquement dans KeeForge."
+            "value" : "« %@ » est déjà utilisé par une base de données disponible uniquement dans NextPass."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「%@」は KeeForge 専用のデータベースですでに使用されています。"
+            "value" : "「%@」は NextPass 専用のデータベースですでに使用されています。"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“%@”已被一个仅限 KeeForge 的数据库使用。"
+            "value" : "“%@”已被一个仅限 NextPass 的数据库使用。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「%@」已被僅限 KeeForge 的資料庫使用。"
+            "value" : "「%@」已被僅限 NextPass 的資料庫使用。"
           }
         }
       }
@@ -656,42 +656,42 @@
         }
       }
     },
-    "AutoFill with KeeForge" : {
+    "AutoFill with NextPass" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "AutoFill mit KeeForge"
+            "value" : "AutoFill mit NextPass"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Autorrelleno con KeeForge"
+            "value" : "Autorrelleno con NextPass"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Remplissage automatique avec KeeForge"
+            "value" : "Remplissage automatique avec NextPass"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge で自動入力"
+            "value" : "NextPass で自動入力"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "使用 KeeForge 自动填充"
+            "value" : "使用 NextPass 自动填充"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "使用 KeeForge 自動填寫"
+            "value" : "使用 NextPass 自動填寫"
           }
         }
       }
@@ -1302,42 +1302,42 @@
         }
       }
     },
-    "Database changed — open KeeForge to save" : {
+    "Database changed — open NextPass to save" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Datenbank geändert — zum Sichern KeeForge öffnen"
+            "value" : "Datenbank geändert — zum Sichern NextPass öffnen"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Base de datos modificada — abra KeeForge para guardar"
+            "value" : "Base de datos modificada — abra NextPass para guardar"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Base de données modifiée — ouvrez KeeForge pour enregistrer"
+            "value" : "Base de données modifiée — ouvrez NextPass pour enregistrer"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "データベースが変更されました。保存するには KeeForge を開いてください"
+            "value" : "データベースが変更されました。保存するには NextPass を開いてください"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "数据库已更改，请打开 KeeForge 保存"
+            "value" : "数据库已更改，请打开 NextPass 保存"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "資料庫已變更，請開啟 KeeForge 儲存"
+            "value" : "資料庫已變更，請開啟 NextPass 儲存"
           }
         }
       }
@@ -2662,42 +2662,42 @@
         }
       }
     },
-    "Legacy KDBX 3.1 databases can be opened, but KeeForge only allows them in read-only mode." : {
+    "Legacy KDBX 3.1 databases can be opened, but NextPass only allows them in read-only mode." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ältere KDBX-3.1-Datenbanken können geöffnet werden, KeeForge lässt sie jedoch nur im schreibgeschützten Modus zu."
+            "value" : "Ältere KDBX-3.1-Datenbanken können geöffnet werden, NextPass lässt sie jedoch nur im schreibgeschützten Modus zu."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Las bases de datos KDBX 3.1 antiguas se pueden abrir, pero KeeForge solo las permite en modo de solo lectura."
+            "value" : "Las bases de datos KDBX 3.1 antiguas se pueden abrir, pero NextPass solo las permite en modo de solo lectura."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les anciennes bases de données KDBX 3.1 peuvent être ouvertes, mais KeeForge ne les autorise qu'en mode lecture seule."
+            "value" : "Les anciennes bases de données KDBX 3.1 peuvent être ouvertes, mais NextPass ne les autorise qu'en mode lecture seule."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "従来の KDBX 3.1 データベースも開けますが、KeeForge では読み取り専用でのみ利用できます。"
+            "value" : "従来の KDBX 3.1 データベースも開けますが、NextPass では読み取り専用でのみ利用できます。"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "可以打开旧版 KDBX 3.1 数据库，但 KeeForge 仅允许以只读模式使用。"
+            "value" : "可以打开旧版 KDBX 3.1 数据库，但 NextPass 仅允许以只读模式使用。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "可以開啟舊版 KDBX 3.1 資料庫，但 KeeForge 僅允許以唯讀模式使用。"
+            "value" : "可以開啟舊版 KDBX 3.1 資料庫，但 NextPass 僅允許以唯讀模式使用。"
           }
         }
       }
@@ -3462,42 +3462,42 @@
         }
       }
     },
-    "Passkey sign-in with KeeForge" : {
+    "Passkey sign-in with NextPass" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Passkey-Anmeldung mit KeeForge"
+            "value" : "Passkey-Anmeldung mit NextPass"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inicio de sesión con llave de acceso mediante KeeForge"
+            "value" : "Inicio de sesión con llave de acceso mediante NextPass"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Connexion par clé d'accès avec KeeForge"
+            "value" : "Connexion par clé d'accès avec NextPass"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge でパスキーサインイン"
+            "value" : "NextPass でパスキーサインイン"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "使用 KeeForge 通行密钥登录"
+            "value" : "使用 NextPass 通行密钥登录"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "使用 KeeForge 通行金鑰登入"
+            "value" : "使用 NextPass 通行金鑰登入"
           }
         }
       }
@@ -4542,42 +4542,42 @@
         }
       }
     },
-    "The database file is in Recently Deleted in the Files app. Restore it in Files, or choose the current file with Locate Database File in KeeForge." : {
+    "The database file is in Recently Deleted in the Files app. Restore it in Files, or choose the current file with Locate Database File in NextPass." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Datenbankdatei befindet sich in „Zuletzt gelöscht“ in der Dateien-App. Stellen Sie sie in der Dateien-App wieder her, oder wählen Sie in KeeForge mit „Datenbankdatei suchen“ die aktuelle Datei aus."
+            "value" : "Die Datenbankdatei befindet sich in „Zuletzt gelöscht“ in der Dateien-App. Stellen Sie sie in der Dateien-App wieder her, oder wählen Sie in NextPass mit „Datenbankdatei suchen“ die aktuelle Datei aus."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El archivo de la base de datos está en «Eliminados recientemente» en la app Archivos. Restáurelo en Archivos o elija el archivo actual con «Localizar archivo de base de datos» en KeeForge."
+            "value" : "El archivo de la base de datos está en «Eliminados recientemente» en la app Archivos. Restáurelo en Archivos o elija el archivo actual con «Localizar archivo de base de datos» en NextPass."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le fichier de base de données se trouve dans « Supprimés récemment » dans l'app Fichiers. Restaurez-le dans Fichiers, ou choisissez le fichier actuel avec « Localiser le fichier de base de données » dans KeeForge."
+            "value" : "Le fichier de base de données se trouve dans « Supprimés récemment » dans l'app Fichiers. Restaurez-le dans Fichiers, ou choisissez le fichier actuel avec « Localiser le fichier de base de données » dans NextPass."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "データベースファイルは「ファイル」App の「最近削除した項目」にあります。「ファイル」で復元するか、KeeForge の「データベースファイルを探す」で現在のファイルを選択してください。"
+            "value" : "データベースファイルは「ファイル」App の「最近削除した項目」にあります。「ファイル」で復元するか、NextPass の「データベースファイルを探す」で現在のファイルを選択してください。"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "数据库文件位于“文件”App 的“最近删除”中。请在“文件”中恢复它，或在 KeeForge 中使用“查找数据库文件”选择当前文件。"
+            "value" : "数据库文件位于“文件”App 的“最近删除”中。请在“文件”中恢复它，或在 NextPass 中使用“查找数据库文件”选择当前文件。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "資料庫檔案位於「檔案」App 的「最近刪除」中。請在「檔案」中回復它，或在 KeeForge 中使用「尋找資料庫檔案」選擇目前的檔案。"
+            "value" : "資料庫檔案位於「檔案」App 的「最近刪除」中。請在「檔案」中回復它，或在 NextPass 中使用「尋找資料庫檔案」選擇目前的檔案。"
           }
         }
       }
@@ -5024,128 +5024,128 @@
         }
       }
     },
-    "This database is read-only. Open KeeForge to enable editing." : {
+    "This database is read-only. Open NextPass to enable editing." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Diese Datenbank ist schreibgeschützt. Öffnen Sie KeeForge, um die Bearbeitung zu aktivieren."
+            "value" : "Diese Datenbank ist schreibgeschützt. Öffnen Sie NextPass, um die Bearbeitung zu aktivieren."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esta base de datos es de solo lectura. Abra KeeForge para activar la edición."
+            "value" : "Esta base de datos es de solo lectura. Abra NextPass para activar la edición."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cette base de données est en lecture seule. Ouvrez KeeForge pour activer la modification."
+            "value" : "Cette base de données est en lecture seule. Ouvrez NextPass pour activer la modification."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "このデータベースは読み取り専用です。編集するには KeeForge を開いてください。"
+            "value" : "このデータベースは読み取り専用です。編集するには NextPass を開いてください。"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此数据库为只读。请打开 KeeForge 以启用编辑。"
+            "value" : "此数据库为只读。请打开 NextPass 以启用编辑。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此資料庫為唯讀。請開啟 KeeForge 以啟用編輯。"
+            "value" : "此資料庫為唯讀。請開啟 NextPass 以啟用編輯。"
           }
         }
       }
     },
-    "This database needs about %@ of memory to unlock, more than the %@ AutoFill is allowed to use. Open the entry in the KeeForge app, or lower the database's Argon2 memory setting in a desktop KeePass app." : {
+    "This database needs about %@ of memory to unlock, more than the %@ AutoFill is allowed to use. Open the entry in the NextPass app, or lower the database's Argon2 memory setting in a desktop KeePass app." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Diese Datenbank benötigt zum Entsperren etwa %1$@ Arbeitsspeicher — mehr als die %2$@, die AutoFill verwenden darf. Öffnen Sie den Eintrag in der KeeForge-App oder verringern Sie die Argon2-Speichereinstellung der Datenbank in einer KeePass-App für den Computer."
+            "value" : "Diese Datenbank benötigt zum Entsperren etwa %1$@ Arbeitsspeicher — mehr als die %2$@, die AutoFill verwenden darf. Öffnen Sie den Eintrag in der NextPass-App oder verringern Sie die Argon2-Speichereinstellung der Datenbank in einer KeePass-App für den Computer."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "This database needs about %1$@ of memory to unlock, more than the %2$@ AutoFill is allowed to use. Open the entry in the KeeForge app, or lower the database's Argon2 memory setting in a desktop KeePass app."
+            "value" : "This database needs about %1$@ of memory to unlock, more than the %2$@ AutoFill is allowed to use. Open the entry in the NextPass app, or lower the database's Argon2 memory setting in a desktop KeePass app."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esta base de datos necesita unos %1$@ de memoria para desbloquearse, más de los %2$@ que AutoFill puede usar. Abra la entrada en la app KeeForge, o reduzca el ajuste de memoria Argon2 de la base de datos en una app KeePass de escritorio."
+            "value" : "Esta base de datos necesita unos %1$@ de memoria para desbloquearse, más de los %2$@ que AutoFill puede usar. Abra la entrada en la app NextPass, o reduzca el ajuste de memoria Argon2 de la base de datos en una app KeePass de escritorio."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cette base de données a besoin d’environ %1$@ de mémoire pour être déverrouillée, soit plus que les %2$@ autorisés pour AutoFill. Ouvrez l’entrée dans l’app KeeForge, ou réduisez le réglage de mémoire Argon2 de la base de données dans une app KeePass pour ordinateur."
+            "value" : "Cette base de données a besoin d’environ %1$@ de mémoire pour être déverrouillée, soit plus que les %2$@ autorisés pour AutoFill. Ouvrez l’entrée dans l’app NextPass, ou réduisez le réglage de mémoire Argon2 de la base de données dans une app KeePass pour ordinateur."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "このデータベースのロック解除には約 %1$@ のメモリが必要で、自動入力に許可された %2$@ を超えています。KeeForge App でエントリを開くか、デスクトップ版の KeePass App でデータベースの Argon2 のメモリ設定を下げてください。"
+            "value" : "このデータベースのロック解除には約 %1$@ のメモリが必要で、自動入力に許可された %2$@ を超えています。NextPass App でエントリを開くか、デスクトップ版の KeePass App でデータベースの Argon2 のメモリ設定を下げてください。"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "解锁此数据库大约需要 %1$@ 内存，超出了自动填充可使用的 %2$@ 上限。请在 KeeForge App 中打开该条目，或在桌面版 KeePass 应用中调低数据库的 Argon2 内存设置。"
+            "value" : "解锁此数据库大约需要 %1$@ 内存，超出了自动填充可使用的 %2$@ 上限。请在 NextPass App 中打开该条目，或在桌面版 KeePass 应用中调低数据库的 Argon2 内存设置。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "解鎖此資料庫大約需要 %1$@ 記憶體，超出了自動填寫可使用的 %2$@ 上限。請在 KeeForge App 中開啟該項目，或在桌面版 KeePass App 中調低資料庫的 Argon2 記憶體設定。"
+            "value" : "解鎖此資料庫大約需要 %1$@ 記憶體，超出了自動填寫可使用的 %2$@ 上限。請在 NextPass App 中開啟該項目，或在桌面版 KeePass App 中調低資料庫的 Argon2 記憶體設定。"
           }
         }
       }
     },
-    "This database uses an older KeePass format that KeeForge does not support yet." : {
+    "This database uses an older KeePass format that NextPass does not support yet." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Diese Datenbank verwendet ein älteres KeePass-Format, das KeeForge noch nicht unterstützt."
+            "value" : "Diese Datenbank verwendet ein älteres KeePass-Format, das NextPass noch nicht unterstützt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esta base de datos utiliza un formato de KeePass más antiguo que KeeForge aún no admite."
+            "value" : "Esta base de datos utiliza un formato de KeePass más antiguo que NextPass aún no admite."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cette base de données utilise un ancien format KeePass que KeeForge ne prend pas encore en charge."
+            "value" : "Cette base de données utilise un ancien format KeePass que NextPass ne prend pas encore en charge."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "このデータベースは、KeeForge がまだ対応していない古い KeePass 形式を使用しています。"
+            "value" : "このデータベースは、NextPass がまだ対応していない古い KeePass 形式を使用しています。"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此数据库使用 KeeForge 尚不支持的较旧 KeePass 格式。"
+            "value" : "此数据库使用 NextPass 尚不支持的较旧 KeePass 格式。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此資料庫使用 KeeForge 尚不支援的較舊 KeePass 格式。"
+            "value" : "此資料庫使用 NextPass 尚不支援的較舊 KeePass 格式。"
           }
         }
       }
@@ -5190,24 +5190,24 @@
         }
       }
     },
-    "This database's icons are stored in a form KeeForge cannot add to without risking the ones already there." : {
+    "This database's icons are stored in a form NextPass cannot add to without risking the ones already there." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Symbole dieser Datenbank liegen in einer Form vor, zu der KeeForge nichts hinzufügen kann, ohne die bereits vorhandenen zu gefährden."
+            "value" : "Die Symbole dieser Datenbank liegen in einer Form vor, zu der NextPass nichts hinzufügen kann, ohne die bereits vorhandenen zu gefährden."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Los iconos de esta base de datos están guardados en un formato al que KeeForge no puede añadir nada sin poner en riesgo los que ya contiene."
+            "value" : "Los iconos de esta base de datos están guardados en un formato al que NextPass no puede añadir nada sin poner en riesgo los que ya contiene."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les icônes de cette base de données sont enregistrées sous une forme à laquelle KeeForge ne peut rien ajouter sans risquer celles qui s’y trouvent déjà."
+            "value" : "Les icônes de cette base de données sont enregistrées sous une forme à laquelle NextPass ne peut rien ajouter sans risquer celles qui s’y trouvent déjà."
           }
         },
         "ja" : {
@@ -5219,13 +5219,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此数据库的图标存储形式特殊，KeeForge 无法在不危及现有图标的情况下添加新图标。"
+            "value" : "此数据库的图标存储形式特殊，NextPass 无法在不危及现有图标的情况下添加新图标。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此資料庫的圖示儲存形式特殊，KeeForge 無法在不危及現有圖示的情況下新增圖示。"
+            "value" : "此資料庫的圖示儲存形式特殊，NextPass 無法在不危及現有圖示的情況下新增圖示。"
           }
         }
       }
@@ -5430,42 +5430,42 @@
         }
       }
     },
-    "Turn on AutoFill for a database in KeeForge’s settings to use it here." : {
+    "Turn on AutoFill for a database in NextPass’s settings to use it here." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aktivieren Sie AutoFill für eine Datenbank in den KeeForge-Einstellungen, um sie hier zu verwenden."
+            "value" : "Aktivieren Sie AutoFill für eine Datenbank in den NextPass-Einstellungen, um sie hier zu verwenden."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Active Autorrelleno para una base de datos en los ajustes de KeeForge para usarlo aquí."
+            "value" : "Active Autorrelleno para una base de datos en los ajustes de NextPass para usarlo aquí."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Activez le remplissage automatique pour une base de données dans les réglages de KeeForge pour l’utiliser ici."
+            "value" : "Activez le remplissage automatique pour une base de données dans les réglages de NextPass pour l’utiliser ici."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge の設定でデータベースの自動入力をオンにすると、ここで使用できます。"
+            "value" : "NextPass の設定でデータベースの自動入力をオンにすると、ここで使用できます。"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在 KeeForge 的设置中为数据库开启自动填充，即可在此处使用。"
+            "value" : "在 NextPass 的设置中为数据库开启自动填充，即可在此处使用。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在 KeeForge 的設定中為資料庫開啟自動填寫，即可在此處使用。"
+            "value" : "在 NextPass 的設定中為資料庫開啟自動填寫，即可在此處使用。"
           }
         }
       }
@@ -5590,82 +5590,82 @@
         }
       }
     },
-    "Unlock KeeForge" : {
+    "Unlock NextPass" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge entsperren"
+            "value" : "NextPass entsperren"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Desbloquear KeeForge"
+            "value" : "Desbloquear NextPass"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Déverrouiller KeeForge"
+            "value" : "Déverrouiller NextPass"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge のロックを解除"
+            "value" : "NextPass のロックを解除"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "解锁 KeeForge"
+            "value" : "解锁 NextPass"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "解鎖 KeeForge"
+            "value" : "解鎖 NextPass"
           }
         }
       }
     },
-    "Unlock KeeForge for AutoFill" : {
+    "Unlock NextPass for AutoFill" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge für AutoFill entsperren"
+            "value" : "NextPass für AutoFill entsperren"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Desbloquear KeeForge para el autorrelleno"
+            "value" : "Desbloquear NextPass para el autorrelleno"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Déverrouiller KeeForge pour le remplissage automatique"
+            "value" : "Déverrouiller NextPass pour le remplissage automatique"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "自動入力のために KeeForge のロックを解除"
+            "value" : "自動入力のために NextPass のロックを解除"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "解锁 KeeForge 以使用自动填充"
+            "value" : "解锁 NextPass 以使用自动填充"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "解鎖 KeeForge 以使用自動填寫"
+            "value" : "解鎖 NextPass 以使用自動填寫"
           }
         }
       }
@@ -6270,42 +6270,42 @@
         }
       }
     },
-    "When KeeForge Is Not the Active App" : {
+    "When NextPass Is Not the Active App" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wenn KeeForge nicht die aktive App ist"
+            "value" : "Wenn NextPass nicht die aktive App ist"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cuando KeeForge no es la app activa"
+            "value" : "Cuando NextPass no es la app activa"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lorsque KeeForge n'est pas l'app active"
+            "value" : "Lorsque NextPass n'est pas l'app active"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge が使用中でないとき"
+            "value" : "NextPass が使用中でないとき"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "当 KeeForge 不在前台时"
+            "value" : "当 NextPass 不在前台时"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "當 KeeForge 不在前景時"
+            "value" : "當 NextPass 不在前景時"
           }
         }
       }

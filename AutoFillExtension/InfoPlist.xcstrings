@@ -7,43 +7,43 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge AutoFill"
+            "value" : "NextPass AutoFill"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge AutoFill"
+            "value" : "NextPass AutoFill"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge AutoFill"
+            "value" : "NextPass AutoFill"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge AutoFill"
+            "value" : "NextPass AutoFill"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge 自動入力"
+            "value" : "NextPass 自動入力"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge 自动填充"
+            "value" : "NextPass 自动填充"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge 自動填寫"
+            "value" : "NextPass 自動填寫"
           }
         }
       }
@@ -55,43 +55,43 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForgeAutoFill"
+            "value" : "NextPassAutoFill"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "KeeForgeAutoFill"
+            "value" : "NextPassAutoFill"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForgeAutoFill"
+            "value" : "NextPassAutoFill"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForgeAutoFill"
+            "value" : "NextPassAutoFill"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForgeAutoFill"
+            "value" : "NextPassAutoFill"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForgeAutoFill"
+            "value" : "NextPassAutoFill"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForgeAutoFill"
+            "value" : "NextPassAutoFill"
           }
         }
       }

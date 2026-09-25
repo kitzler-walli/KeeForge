@@ -8,43 +8,43 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge"
+            "value" : "NextPass"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "KeeForge"
+            "value" : "NextPass"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge"
+            "value" : "NextPass"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge"
+            "value" : "NextPass"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge"
+            "value" : "NextPass"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge"
+            "value" : "NextPass"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge"
+            "value" : "NextPass"
           }
         }
       }
@@ -95,43 +95,43 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge verwendet die Kamera, um QR-Codes für Bestätigungscodes zu scannen."
+            "value" : "NextPass verwendet die Kamera, um QR-Codes für Bestätigungscodes zu scannen."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge uses the camera to scan verification-code QR codes."
+            "value" : "NextPass uses the camera to scan verification-code QR codes."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge usa la cámara para escanear códigos QR de códigos de verificación."
+            "value" : "NextPass usa la cámara para escanear códigos QR de códigos de verificación."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge utilise la caméra pour scanner les codes QR de codes de vérification."
+            "value" : "NextPass utilise la caméra pour scanner les codes QR de codes de vérification."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge は、確認コードの QR コードをスキャンするためにカメラを使用します。"
+            "value" : "NextPass は、確認コードの QR コードをスキャンするためにカメラを使用します。"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge 使用相机扫描验证码二维码。"
+            "value" : "NextPass 使用相机扫描验证码二维码。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge 使用相機掃描驗證碼 QR 碼。"
+            "value" : "NextPass 使用相機掃描驗證碼 QR 碼。"
           }
         }
       }
@@ -142,43 +142,43 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge verwendet Face ID, um Ihre Passwortdatenbank schnell zu entsperren."
+            "value" : "NextPass verwendet Face ID, um Ihre Passwortdatenbank schnell zu entsperren."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge uses Face ID to quickly unlock your password database."
+            "value" : "NextPass uses Face ID to quickly unlock your password database."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge usa Face ID para desbloquear rápidamente su base de datos de contraseñas."
+            "value" : "NextPass usa Face ID para desbloquear rápidamente su base de datos de contraseñas."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge utilise Face ID pour déverrouiller rapidement votre base de données de mots de passe."
+            "value" : "NextPass utilise Face ID pour déverrouiller rapidement votre base de données de mots de passe."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge は、パスワードデータベースをすばやくロック解除するために Face ID を使用します。"
+            "value" : "NextPass は、パスワードデータベースをすばやくロック解除するために Face ID を使用します。"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge 使用 Face ID 快速解锁你的密码数据库。"
+            "value" : "NextPass 使用 Face ID 快速解锁你的密码数据库。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge 使用 Face ID 快速解鎖你的密碼資料庫。"
+            "value" : "NextPass 使用 Face ID 快速解鎖你的密碼資料庫。"
           }
         }
       }
@@ -189,43 +189,43 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge verwendet Ihr lokales Netzwerk, um eine Verbindung zu den von Ihnen hinzugefügten WebDAV- und FTP-Servern herzustellen."
+            "value" : "NextPass verwendet Ihr lokales Netzwerk, um eine Verbindung zu den von Ihnen hinzugefügten WebDAV- und FTP-Servern herzustellen."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge uses your local network to connect to WebDAV and FTP servers you add."
+            "value" : "NextPass uses your local network to connect to WebDAV and FTP servers you add."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge usa su red local para conectarse a los servidores WebDAV y FTP que ha añadido."
+            "value" : "NextPass usa su red local para conectarse a los servidores WebDAV y FTP que ha añadido."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge utilise votre réseau local pour se connecter aux serveurs WebDAV et FTP que vous ajoutez."
+            "value" : "NextPass utilise votre réseau local pour se connecter aux serveurs WebDAV et FTP que vous ajoutez."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge は、追加された WebDAV サーバと FTP サーバに接続するためにローカルネットワークを使用します。"
+            "value" : "NextPass は、追加された WebDAV サーバと FTP サーバに接続するためにローカルネットワークを使用します。"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge 使用本地网络连接你添加的 WebDAV 和 FTP 服务器。"
+            "value" : "NextPass 使用本地网络连接你添加的 WebDAV 和 FTP 服务器。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KeeForge 使用區域網路連接你加入的 WebDAV 和 FTP 伺服器。"
+            "value" : "NextPass 使用區域網路連接你加入的 WebDAV 和 FTP 伺服器。"
           }
         }
       }
