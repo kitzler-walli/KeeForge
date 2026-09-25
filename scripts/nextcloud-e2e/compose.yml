@@ -1,0 +1,18 @@
+# Throwaway Nextcloud for the Login Flow v2 end-to-end UI test; see the
+# nextcloud-e2e entry in ../README.md. Bound to 127.0.0.1 only; admin credentials are
+# test-only and the container has no persistent volume.
+name: nextpass-e2e
+
+services:
+  nextcloud:
+    image: nextcloud:35-apache
+    ports:
+      - "127.0.0.1:8480:80"
+    environment:
+      SQLITE_DATABASE: nextcloud
+      NEXTCLOUD_ADMIN_USER: e2e-admin
+      NEXTCLOUD_ADMIN_PASSWORD: e2e-admin-password
+      NEXTCLOUD_TRUSTED_DOMAINS: localhost 127.0.0.1
+      OVERWRITEHOST: localhost:8480
+      OVERWRITEPROTOCOL: http
+      OVERWRITECLIURL: http://localhost:8480

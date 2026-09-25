@@ -46,6 +46,7 @@ macOS UI tests: see `../KeeForgeMacUITests/AGENTS.md`; the accessibility identif
 - `WebDAVAddFlowUITests` — add WebDAV, fill the connect form, and browse the mock cloud picker (driven by `UITestWebDAVCloudProvider` via `UI_TEST_WEBDAV_PAYLOAD_JSON`)
 - `WebDAVShowAllFilesUITests` — a database stored without the `.kdbx` extension stays hidden in the cloud browser until the Show All Files switch at the top of the list (`cloud.browser.show-all-files.toggle`) is on, then opens and unlocks
 - `WebDAVConnectErrorUITests` — WebDAV connect failure surfaces `webdav.connect.error` and keeps the form up
+- `NextcloudLoginFlowE2EUITests` — opt-in, real-server end to end: Nextcloud Login Flow v2 through the `ASWebAuthenticationSession` sheet (consent alert, login form or reused session, password re-confirmation, grant), then opens `/Vaults/nextpass-e2e.kdbx`, unlocks it, and saves a new `Watch E2E` entry tagged `Apple Watch` with a TOTP secret back to Nextcloud. Skipped unless `TEST_RUNNER_NEXTCLOUD_E2E_URL` is set; see `../scripts/nextcloud-e2e/`
 - `WebDAVSeededUnlockUITests` — unlock a seeded WebDAV cloud-backed database through the mock provider
 - `DatabaseCreationRegularWidthUITests` — new local database happy path on regular-width / iPad layout
 - `MasterKeyChangeUITests` — change-master-key happy path: create a local database, rotate its master password from Database Details (`database-details.change-master-key` → the `master-key.*` form, through the `master-key.confirm-change` confirmation dialog), lock, and unlock with the new password; the device-owner confirmation is a no-op under `-ui-testing`. Extends `DatabaseCreationUITestCase`
@@ -95,6 +96,7 @@ xcodebuild test -project KeeForge.xcodeproj -scheme KeeForge \
 - `EntryDuplicateUITests.swift` — `EntryDuplicateUITests`
 - `CloudSyncUITests.swift` — `CloudSyncBaseUITests` (base), `CloudBrowserSmokeUITests`, `CloudUnlockSmokeUITests`, `CloudAccountEdgeUITests`
 - `WebDAVSyncUITests.swift` — `WebDAVSyncBaseUITests` (base), `WebDAVAddFlowUITests`, `WebDAVShowAllFilesUITests`, `WebDAVConnectErrorUITests`, `WebDAVSeededUnlockUITests`
+- `NextcloudLoginFlowE2EUITests.swift` — `NextcloudLoginFlowE2EUITests` (real Nextcloud, opt-in)
 - `DatabaseCreationUITests.swift` — `DatabaseCreationUITestCase` (base), `DatabaseCreationCompactUITests`, `DatabaseCreationRegularWidthUITests`
 - `TOTPEnrollmentUITests.swift` — `TOTPEnrollmentUITestCase` (base), `TOTPEnrollmentUITests`, `TOTPEnrollmentDeepLinkUITests`
 - `SaveConflictMergeUITests.swift` — `SaveConflictMergeUITestCase` (base, extends `EntryEditUITestCase`), `SaveConflictMergeUITests`, `SaveConflictMergeDeclineUITests`
