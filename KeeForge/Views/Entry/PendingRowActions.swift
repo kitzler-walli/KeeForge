@@ -92,7 +92,7 @@ extension PendingDeletion {
         case .entry(let action):
             action.sendToRecycleBin
                 ? String(localized: "The entry will be moved to the recycle bin.")
-                : String(localized: "This entry will be removed immediately and cannot be restored from KeeForge.")
+                : String(localized: "This entry will be removed immediately and cannot be restored from NextPass.")
         case .group(let action):
             Self.groupDeletionMessage(for: action)
         }
@@ -135,7 +135,7 @@ extension PendingDeletion {
         if action.sendToRecycleBin {
             return String(localized: "\"\(action.groupName)\" contains \(contents). The group and its contents will be moved to the recycle bin.")
         }
-        return String(localized: "\"\(action.groupName)\" contains \(contents). The group and its contents will be removed immediately and cannot be restored from KeeForge.")
+        return String(localized: "\"\(action.groupName)\" contains \(contents). The group and its contents will be removed immediately and cannot be restored from NextPass.")
     }
 
     private static func entryCountText(_ count: Int) -> String {

@@ -557,7 +557,7 @@ enum DatabaseListStore {
         case databaseInTrash
 
         var errorDescription: String? {
-            String(localized: "The database file is in Recently Deleted in the Files app. Restore it in Files, or choose the current file with Locate Database File in KeeForge.")
+            String(localized: "The database file is in Recently Deleted in the Files app. Restore it in Files, or choose the current file with Locate Database File in NextPass.")
         }
     }
 

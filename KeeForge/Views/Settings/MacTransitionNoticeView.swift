@@ -31,13 +31,13 @@ struct MacTransitionNoticeView: View {
         Step(
             id: "cloud",
             title: "Dropbox and OneDrive",
-            detail: "This version of KeeForge for Mac doesn't connect to Dropbox or OneDrive. Open the iPad version once and let it finish syncing, then add the file from the folder Dropbox or OneDrive keeps on your Mac — it stays up to date that way.",
+            detail: "This version of NextPass for Mac doesn't connect to Dropbox or OneDrive. Open the iPad version once and let it finish syncing, then add the file from the folder Dropbox or OneDrive keeps on your Mac — it stays up to date that way.",
             systemImage: "folder"
         ),
         Step(
             id: "autofill",
             title: "Turn AutoFill back on",
-            detail: "Enable KeeForge in System Settings under General > AutoFill & Passwords to fill passwords in Safari and other apps.",
+            detail: "Enable NextPass in System Settings under General > AutoFill & Passwords to fill passwords in Safari and other apps.",
             systemImage: "text.cursor"
         ),
     ]
@@ -81,7 +81,7 @@ struct MacTransitionNoticeView: View {
                 .background(.tint.opacity(0.12), in: Circle())
                 .accessibilityHidden(true)
 
-            Text("Welcome to KeeForge for Mac")
+            Text("Welcome to NextPass for Mac")
                 .font(.largeTitle.bold())
                 .multilineTextAlignment(.center)
                 .accessibilityIdentifier("mac-transition-notice.title")

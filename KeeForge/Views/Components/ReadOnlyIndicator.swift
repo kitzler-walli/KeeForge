@@ -19,7 +19,7 @@ struct ReadOnlyIndicator: View {
 
     private var explanation: String {
         isFormatReadOnly
-            ? String(localized: "Legacy KDBX 3.1 databases can be opened, but KeeForge intentionally keeps them read-only.")
+            ? String(localized: "Legacy KDBX 3.1 databases can be opened, but NextPass intentionally keeps them read-only.")
             : String(localized: "You can still open this database, but create, edit, and delete actions stay blocked until you turn editing back on.")
     }
 
