@@ -23,6 +23,9 @@ struct KeeForgeApp: App {
 
     init() {
         AutoFillDiagnostics.migrateLegacyLogLocation()
+        #if os(iOS)
+        WatchSyncService.shared.activate()
+        #endif
     }
 
     var body: some Scene {

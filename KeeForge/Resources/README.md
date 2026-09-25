@@ -18,5 +18,5 @@ Static app resources live here.
 
 ## Catalog Mechanics
 
-- Four catalogs: `Localizable.xcstrings` + `InfoPlist.xcstrings` here, mirrored under `../../AutoFillExtension/`; the same four also serve the macOS targets.
+- Four catalogs: `Localizable.xcstrings` + `InfoPlist.xcstrings` here, mirrored under `../../AutoFillExtension/`; the same four also serve the macOS targets. The Apple Watch app has its own `../../KeeForgeWatch/Localizable.xcstrings`, gated by the same `LocalizationTests`.
 - When adding a new locale, also translate the root `README.md` and `CONTRIBUTING.md` (translations live in `../../docs/i18n/` as `README.<locale>.md` and `CONTRIBUTING.<locale>.md`, and link back to root paths with `../../`; folder-local READMEs and the rest of the developer docs stay English-only) and the separate `keeforge.com` website repo, which needs the same locale coverage.

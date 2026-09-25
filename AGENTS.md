@@ -17,13 +17,13 @@ Entry point for coding agents working on KeeForge. This file is intentionally br
 - Native iPhone, iPad, and Mac KeePass manager for KDBX 4.x databases; also reads KDBX 3.1 (read-only)
 - Swift 6, SwiftUI, iOS 18+ / macOS 15+, `@Observable`, strict concurrency
 - XcodeGen build graph: edit `project.yml`, then regenerate `KeeForge.xcodeproj`
-- Main targets: `KeeForge`, `KeeForgeMac`, `KeeForgeAutoFill`, `KeeForgeMacAutoFill`, `KeeForgeTests`, `KeeForgeMacTests`, `KeeForgeUITests`, `KeeForgeMacUITests`. The native macOS app shipped in v1.16.0; macOS work now follows the ordinary changelog flow under `## Unreleased`.
+- Main targets: `KeeForge`, `KeeForgeMac`, `KeeForgeAutoFill`, `KeeForgeMacAutoFill`, `KeeForgeWatch` (Apple Watch companion, embedded in the iOS app), `KeeForgeTests`, `KeeForgeMacTests`, `KeeForgeUITests`, `KeeForgeMacUITests`, `KeeForgeWatchUITests`. The native macOS app shipped in v1.16.0; macOS work now follows the ordinary changelog flow under `## Unreleased`.
 
 ## Open The Local Doc First
 
 Folders that own source files carry an `AGENTS.md`, with a `CLAUDE.md` symlink beside it
 so the doc loads on its own when you work in them — `KeeForge/{App,Models,ViewModels,Extensions}`,
-every `KeeForge/Services/*` and `KeeForge/Views/*` subfolder, `AutoFillExtension`,
+every `KeeForge/Services/*` and `KeeForge/Views/*` subfolder, `AutoFillExtension`, `KeeForgeWatch`,
 `KeeForgeTests` (and its `Support`), and `KeeForgeMacUITests`. Edit the `AGENTS.md`;
 never replace the symlink with a second copy. The docs below are read on demand:
 
@@ -55,7 +55,7 @@ Use `keeforge-github-issues` for every GitHub issue mutation.
 - Use `@Observable`, not `ObservableObject` / `@Published`.
 - Use `NavigationStack` + `NavigationPath`, not `NavigationView`.
 - Keep crypto, parsing, and secret handling off the main thread.
-- Treat these `KeeForge/Models/` files as stable core: `KDBXParser.swift`, `KDBX3Parser.swift`, `KDBXWriter.swift`, `KDBXXMLSerializer.swift`, `KDBXCrypto.swift`, `KDBXOuterCipher.swift`, `OpaqueXMLNodes.swift`, `DatabaseDraft.swift`, `EntryEdit.swift`, `Entry.swift`, `Group.swift`, `EncryptedValue.swift`, `TOTPGenerator.swift`. Change them only for real bugs or intentional format/security work, and add focused tests.
+- Treat these `KeeForge/Models/` files as stable core: `KDBXParser.swift`, `KDBX3Parser.swift`, `KDBXWriter.swift`, `KDBXXMLSerializer.swift`, `KDBXCrypto.swift`, `KDBXOuterCipher.swift`, `OpaqueXMLNodes.swift`, `DatabaseDraft.swift`, `EntryEdit.swift`, `Entry.swift`, `Group.swift`, `EncryptedValue.swift`, `TOTPGenerator.swift`, `TOTPCode.swift`. Change them only for real bugs or intentional format/security work, and add focused tests.
 - No force unwraps outside tests.
 - Keep comments minimal. A comment is only warranted when the code cannot explain itself — a non-obvious constraint, a format/platform quirk, or the reason behind a surprising choice. Don't restate what the code already says, don't narrate control flow, and don't leave changelog-style notes ("was X, now Y") or review/audit chatter in the source; that belongs in the commit message. Prefer one short line over a paragraph.
 

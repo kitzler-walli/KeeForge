@@ -1177,7 +1177,7 @@ final class DatabaseViewModel {
     func applyEntryEdit(_ edit: EntryEdit) throws {
         draft = try makeWorkingDraft().apply(edit)
         saveConflict = nil
-        refreshCredentialStoreForCurrentTreeIfNeeded()
+        republishCurrentTreeIfNeeded()
         resetInactivityTimer()
     }
 
@@ -1819,7 +1819,7 @@ final class DatabaseViewModel {
         draft = nil
         saveConflict = nil
         mergeFailure = nil
-        refreshCredentialStoreForCurrentTreeIfNeeded()
+        republishCurrentTreeIfNeeded()
     }
 
     func save() async throws {
@@ -1862,7 +1862,7 @@ final class DatabaseViewModel {
 
             // The awaits below outlast a lock: applying their result to a locked
             // session would resurrect `rootGroup`/`unlockedMeta` behind the lock
-            // screen. Same guard shape as `refreshCredentialStoreIfStillUnlocked`.
+            // screen. Same guard shape as `republishTreeIfStillUnlocked`.
             let expectedLockCycleID = lockCycleID
 
             let saveResult: SaveResult
@@ -1901,7 +1901,7 @@ final class DatabaseViewModel {
                 saveConflict = nil
                 saveError = nil
                 refreshDatabaseReference()
-                populateCredentialStoreIfNeeded(root: snapshot.rootGroup)
+                publishUnlockedTree(root: snapshot.rootGroup)
 
                 guard let grown = self.draft, grown.pendingEdits != snapshot.pendingEdits else {
                     self.draft = nil
@@ -2200,7 +2200,7 @@ final class DatabaseViewModel {
             saveError = nil
             draft = draftReplayingEditsArriving(after: localDraft, onto: mergedDraft)
             refreshDatabaseReference()
-            populateCredentialStoreIfNeeded(root: mergedDraft.rootGroup)
+            publishUnlockedTree(root: mergedDraft.rootGroup)
             mergeSummaryMessage = Self.mergeSummaryMessage(for: merged.summary)
         case .conflict(let remoteSHA512, let remoteData):
             // Strictly different bytes from the conflict just merged — the gate
@@ -2568,7 +2568,7 @@ final class DatabaseViewModel {
                         sessionKey: SymmetricKey(size: .bits256),
                         kdfPolicy: .mainApp
                     )
-                    await self.refreshCredentialStoreIfStillUnlocked(
+                    await self.republishTreeIfStillUnlocked(
                         with: refreshedRoot,
                         expectedLockCycleID: expectedLockCycleID
                     )
@@ -2944,7 +2944,7 @@ final class DatabaseViewModel {
         persistCompositeKeyForBiometricUnlock(compositeKey)
         DatabaseListStore.markDatabaseOpened(id: databaseReference.id)
         refreshDatabaseReference()
-        populateCredentialStoreIfNeeded(root: payload.rootGroup)
+        publishUnlockedTree(root: payload.rootGroup)
         ReviewPromptService.requestReviewIfAppropriate()
     }
 
@@ -3183,16 +3183,32 @@ final class DatabaseViewModel {
         try DatabaseListStore.cacheDatabaseCopy(data, for: databaseReference)
     }
 
-    private func refreshCredentialStoreIfStillUnlocked(with root: KPGroup, expectedLockCycleID: Int) {
+    private func republishTreeIfStillUnlocked(with root: KPGroup, expectedLockCycleID: Int) {
         guard expectedLockCycleID == lockCycleID else { return }
         guard case .unlocked = state else { return }
-        populateCredentialStoreIfNeeded(root: root)
+        publishUnlockedTree(root: root)
     }
 
-    private func refreshCredentialStoreForCurrentTreeIfNeeded() {
+    private func republishCurrentTreeIfNeeded() {
         guard case .unlocked = state else { return }
         guard let currentRootGroup else { return }
-        populateCredentialStoreIfNeeded(root: currentRootGroup)
+        publishUnlockedTree(root: currentRootGroup)
+    }
+
+    /// Refreshes everything kept outside the app from the unlocked tree: the
+    /// AutoFill credential store and the Apple Watch snapshot.
+    private func publishUnlockedTree(root: KPGroup) {
+        populateCredentialStoreIfNeeded(root: root)
+        #if os(iOS)
+        if let sessionKey {
+            WatchSyncService.shared.publish(
+                root: root,
+                databaseID: databaseReference.id,
+                databaseName: databaseReference.displayName,
+                sessionKey: sessionKey
+            )
+        }
+        #endif
     }
 
     func conflictCopyFilename(for filename: String) -> String {

@@ -17,6 +17,8 @@ Local developer tooling. Folder rule: hand-run scripts live here; anything CI or
     -only-testing:KeeForgeUITests/NextcloudLoginFlowE2EUITests
   scripts/nextcloud-e2e/verify.sh
   ```
+
+  The same run also exercises the Apple Watch sync (see `KeeForgeWatch/AGENTS.md`): with a paired Watch that has the app installed, the saved `Watch E2E` entry is sent to it, and `KeeForgeWatchUITests/WatchOfflineTOTPUITests` (`TEST_RUNNER_WATCH_E2E_EXPECT_SYNC=1`, scheme `KeeForgeWatch`) then checks it with the iPhone switched off. Paired simulators drop `transferUserInfo`, so the sync step itself needs real devices.
 - `test_with_repo_lock.sh` — offline regression fixture for the lock wrapper. It covers normal wrapping, `acquire`/`release`, a held lock, a disappearing `EEXIST` race, and an unusable lock directory.
 
 ## Guidance

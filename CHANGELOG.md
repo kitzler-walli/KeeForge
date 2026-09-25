@@ -4,6 +4,7 @@
 
 ### New Features
 
+- Apple Watch app: tag entries "Apple Watch" and NextPass copies them — title, username, password, website, notes, and verification code — to your Apple Watch when you open the database on your iPhone. Verification codes are generated on the Watch itself, so they keep working when your iPhone is off, lost, or out of range. Synced entries are stored only on that Watch, are readable only while it is unlocked, and require a Watch passcode.
 - KeeForge now speaks Japanese: a full Japanese (日本語) localization across the app and the AutoFill extension, plus translated README and contributor docs.
 - Open, save, and create databases directly on an FTP server (#115). Add Database → FTP asks for the server address, username, and password. FTP is unencrypted, so connecting requires turning on "Allow Unencrypted FTP"; use it only on a network you trust. Encrypted FTPS and SFTP are not supported yet.
 

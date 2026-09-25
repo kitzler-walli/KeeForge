@@ -102,6 +102,9 @@ final class DatabaseListViewModel {
 
     func removeDatabase(_ reference: DatabaseReference) {
         DatabaseListStore.remove(id: reference.id)
+        #if os(iOS)
+        WatchSyncService.shared.remove(databaseID: reference.id)
+        #endif
         reload()
     }
 

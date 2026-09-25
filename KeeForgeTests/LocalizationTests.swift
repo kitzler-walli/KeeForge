@@ -1,7 +1,7 @@
 import XCTest
 @testable import KeeForge
 
-/// Gates the four `.xcstrings` catalogs against silently shipping untranslated
+/// Gates the five `.xcstrings` catalogs against silently shipping untranslated
 /// or drifted strings in any shipped translation locale. Reads the raw JSON
 /// catalog sources — not the compiled catalogs the app bundles — so a new
 /// English key with no translation fails here before it ever reaches a build.
@@ -74,6 +74,7 @@ final class LocalizationTests: XCTestCase {
         CatalogSource(name: "KeeForge/Resources/InfoPlist.xcstrings", bundleResource: "KeeForge_InfoPlist"),
         CatalogSource(name: "AutoFillExtension/Localizable.xcstrings", bundleResource: "AutoFillExtension_Localizable"),
         CatalogSource(name: "AutoFillExtension/InfoPlist.xcstrings", bundleResource: "AutoFillExtension_InfoPlist"),
+        CatalogSource(name: "KeeForgeWatch/Localizable.xcstrings", bundleResource: "KeeForgeWatch_Localizable"),
     ]
 
     private func loadCatalogs() throws -> [Catalog] {

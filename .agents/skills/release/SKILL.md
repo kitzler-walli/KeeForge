@@ -202,8 +202,8 @@ Everything decided **once** for this release lands on `main` before the cut; onl
 group — they describe work already merged to `main`, and the changelog heading already commits to
 the version number, so holding the matching `MARKETING_VERSION` back buys nothing.
 
-Set `MARKETING_VERSION` to the new version string (e.g. `"1.11.0"`) on **all four** product
-targets in `project.yml` — `KeeForge`, `KeeForgeAutoFill`, `KeeForgeMac`, and `KeeForgeMacAutoFill`.
+Set `MARKETING_VERSION` to the new version string (e.g. `"1.11.0"`) on **all five** product
+targets in `project.yml` — `KeeForge`, `KeeForgeAutoFill`, `KeeForgeWatch`, `KeeForgeMac`, and `KeeForgeMacAutoFill`.
 The Mac targets ship in lockstep with iOS (same marketing version and repo build). Leave
 `CURRENT_PROJECT_VERSION` alone here; A5 advances it globally for the first candidate.
 
@@ -254,14 +254,14 @@ ci_scripts/next_repo_build.sh --no-fetch
 ```
 
 Stop if the current `project.yml` does not contain exactly one numeric
-`CURRENT_PROJECT_VERSION` for each of `KeeForge`, `KeeForgeAutoFill`, `KeeForgeMac`, and
-`KeeForgeMacAutoFill`, or if those four current values differ. Historical revisions are not required
+`CURRENT_PROJECT_VERSION` for each of `KeeForge`, `KeeForgeAutoFill`, `KeeForgeWatch`, `KeeForgeMac`, and
+`KeeForgeMacAutoFill`, or if those five current values differ. Historical revisions are not required
 to satisfy this new invariant: absent Mac targets, unequal values, and old resets are tolerated, but
 only numeric values from an existing target contribute to the legacy floor. Stop if a present
 new-process manifest is malformed/missing `repoBuild`, or if its `repoBuild` disagrees with its
 filename/RC tag. The greatest validated value across reachable project history and manifests is the
-previous global maximum; set `repoBuild` to exactly that value plus one on all four current targets.
-Re-check that all four current values are identical before committing and record the result in the
+previous global maximum; set `repoBuild` to exactly that value plus one on all five current targets.
+Re-check that all five current values are identical before committing and record the result in the
 new manifest. A missing project history or no usable numeric historical value is not evidence that
 the floor is zero; stop and resolve the scope instead. A manifest from a different release may
 legitimately have a lower build; only malformed or internally inconsistent evidence is a disagreement.
@@ -555,8 +555,8 @@ Never amend or force-push an existing release commit; the fix is always a new co
 
 ## B2. Bump the build number
 
-In `project.yml`, increment the globally monotonic `CURRENT_PROJECT_VERSION` by 1 on **all four**
-targets: `KeeForge`, `KeeForgeAutoFill`, `KeeForgeMac`, and `KeeForgeMacAutoFill`. Never reset it;
+In `project.yml`, increment the globally monotonic `CURRENT_PROJECT_VERSION` by 1 on **all five**
+targets: `KeeForge`, `KeeForgeAutoFill`, `KeeForgeWatch`, `KeeForgeMac`, and `KeeForgeMacAutoFill`. Never reset it;
 `MARKETING_VERSION` does not change. Update `repoBuild` in the new manifest and rebuild iOS, MAS,
 and direct artifacts from the new RC commit.
 
@@ -696,9 +696,9 @@ then realign with `git fetch origin --tags --force`.
 A4 put the changelog section, the What's New content, and `MARKETING_VERSION` on `main` before the
 cut, and the B5 merges carried each candidate's repo build across. Verify rather than redo:
 
-- `main`'s `MARKETING_VERSION` is `{version}` on all four targets: `KeeForge`, `KeeForgeAutoFill`,
-  `KeeForgeMac`, and `KeeForgeMacAutoFill`.
-- `main`'s `CURRENT_PROJECT_VERSION` is the accepted `repoBuild` on all four targets, and the
+- `main`'s `MARKETING_VERSION` is `{version}` on all five targets: `KeeForge`, `KeeForgeAutoFill`,
+  `KeeForgeWatch`, `KeeForgeMac`, and `KeeForgeMacAutoFill`.
+- `main`'s `CURRENT_PROJECT_VERSION` is the accepted `repoBuild` on all five targets, and the
   direct artifact's `CFBundleVersion` is also that `repoBuild`. Do not compare either value with
   the platform-specific TestFlight build numbers.
 - `main`'s `CHANGELOG.md` has the `## v{version}` section, with an empty `## Unreleased` above it
@@ -761,7 +761,7 @@ Verify the branch tip is at or after the `v{major}.{minor}.0` tag.
 
 1. Land the fix (Mode B1) and port it to `main` (Mode B5).
 2. In `project.yml`, set `MARKETING_VERSION` to the patch version and increment the global
-   `CURRENT_PROJECT_VERSION` on all four targets. Never reset it to `"1"`.
+   `CURRENT_PROJECT_VERSION` on all five targets. Never reset it to `"1"`.
 3. Add a `## v{version} ({date})` section to `CHANGELOG.md` above the previous version's section.
 4. Run A3 only if the patch has a user-visible highlight worth a What's New sheet. Most patches do
    not; confirm `WhatsNewCatalog` has no case rather than shipping an empty sheet.
@@ -791,7 +791,7 @@ Continue with Mode C from C1, reporting against the 24h target in place of 48h.
 
 # Notes
 
-- The macOS targets ship in lockstep with iOS: all four product targets carry the same
+- The macOS and watchOS targets ship in lockstep with iOS: all five product targets carry the same
   `MARKETING_VERSION` and globally monotonic `CURRENT_PROJECT_VERSION`, bumped together in A4/A5
   and every respin/patch.
 - **One release branch covers both platforms.** `release/{major}.{minor}` is not per-platform, and

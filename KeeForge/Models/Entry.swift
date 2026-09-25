@@ -292,9 +292,3 @@ struct KeeOTPSource: Codable, Equatable, Sendable {
         return KeeOTPSource(fieldName: fieldName, rawQuery: components.joined(separator: "&"))
     }
 }
-
-enum TOTPAlgorithm: String, Codable, Sendable {
-    case sha1 = "SHA1"
-    case sha256 = "SHA256"
-    case sha512 = "SHA512"
-}

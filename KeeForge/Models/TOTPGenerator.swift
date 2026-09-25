@@ -28,48 +28,18 @@ enum TOTPGenerator {
 
     static func generateCode(config: TOTPConfig, resolvedSecret: ResolvedSecret?, date: Date = Date()) -> String {
         guard let resolvedSecret else { return "------" }
-
-        // Parsers sanitize file-supplied values, but configs can also arrive
-        // from edit drafts: clamp so a rogue period can never divide by zero
-        // (or trap converting a negative to UInt64) and a rogue digit count
-        // can never overflow the 10^digits modulus below.
-        let period = UInt64(max(1, config.period))
-        let digits = min(max(config.digits, 1), 9)
-
-        let timeInterval = UInt64(date.timeIntervalSince1970)
-        let counter = timeInterval / period
-
-        var bigEndianCounter = counter.bigEndian
-        let counterData = Data(bytes: &bigEndianCounter, count: 8)
-
-        let hmac: Data
-        switch config.algorithm {
-        case .sha1:
-            var h = HMAC<Insecure.SHA1>.init(key: resolvedSecret.key)
-            h.update(data: counterData)
-            hmac = Data(h.finalize())
-        case .sha256:
-            hmac = Data(HMAC<SHA256>.authenticationCode(for: counterData, using: resolvedSecret.key))
-        case .sha512:
-            hmac = Data(HMAC<SHA512>.authenticationCode(for: counterData, using: resolvedSecret.key))
-        }
-
-        let offset = Int(hmac[hmac.count - 1] & 0x0F)
-        let truncated = hmac.withUnsafeBytes { ptr -> UInt32 in
-            let slice = ptr.baseAddress!.advanced(by: offset)
-            return slice.loadUnaligned(as: UInt32.self).bigEndian & 0x7FFF_FFFF
-        }
-
-        let modulus = UInt32(pow(10.0, Double(digits)))
-        let code = truncated % modulus
-        return String(format: "%0\(digits)d", code)
+        return TOTPCode.generate(
+            key: resolvedSecret.key,
+            algorithm: config.algorithm,
+            digits: config.digits,
+            period: config.period,
+            date: date
+        )
     }
 
     /// Seconds remaining in current TOTP period
     static func secondsRemaining(period: Int, date: Date = Date()) -> Int {
-        let period = max(1, period)
-        let elapsed = Int(date.timeIntervalSince1970) % period
-        return period - elapsed
+        TOTPCode.secondsRemaining(period: period, date: date)
     }
 
     // MARK: - Base32 Decoding
