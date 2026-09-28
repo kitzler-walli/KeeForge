@@ -34,28 +34,6 @@ class CloudSyncBaseUITests: KeeForgeUITestCase {
         app.launchEnvironment[Self.cloudDatabasesEnv] = String(decoding: cloudDatabasesData, as: UTF8.self)
     }
 
-    func addDropboxFromEmptyState(
-        file: StaticString = #filePath,
-        line: UInt = #line
-    ) {
-        let addButton = app.buttons["database.empty.add"]
-        XCTAssertTrue(addButton.waitForExistence(timeout: 10), file: file, line: line)
-        addButton.tap()
-
-        let dropboxButton = menuButton(identifier: "database.add.dropbox", label: "Dropbox")
-        XCTAssertTrue(dropboxButton.waitForExistence(timeout: 10), file: file, line: line)
-        dropboxButton.tap()
-    }
-
-    func connectMockDropbox(
-        file: StaticString = #filePath,
-        line: UInt = #line
-    ) {
-        let connectButton = app.buttons["cloud.browser.connect.button"].firstMatch
-        XCTAssertTrue(connectButton.waitForExistence(timeout: 10), file: file, line: line)
-        connectButton.tap()
-    }
-
     private func makeMockDropboxPayload() throws -> MockDropboxPayload {
         let databaseData = try fixtureData(resourceName: "test", resourceExtension: "kdbx")
         let fileID = "/Vaults/personal.kdbx"
@@ -89,19 +67,6 @@ class CloudSyncBaseUITests: KeeForgeUITestCase {
             metadataError: nil,
             downloadError: nil
         )
-    }
-}
-
-@MainActor
-final class CloudBrowserSmokeUITests: CloudSyncBaseUITests {
-    func testAddDropboxShowsMockCloudFileInBrowser() {
-        addDropboxFromEmptyState()
-        connectMockDropbox()
-
-        let fileRow = app.buttons.matching(
-            NSPredicate(format: "identifier == 'cloud.browser.file.row' AND label CONTAINS[c] %@", "personal.kdbx")
-        ).firstMatch
-        XCTAssertTrue(fileRow.waitForExistence(timeout: 10))
     }
 }
 

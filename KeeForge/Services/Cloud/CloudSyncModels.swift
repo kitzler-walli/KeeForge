@@ -45,29 +45,19 @@ enum CloudProviderKind: String, Codable, CaseIterable, Hashable, Identifiable, S
         }
     }
 
-    /// Whether this provider should be offered in the app's UI on the current
-    /// platform. This is the single choke point that gates which cloud
-    /// providers appear in the Add/Import Database menus and the New Database
-    /// destination picker. It does not touch `provider(for:)` resolution, so
-    /// already-connected databases continue to open and sync.
+    /// Whether this provider should be offered in the app's UI. This is the
+    /// single choke point for the Add/Import Database menus and the New Database
+    /// destination picker; `provider(for:)` resolution is unaffected.
     ///
-    /// macOS ships without Dropbox and OneDrive. Their macOS OAuth paths
-    /// (slice 03) are implemented and unit-tested but have never been
-    /// validated end-to-end on a Mac, so they stay out of the macOS UI rather
-    /// than shipping unproven; re-enabling them is a decision for a later
-    /// release, not an oversight. iOS is unaffected — all providers
-    /// remain visible there.
+    /// NextPass is Nextcloud/WebDAV-first and ships without Dropbox and OneDrive
+    /// app registrations, so both stay hidden on every platform.
     var isAvailableOnCurrentPlatform: Bool {
-        #if os(macOS)
         switch self {
         case .webDAV, .ftp:
-            return true
+            true
         case .dropbox, .oneDrive:
-            return false
+            false
         }
-        #else
-        return true
-        #endif
     }
 }
 

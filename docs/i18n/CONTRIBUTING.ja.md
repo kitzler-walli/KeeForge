@@ -22,7 +22,6 @@ KeeForge の改善にご協力いただきありがとうございます。
 
 ```bash
 cp BuildConfig.local.example.xcconfig BuildConfig.local.xcconfig
-# クラウドプロバイダを有効にしたビルドでは DROPBOX_APP_KEY と ONEDRIVE_CLIENT_ID を設定します。
 xcodegen generate
 open KeeForge.xcodeproj
 ```

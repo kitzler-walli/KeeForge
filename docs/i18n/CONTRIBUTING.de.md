@@ -22,7 +22,6 @@ Danke, dass du KeeForge besser machst.
 
 ```bash
 cp BuildConfig.local.example.xcconfig BuildConfig.local.xcconfig
-# Für Builds mit Cloud-Anbietern DROPBOX_APP_KEY und ONEDRIVE_CLIENT_ID eintragen.
 xcodegen generate
 open KeeForge.xcodeproj
 ```

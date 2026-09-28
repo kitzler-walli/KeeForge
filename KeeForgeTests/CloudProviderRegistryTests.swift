@@ -4,28 +4,14 @@ import XCTest
 @MainActor
 final class CloudProviderRegistryTests: XCTestCase {
     func testAvailableProvidersContainsCloudProviders() {
-        #if os(macOS)
-        // macOS ships without Dropbox and OneDrive: their OAuth paths are
-        // implemented but have never been validated end-to-end on a Mac, so
-        // they stay out of the UI. Unhiding them is a later release's call.
         XCTAssertEqual(CloudProviderRegistry.availableProviders, [.webDAV, .ftp])
-        #else
-        XCTAssertEqual(CloudProviderRegistry.availableProviders, [.dropbox, .oneDrive, .webDAV, .ftp])
-        #endif
     }
 
     func testCloudProviderPlatformAvailability() {
-        #if os(macOS)
         XCTAssertFalse(CloudProviderKind.dropbox.isAvailableOnCurrentPlatform)
         XCTAssertFalse(CloudProviderKind.oneDrive.isAvailableOnCurrentPlatform)
         XCTAssertTrue(CloudProviderKind.webDAV.isAvailableOnCurrentPlatform)
         XCTAssertTrue(CloudProviderKind.ftp.isAvailableOnCurrentPlatform)
-        #else
-        XCTAssertTrue(CloudProviderKind.dropbox.isAvailableOnCurrentPlatform)
-        XCTAssertTrue(CloudProviderKind.oneDrive.isAvailableOnCurrentPlatform)
-        XCTAssertTrue(CloudProviderKind.webDAV.isAvailableOnCurrentPlatform)
-        XCTAssertTrue(CloudProviderKind.ftp.isAvailableOnCurrentPlatform)
-        #endif
     }
 
     func testProviderResolutionStaysUnfilteredForHiddenProviders() {
@@ -81,17 +67,4 @@ final class CloudProviderRegistryTests: XCTestCase {
 
         XCTAssertFalse(CloudProviderRegistry.handleOpenURL(url))
     }
-
-    // #if os(iOS): `LSApplicationQueriesSchemes` is the iOS-only `canOpenURL`
-    // allowlist required by the MSAL broker (Microsoft Authenticator). It is
-    // meaningless on macOS, where the Mac Info.plist intentionally omits it;
-    // the macOS MSAL auth flow lands in slice 03 of the macOS port.
-    #if os(iOS)
-    func testAppInfoPlistIncludesMSALBrokerQuerySchemes() throws {
-        let schemes = try XCTUnwrap(Bundle.main.object(forInfoDictionaryKey: "LSApplicationQueriesSchemes") as? [String])
-
-        XCTAssertTrue(schemes.contains("msauthv2"))
-        XCTAssertTrue(schemes.contains("msauthv3"))
-    }
-    #endif
 }

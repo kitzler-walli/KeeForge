@@ -22,7 +22,6 @@
 
 ```bash
 cp BuildConfig.local.example.xcconfig BuildConfig.local.xcconfig
-# 如需启用云服务商功能，请填入 DROPBOX_APP_KEY 和 ONEDRIVE_CLIENT_ID。
 xcodegen generate
 open KeeForge.xcodeproj
 ```

@@ -8,6 +8,10 @@
 - KeeForge now speaks Japanese: a full Japanese (日本語) localization across the app and the AutoFill extension, plus translated README and contributor docs.
 - Open, save, and create databases directly on an FTP server (#115). Add Database → FTP asks for the server address, username, and password. FTP is unencrypted, so connecting requires turning on "Allow Unencrypted FTP"; use it only on a network you trust. Encrypted FTPS and SFTP are not supported yet.
 
+### Changes
+
+- Dropbox and OneDrive are no longer offered when adding or creating a database. NextPass syncs through Nextcloud, WebDAV, and FTP.
+
 ### Fixes
 
 - Some text stayed English in every language: the group delete confirmation joined its entry and group counts with an English "and", and the cloud sync status read "Healthy", "Disconnected", or "Sync older than 24h" in Database Details and the database list. All of it is translated now.
