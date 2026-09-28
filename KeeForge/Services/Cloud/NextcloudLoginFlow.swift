@@ -67,8 +67,27 @@ struct NextcloudLoginFlow: Sendable {
               decoded.poll.token.isEmpty == false else {
             throw Self.malformedResponseError()
         }
+        // The poll token is a bearer secret for the app password, and the app
+        // allows arbitrary loads, so nothing else stops a proxy-misconfigured
+        // server from steering it onto plain HTTP or another host.
+        guard Self.staysOnServer(loginURL, serverURL: serverURL),
+              Self.staysOnServer(pollEndpoint, serverURL: serverURL) else {
+            throw CloudProviderError.unknown(String(localized: "The server offered an insecure or unexpected sign-in address. Check that the server is set up for https:// under the address you entered."))
+        }
 
         return InitiateResult(loginURL: loginURL, pollToken: decoded.poll.token, pollEndpoint: pollEndpoint)
+    }
+
+    /// `url` must use the server's own scheme and host; an `https` server
+    /// never hands off to `http`.
+    private static func staysOnServer(_ url: URL, serverURL: URL) -> Bool {
+        guard let scheme = url.scheme?.lowercased(),
+              let host = url.host?.lowercased(),
+              scheme == serverURL.scheme?.lowercased(),
+              scheme == "https" || scheme == "http" else {
+            return false
+        }
+        return host == serverURL.host?.lowercased()
     }
 
     // MARK: - Poll

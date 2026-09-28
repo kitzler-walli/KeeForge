@@ -29822,6 +29822,46 @@
         }
       }
     },
+    "The server offered an insecure or unexpected sign-in address. Check that the server is set up for https:// under the address you entered." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Server hat eine unsichere oder unerwartete Anmeldeadresse angegeben. Prüfen Sie, ob der Server unter der eingegebenen Adresse für https:// eingerichtet ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El servidor ofreció una dirección de inicio de sesión no segura o inesperada. Compruebe que el servidor esté configurado para https:// en la dirección que introdujo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le serveur a proposé une adresse de connexion non sécurisée ou inattendue. Vérifiez que le serveur est configuré pour https:// à l'adresse que vous avez saisie."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "サーバが安全でない、または予期しないサインインアドレスを提示しました。入力したアドレスでサーバが https:// に対応するよう設定されているか確認してください。"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "服务器提供了不安全或意外的登录地址。请检查服务器是否已在您输入的地址上配置为使用 https://。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "伺服器提供了不安全或非預期的登入位址。請檢查伺服器是否已在您輸入的位址上設定為使用 https://。"
+          }
+        }
+      }
+    },
     "The server rejected this request (HTTP %lld)." : {
       "localizations" : {
         "de" : {

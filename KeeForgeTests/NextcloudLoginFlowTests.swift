@@ -72,6 +72,51 @@ final class NextcloudLoginFlowTests: XCTestCase {
         }
     }
 
+    func testInitiateRejectsHTTPPollEndpointFromHTTPSServer() async throws {
+        let json = """
+        { "poll": { "token": "t", "endpoint": "http://cloud.example.com/index.php/login/v2/poll" }, "login": "https://cloud.example.com/index.php/login/v2/flow/t" }
+        """
+        try await assertInitiateRejectsUnsafeAddress(json)
+    }
+
+    func testInitiateRejectsHTTPLoginURLFromHTTPSServer() async throws {
+        let json = """
+        { "poll": { "token": "t", "endpoint": "https://cloud.example.com/index.php/login/v2/poll" }, "login": "http://cloud.example.com/index.php/login/v2/flow/t" }
+        """
+        try await assertInitiateRejectsUnsafeAddress(json)
+    }
+
+    func testInitiateRejectsPollEndpointOnAnotherHost() async throws {
+        let json = """
+        { "poll": { "token": "t", "endpoint": "https://attacker.example.net/index.php/login/v2/poll" }, "login": "https://cloud.example.com/index.php/login/v2/flow/t" }
+        """
+        try await assertInitiateRejectsUnsafeAddress(json)
+    }
+
+    func testInitiateAcceptsHTTPAddressesFromOptedInHTTPServer() async throws {
+        let json = """
+        { "poll": { "token": "t", "endpoint": "http://localhost:8480/index.php/login/v2/poll" }, "login": "http://localhost:8480/index.php/login/v2/flow/t" }
+        """
+        let stub = StubTransport(responses: [.init(statusCode: 200, body: Data(json.utf8))])
+        let flow = NextcloudLoginFlow(transport: stub.transport)
+
+        let result = try await flow.initiate(serverURL: URL(string: "http://localhost:8480/")!)
+
+        XCTAssertEqual(result.pollEndpoint, URL(string: "http://localhost:8480/index.php/login/v2/poll"))
+    }
+
+    private func assertInitiateRejectsUnsafeAddress(_ json: String) async throws {
+        let stub = StubTransport(responses: [.init(statusCode: 200, body: Data(json.utf8))])
+        let flow = NextcloudLoginFlow(transport: stub.transport)
+
+        do {
+            _ = try await flow.initiate(serverURL: serverURL)
+            XCTFail("Expected an error")
+        } catch let error as CloudProviderError {
+            XCTAssertEqual(error, .unknown(String(localized: "The server offered an insecure or unexpected sign-in address. Check that the server is set up for https:// under the address you entered.")))
+        }
+    }
+
     func testInitiateMapsServerErrorStatusCode() async throws {
         let stub = StubTransport(responses: [.init(statusCode: 503, body: Data())])
         let flow = NextcloudLoginFlow(transport: stub.transport)
