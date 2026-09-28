@@ -103,7 +103,7 @@ targets:
         PRODUCT_NAME: NextPass
         PRODUCT_MODULE_NAME: KeeForge
         MARKETING_VERSION: "1.16.0"
-        CURRENT_PROJECT_VERSION: "51"
+        CURRENT_PROJECT_VERSION: "52"
         CLOUD_KEYCHAIN_ACCESS_GROUP: $(AppIdentifierPrefix)at.kw.nextpass.sharedkeychain
         GENERATE_INFOPLIST_FILE: false
         SWIFT_EMIT_LOC_STRINGS: "YES"
@@ -167,7 +167,7 @@ targets:
         PRODUCT_NAME: NextPass
         PRODUCT_MODULE_NAME: KeeForge
         MARKETING_VERSION: "1.16.0"
-        CURRENT_PROJECT_VERSION: "51"
+        CURRENT_PROJECT_VERSION: "52"
         CLOUD_KEYCHAIN_ACCESS_GROUP: $(AppIdentifierPrefix)at.kw.nextpass.sharedkeychain
         GENERATE_INFOPLIST_FILE: false
         # Sparkle authenticates the direct-download channel only. Both values
@@ -242,7 +242,7 @@ targets:
         CODE_SIGN_STYLE: Automatic
         CODE_SIGN_ENTITLEMENTS: AutoFillExtension/AutoFillExtension.entitlements
         MARKETING_VERSION: "1.16.0"
-        CURRENT_PROJECT_VERSION: "51"
+        CURRENT_PROJECT_VERSION: "52"
         GENERATE_INFOPLIST_FILE: false
         SWIFT_EMIT_LOC_STRINGS: "YES"
         LOCALIZATION_PREFERS_STRING_CATALOGS: "YES"
@@ -308,7 +308,7 @@ targets:
         CODE_SIGN_STYLE: Automatic
         CODE_SIGN_ENTITLEMENTS: AutoFillExtension/AutoFillExtensionMac.entitlements
         MARKETING_VERSION: "1.16.0"
-        CURRENT_PROJECT_VERSION: "51"
+        CURRENT_PROJECT_VERSION: "52"
         GENERATE_INFOPLIST_FILE: false
         SWIFT_EMIT_LOC_STRINGS: "YES"
         LOCALIZATION_PREFERS_STRING_CATALOGS: "YES"
@@ -375,7 +375,7 @@ targets:
         PRODUCT_NAME: NextPass
         PRODUCT_MODULE_NAME: KeeForgeWatch
         MARKETING_VERSION: "1.16.0"
-        CURRENT_PROJECT_VERSION: "51"
+        CURRENT_PROJECT_VERSION: "52"
         GENERATE_INFOPLIST_FILE: true
         INFOPLIST_KEY_CFBundleDisplayName: NextPass
         INFOPLIST_KEY_WKCompanionAppBundleIdentifier: at.kw.nextpass
