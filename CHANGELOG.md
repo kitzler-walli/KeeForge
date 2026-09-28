@@ -11,6 +11,7 @@
 ### Changes
 
 - Dropbox and OneDrive are no longer offered when adding or creating a database. NextPass syncs through Nextcloud, WebDAV, and FTP.
+- Mac: the frosted-glass cover NextPass puts over its windows while another app is in front can now be turned off with "Blur Windows When Inactive" in Settings → Security. It stays on by default.
 - Tap the username or password in an entry to copy it. The password stays hidden until you tap the eye button; tapping anywhere on its row used to reveal it.
 
 ### Fixes

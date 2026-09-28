@@ -16,6 +16,7 @@ enum SettingsService {
         static let hasTipped = "KeeForge.hasTipped"
         static let macLockPolicy = "KeeForge.macLockPolicy"
         static let blockScreenCapture = "KeeForge.blockScreenCapture"
+        static let blurWhenInactive = "KeeForge.blurWhenInactive"
         static let passwordGeneratorOptions = "KeeForge.passwordGeneratorOptions"
     }
 
@@ -292,6 +293,22 @@ enum SettingsService {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Key.blockScreenCapture)
+        }
+    }
+
+    // MARK: - Blur When Inactive (macOS)
+    //
+    // Same storage rationale as `blockScreenCapture`.
+
+    static var blurWhenInactive: Bool {
+        get {
+            if UserDefaults.standard.object(forKey: Key.blurWhenInactive) == nil {
+                return true
+            }
+            return UserDefaults.standard.bool(forKey: Key.blurWhenInactive)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Key.blurWhenInactive)
         }
     }
 }

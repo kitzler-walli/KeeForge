@@ -24,6 +24,7 @@ struct SettingsView: View {
     @State private var feedbackContext: FeedbackComposerContext?
     @State private var macLockPolicy = SettingsService.macLockPolicy
     @State private var blockScreenCapture = SettingsService.blockScreenCapture
+    @State private var blurWhenInactive = SettingsService.blurWhenInactive
     #if os(macOS)
     @State private var selectedMacTab: MacSettingsTab = .security
     #endif
@@ -58,7 +59,8 @@ struct SettingsView: View {
                 macLockPolicy: $macLockPolicy,
                 clipboardTimeout: $clipboardTimeout,
                 autoUnlockWithBiometrics: $autoUnlockWithFaceID,
-                blockScreenCapture: $blockScreenCapture
+                blockScreenCapture: $blockScreenCapture,
+                blurWhenInactive: $blurWhenInactive
             )
             .frame(width: MacSettingsPane.width, height: MacSettingsPane.height)
             .tabItem {
@@ -167,6 +169,9 @@ struct SettingsView: View {
                     object: nil
                 )
                 #endif
+            }
+            .onChange(of: blurWhenInactive) { _, newValue in
+                SettingsService.blurWhenInactive = newValue
             }
             .onChange(of: clipboardTimeout) { _, newValue in
                 SettingsService.clipboardTimeout = newValue
@@ -746,6 +751,7 @@ private struct MacSecuritySettingsTab: View {
     @Binding var clipboardTimeout: SettingsService.ClipboardTimeout
     @Binding var autoUnlockWithBiometrics: Bool
     @Binding var blockScreenCapture: Bool
+    @Binding var blurWhenInactive: Bool
 
     var body: some View {
         Form {
@@ -780,10 +786,12 @@ private struct MacSecuritySettingsTab: View {
             Section {
                 Toggle("Block Screen Capture", isOn: $blockScreenCapture)
                     .accessibilityIdentifier("settings.block-screen-capture.toggle")
+                Toggle("Blur Windows When Inactive", isOn: $blurWhenInactive)
+                    .accessibilityIdentifier("settings.blur-when-inactive.toggle")
             } header: {
                 Text("Screen Privacy")
             } footer: {
-                Text("Asks macOS to exclude NextPass's windows from screenshots and screen recordings. This is best-effort: on macOS 15 and later, ScreenCaptureKit-based recorders can capture the window anyway. When it works, a screenshot of NextPass comes out black or fails — that is the protection doing its job. Regardless of this setting, NextPass blurs its windows whenever it loses focus.")
+                Text("Block Screen Capture asks macOS to exclude NextPass's windows from screenshots and screen recordings. This is best-effort: on macOS 15 and later, ScreenCaptureKit-based recorders can capture the window anyway. When it works, a screenshot of NextPass comes out black or fails — that is the protection doing its job. Blur Windows When Inactive hides NextPass's windows behind frosted glass whenever another app is in front.")
             }
 
             Section {

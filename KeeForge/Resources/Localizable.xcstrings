@@ -3128,46 +3128,6 @@
         }
       }
     },
-    "Asks macOS to exclude NextPass's windows from screenshots and screen recordings. This is best-effort: on macOS 15 and later, ScreenCaptureKit-based recorders can capture the window anyway. When it works, a screenshot of NextPass comes out black or fails — that is the protection doing its job. Regardless of this setting, NextPass blurs its windows whenever it loses focus." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fordert macOS auf, NextPass-Fenster von Bildschirmfotos und -aufnahmen auszuschließen. Dies bietet nur eingeschränkten Schutz: Unter macOS 15 und neuer können auf ScreenCaptureKit basierende Aufnahmeprogramme das Fenster trotzdem erfassen. Wenn der Schutz funktioniert, ist NextPass auf einem Bildschirmfoto schwarz oder die Aufnahme schlägt fehl – dann erfüllt der Schutz seinen Zweck. Unabhängig von dieser Einstellung macht NextPass seine Fenster unkenntlich, sobald die App den Fokus verliert."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Solicita a macOS que excluya las ventanas de NextPass de las capturas y grabaciones de pantalla. Esto ofrece una protección limitada: en macOS 15 y versiones posteriores, las apps de grabación basadas en ScreenCaptureKit pueden capturar la ventana de todos modos. Cuando la protección funciona, una captura de pantalla de NextPass sale en negro o la grabación falla; en ese caso, la protección está cumpliendo su función. Independientemente de este ajuste, NextPass difumina sus ventanas en cuanto pierde el foco."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Demande à macOS d'exclure les fenêtres de NextPass des captures d'écran et des enregistrements d'écran. Cette protection est limitée : à partir de macOS 15, les logiciels d'enregistrement basés sur ScreenCaptureKit peuvent malgré tout capturer la fenêtre. Lorsque la protection fonctionne, une capture d'écran de NextPass apparaît noire ou échoue – c'est le signe que la protection remplit son rôle. Quel que soit ce réglage, NextPass floute ses fenêtres dès que l'app perd le focus."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "NextPass のウインドウをスクリーンショットや画面収録から除外するよう macOS に要求します。これは可能な範囲での対応です。macOS 15 以降では、ScreenCaptureKit を使う収録ツールがウインドウを取り込めてしまう場合があります。有効に働いた場合、NextPass のスクリーンショットは黒くなるか、撮影に失敗します。これは保護が機能している証拠です。この設定にかかわらず、NextPass はフォーカスを失うたびにウインドウをぼかします。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "请求 macOS 将 NextPass 的窗口排除在屏幕快照和屏幕录制之外。此功能尽力而为：在 macOS 15 及更高版本中，基于 ScreenCaptureKit 的录制工具仍可能捕捉到窗口。当它生效时，NextPass 的屏幕快照会显示为黑色或失败——这正是保护在起作用。无论此设置如何，NextPass 都会在窗口失去焦点时将其模糊处理。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "要求 macOS 將 NextPass 的視窗排除在螢幕快照與螢幕錄影之外。此功能僅屬盡力而為：在 macOS 15 及之後版本，以 ScreenCaptureKit 為基礎的錄影工具仍可能擷取到視窗。當其生效時，NextPass 的螢幕快照會呈現黑色或失敗——這正是保護機制在發揮作用。無論此設定為何，NextPass 的視窗在失去焦點時都會加以模糊。"
-          }
-        }
-      }
-    },
     "Associated File" : {
       "localizations" : {
         "de" : {
@@ -4325,6 +4285,86 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "阻擋螢幕擷取"
+          }
+        }
+      }
+    },
+    "Block Screen Capture asks macOS to exclude NextPass's windows from screenshots and screen recordings. This is best-effort: on macOS 15 and later, ScreenCaptureKit-based recorders can capture the window anyway. When it works, a screenshot of NextPass comes out black or fails — that is the protection doing its job. Blur Windows When Inactive hides NextPass's windows behind frosted glass whenever another app is in front." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„Bildschirmaufnahmen blockieren“ fordert macOS auf, NextPass-Fenster von Bildschirmfotos und -aufnahmen auszuschließen. Dies bietet nur eingeschränkten Schutz: Unter macOS 15 und neuer können auf ScreenCaptureKit basierende Aufnahmeprogramme das Fenster trotzdem erfassen. Wenn der Schutz funktioniert, ist NextPass auf einem Bildschirmfoto schwarz oder die Aufnahme schlägt fehl – dann erfüllt der Schutz seinen Zweck. „Fenster im Hintergrund unkenntlich machen“ verbirgt NextPass-Fenster hinter Milchglas, sobald eine andere App im Vordergrund ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "«Bloquear capturas de pantalla» solicita a macOS que excluya las ventanas de NextPass de las capturas y grabaciones de pantalla. Esto ofrece una protección limitada: en macOS 15 y versiones posteriores, las apps de grabación basadas en ScreenCaptureKit pueden capturar la ventana de todos modos. Cuando la protección funciona, una captura de pantalla de NextPass sale en negro o la grabación falla; en ese caso, la protección está cumpliendo su función. «Difuminar ventanas cuando está inactiva» oculta las ventanas de NextPass tras un cristal esmerilado siempre que otra app esté en primer plano."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "« Bloquer les captures d'écran » demande à macOS d'exclure les fenêtres de NextPass des captures d'écran et des enregistrements d'écran. Cette protection est limitée : à partir de macOS 15, les logiciels d'enregistrement basés sur ScreenCaptureKit peuvent malgré tout capturer la fenêtre. Lorsque la protection fonctionne, une capture d'écran de NextPass apparaît noire ou échoue – c'est le signe que la protection remplit son rôle. « Flouter les fenêtres en arrière-plan » masque les fenêtres de NextPass derrière un verre dépoli dès qu'une autre app est au premier plan."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「画面キャプチャをブロック」は、NextPass のウインドウをスクリーンショットや画面収録から除外するよう macOS に要求します。これは可能な範囲での対応です。macOS 15 以降では、ScreenCaptureKit を使う収録ツールがウインドウを取り込めてしまう場合があります。有効に働いた場合、NextPass のスクリーンショットは黒くなるか、撮影に失敗します。これは保護が機能している証拠です。「非アクティブ時にウインドウをぼかす」は、ほかのアプリが前面にあるあいだ NextPass のウインドウをすりガラスで隠します。"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“阻止屏幕捕捉”会请求 macOS 将 NextPass 的窗口排除在屏幕快照和屏幕录制之外。此功能尽力而为：在 macOS 15 及更高版本中，基于 ScreenCaptureKit 的录制工具仍可能捕捉到窗口。当它生效时，NextPass 的屏幕快照会显示为黑色或失败——这正是保护在起作用。“非活跃时模糊窗口”会在其他 App 位于前台时，用磨砂玻璃效果遮住 NextPass 的窗口。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「阻擋螢幕擷取」會要求 macOS 將 NextPass 的視窗排除在螢幕快照與螢幕錄影之外。此功能僅屬盡力而為：在 macOS 15 及之後版本，以 ScreenCaptureKit 為基礎的錄影工具仍可能擷取到視窗。當其生效時，NextPass 的螢幕快照會呈現黑色或失敗——這正是保護機制在發揮作用。「非使用中時模糊視窗」會在其他 App 位於前景時，以毛玻璃效果遮住 NextPass 的視窗。"
+          }
+        }
+      }
+    },
+    "Blur Windows When Inactive" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fenster im Hintergrund unkenntlich machen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Difuminar ventanas cuando está inactiva"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flouter les fenêtres en arrière-plan"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "非アクティブ時にウインドウをぼかす"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "非活跃时模糊窗口"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "非使用中時模糊視窗"
           }
         }
       }

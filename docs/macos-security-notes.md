@@ -142,10 +142,13 @@ macOS has no equivalent signal, so protection is layered:
 
 1. **Deterministic blur cover on resign-active.** Whenever KeeForge stops being
    the frontmost app it places a frosted-glass overlay over every vault-content
-   window, lifted again when it becomes active. This is unconditional and does
-   not depend on the toggle below. The **Settings window is excluded** — it shows
-   no secrets, so covering it would be visual noise; capture blocking is still
-   applied to it uniformly through the single choke point.
+   window, lifted again when it becomes active. On by default, with its own
+   "Blur Windows When Inactive" setting (Settings ▸ Security) that is
+   independent of the toggle below; turning it off leaves an unlocked vault
+   readable to anyone glancing at the screen while another app is in front.
+   The **Settings window is excluded** — it shows no secrets, so covering it
+   would be visual noise; capture blocking is still applied to it uniformly
+   through the single choke point.
 2. **Best-effort capture blocking** (the "Block screen capture" setting, default
    on). A single choke point applies `NSWindow.sharingType = .none` to every
    window; new windows inherit the current policy through the key-window

@@ -105,10 +105,10 @@ import AppKit
 /// 1. **Deterministic blur cover on resign-active.** Whenever the app stops
 ///    being frontmost (`NSApplication.didResignActiveNotification`) a borderless
 ///    blur overlay is placed over every vault-content window and lifted again
-///    on `didBecomeActiveNotification`. This is unconditional — it does not
-///    depend on the capture-block toggle — so a bystander glance, Mission
-///    Control, or a screenshot of the app while it is backgrounded shows only
-///    frosted glass.
+///    on `didBecomeActiveNotification`. On by default and governed by its own
+///    setting (`SettingsService.blurWhenInactive`), independent of the
+///    capture-block toggle, so a bystander glance, Mission Control, or a
+///    screenshot of the app while it is backgrounded shows only frosted glass.
 ///
 /// 2. **Best-effort capture blocking.** A single choke point applies
 ///    `NSWindow.sharingType = .none` to every window when the "Block screen
@@ -226,6 +226,7 @@ final class ScreenProtectionService {
     // MARK: - Blur cover
 
     private func showCovers() {
+        guard SettingsService.blurWhenInactive else { return }
         isCovered = true
         for window in NSApplication.shared.windows where isVaultContentWindow(window) {
             addCover(to: window)

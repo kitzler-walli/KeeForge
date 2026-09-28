@@ -16,6 +16,7 @@ final class SettingsServiceTests: XCTestCase {
     private let hasTippedKey = "KeeForge.hasTipped"
     private let macLockPolicyKey = "KeeForge.macLockPolicy"
     private let blockScreenCaptureKey = "KeeForge.blockScreenCapture"
+    private let blurWhenInactiveKey = "KeeForge.blurWhenInactive"
     private let passwordGeneratorOptionsKey = "KeeForge.passwordGeneratorOptions"
 
     private var sharedDefaults: UserDefaults {
@@ -43,6 +44,7 @@ final class SettingsServiceTests: XCTestCase {
         UserDefaults.standard.removeObject(forKey: hasTippedKey)
         UserDefaults.standard.removeObject(forKey: macLockPolicyKey)
         UserDefaults.standard.removeObject(forKey: blockScreenCaptureKey)
+        UserDefaults.standard.removeObject(forKey: blurWhenInactiveKey)
         sharedDefaults.removeObject(forKey: autoUnlockWithFaceIDKey)
         sharedDefaults.removeObject(forKey: quickAutoFillEnabledKey)
         sharedDefaults.removeObject(forKey: clipboardKey)
@@ -307,6 +309,22 @@ final class SettingsServiceTests: XCTestCase {
         // App-local (per-device UI preference), not App Group-shared.
         SettingsService.blockScreenCapture = false
         XCTAssertNil(sharedDefaults.object(forKey: blockScreenCaptureKey))
+    }
+
+    // MARK: - Blur When Inactive
+
+    func testBlurWhenInactiveDefaultsToOn() {
+        UserDefaults.standard.removeObject(forKey: blurWhenInactiveKey)
+        XCTAssertTrue(SettingsService.blurWhenInactive)
+    }
+
+    func testBlurWhenInactivePersistsInStandardDefaults() {
+        SettingsService.blurWhenInactive = false
+        XCTAssertFalse(SettingsService.blurWhenInactive)
+        XCTAssertNil(sharedDefaults.object(forKey: blurWhenInactiveKey))
+
+        SettingsService.blurWhenInactive = true
+        XCTAssertTrue(SettingsService.blurWhenInactive)
     }
 
     // MARK: - Password Generator Options
