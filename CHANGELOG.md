@@ -12,6 +12,8 @@
 
 - Dropbox and OneDrive are no longer offered when adding or creating a database. NextPass syncs through Nextcloud, WebDAV, and FTP.
 - Mac: the frosted-glass cover NextPass puts over its windows while another app is in front can now be turned off with "Blur Windows When Inactive" in Settings → Security. It stays on by default.
+- Press Return on the unlock screen with an empty password field to unlock with Touch ID or Face ID.
+- Mac: the unlock screen now waits for Touch ID while NextPass is in front — just place your finger on the sensor, no dialog. Cancelling a Touch ID prompt on the Mac returns to the unlock screen instead of showing an error.
 - Tap the username or password in an entry to copy it. The password stays hidden until you tap the eye button; tapping anywhere on its row used to reveal it.
 
 ### Fixes

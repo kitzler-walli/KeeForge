@@ -84,6 +84,27 @@ final class DatabaseViewModelTests: XCTestCase {
         XCTAssertState(vm.state, is: .unlocked)
     }
 
+    /// The Mac's inline Touch ID view evaluates biometrics itself; the unlock
+    /// then only reads the key with that context and never re-authenticates.
+    func testUnlockWithAuthenticatedBiometricsReadsTheKeyWithoutPromptingAgain() async throws {
+        let authentication = AuthenticatedBiometricContext(context: LAContext())
+        let vm = try makeViewModel(
+            biometricCompositeKeyOperation: { _, _ in
+                XCTFail("An already-authenticated unlock must not prompt again")
+                throw LAError(.userCancel)
+            },
+            authenticatedCompositeKeyOperation: { [fixturePassword] _, received in
+                XCTAssertTrue(received.context === authentication.context)
+                return try KDBXCrypto.compositeKey(password: fixturePassword, keyFileData: nil)
+            }
+        )
+
+        let outcome = await vm.unlock(withAuthenticatedBiometrics: authentication)
+
+        XCTAssertEqual(outcome, .unlocked)
+        XCTAssertState(vm.state, is: .unlocked)
+    }
+
     /// LocalAuthentication answers `notInteractive` when it cannot present its
     /// prompt because the app is not foreground-active — what lock-on-background
     /// and Quick Launch used to trigger (#60). Nothing was shown, so this is not
@@ -114,6 +135,22 @@ final class DatabaseViewModelTests: XCTestCase {
         XCTAssertState(vm.state, is: .locked)
         XCTAssertNil(vm.openFailure)
     }
+
+    #if os(macOS)
+    /// On the Mac the unlock form stays visible while locked, so a dismissed
+    /// Touch ID prompt returns to it instead of a failure screen.
+    func testBiometricUnlockStaysLockedWhenThePromptIsCancelledOnMac() async throws {
+        let vm = try makeViewModel(
+            biometricCompositeKeyOperation: { _, _ in throw LAError(.userCancel) }
+        )
+
+        let outcome = await vm.unlockWithBiometrics()
+
+        XCTAssertEqual(outcome, .cancelled)
+        XCTAssertState(vm.state, is: .locked)
+        XCTAssertNil(vm.openFailure)
+    }
+    #endif
 
     func testBiometricUnlockStillSurfacesRealBiometricFailures() async throws {
         let vm = try makeViewModel(
@@ -5121,6 +5158,9 @@ final class DatabaseViewModelTests: XCTestCase {
             let context = try await BiometricService.authenticate(reason: reason)
             return try DatabaseViewModel.retrieveStoredCompositeKey(for: reference, context: context)
         },
+        authenticatedCompositeKeyOperation: @escaping DatabaseViewModel.AuthenticatedCompositeKeyOperation = { reference, authentication in
+            try DatabaseViewModel.retrieveStoredCompositeKey(for: reference, context: authentication.context)
+        },
         pendingUploadMarkerCheck: @escaping DatabaseViewModel.PendingUploadMarkerCheck = { reference in
             PendingUploadQueue.listMarkers(for: reference.id).isEmpty == false
         },
@@ -5155,6 +5195,7 @@ final class DatabaseViewModelTests: XCTestCase {
             cloudConflictCopyOperation: cloudConflictCopyOperation,
             reloadOperation: reloadOperation,
             biometricCompositeKeyOperation: biometricCompositeKeyOperation,
+            authenticatedCompositeKeyOperation: authenticatedCompositeKeyOperation,
             pendingUploadMarkerCheck: pendingUploadMarkerCheck,
             storedKeyPresenceCheck: storedKeyPresenceCheck,
             storedKeyStoreOperation: storedKeyStoreOperation,

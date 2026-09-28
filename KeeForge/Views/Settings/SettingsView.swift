@@ -769,9 +769,8 @@ private struct MacSecuritySettingsTab: View {
                     }
                 }
 
-                // Governs the AutoFill extension only: the app itself never
-                // auto-unlocks on macOS (`BiometricAutoUnlockPolicy`), so a
-                // label promising that would be false.
+                // Governs the AutoFill extension only; the app's unlock screen
+                // always listens for Touch ID inline (`MacInlineTouchIDSession`).
                 if BiometricService.isAvailable {
                     Toggle("Unlock AutoFill with Touch ID", isOn: $autoUnlockWithBiometrics)
                 }
@@ -779,7 +778,7 @@ private struct MacSecuritySettingsTab: View {
                 Text("NextPass always locks on screen lock, screensaver, system sleep, and user switching. The stricter option also locks whenever another app becomes active.")
 
                 if BiometricService.isAvailable {
-                    Text("AutoFill can unlock with Touch ID on its own. NextPass itself never unlocks automatically — use the Touch ID button on the unlock screen.")
+                    Text("While NextPass is in front, its unlock screen waits for Touch ID — just place your finger on the sensor. AutoFill can unlock with Touch ID on its own.")
                 }
             }
 

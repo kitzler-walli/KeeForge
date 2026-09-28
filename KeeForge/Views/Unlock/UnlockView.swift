@@ -19,6 +19,9 @@ struct UnlockView: View {
     /// list shows a settled lock rather than a gratuitous animation.
     @State private var isSealed = true
     @FocusState private var passwordFocused: Bool
+    #if os(macOS)
+    @State private var inlineTouchID = MacInlineTouchIDSession()
+    #endif
 
     /// Plays the shackle closing on the screen the user actually lands on after
     /// pressing Lock. The lock itself already happened — this rides the arrival
@@ -46,6 +49,23 @@ struct UnlockView: View {
         }
         .background(UnlockViewBackground())
         .scrollIndicators(.hidden)
+        #if os(macOS)
+        .onAppear { inlineTouchID.arm(viewModel: viewModel) }
+        .onDisappear { inlineTouchID.disarm() }
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+            inlineTouchID.arm(viewModel: viewModel)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didResignActiveNotification)) { _ in
+            inlineTouchID.disarm()
+        }
+        .onChange(of: viewModel.state) { _, newState in
+            if case .locked = newState {
+                inlineTouchID.arm(viewModel: viewModel)
+            } else {
+                inlineTouchID.disarm()
+            }
+        }
+        #endif
         // One importer for both targets: SwiftUI does not reliably present a
         // second `.fileImporter` attached to the same view.
         .fileImporter(
@@ -171,7 +191,7 @@ struct UnlockView: View {
                         placeholder: String(localized: "Enter password"),
                         accessibilityIdentifier: "unlock.password.field",
                         focusOnAppear: true,
-                        onSubmit: unlockWithPassword,
+                        onSubmit: submitFromKeyboard,
                         onEscape: {
                             guard isUnlocking == false else { return }
                             onBackToDatabaseList()
@@ -191,7 +211,7 @@ struct UnlockView: View {
                     .passwordInputStyle()
                     .focused($passwordFocused)
                     .submitLabel(.go)
-                    .onSubmit(unlockWithPassword)
+                    .onSubmit(submitFromKeyboard)
                     .accessibilityIdentifier("unlock.password.field")
                     #endif
 
@@ -227,13 +247,15 @@ struct UnlockView: View {
             .accessibilityIdentifier("unlock.button")
 
             if viewModel.canUseBiometrics {
-                Button(action: unlockWithBiometrics) {
-                    Label(viewModel.biometricLabel, systemImage: viewModel.biometricIcon)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 4)
+                #if os(macOS)
+                if inlineTouchID.usesInlineView {
+                    inlineTouchIDRow
+                } else {
+                    biometricButton
                 }
-                .buttonStyle(.bordered)
-                .disabled(isUnlocking)
+                #else
+                biometricButton
+                #endif
             }
 
             if showsChooseDifferentFileAction {
@@ -245,6 +267,43 @@ struct UnlockView: View {
             }
         }
     }
+
+    private var biometricButton: some View {
+        Button(action: unlockWithBiometrics) {
+            Label(viewModel.biometricLabel, systemImage: viewModel.biometricIcon)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 4)
+        }
+        .buttonStyle(.bordered)
+        .disabled(isUnlocking)
+    }
+
+    #if os(macOS)
+    private var inlineTouchIDRow: some View {
+        VStack(spacing: 8) {
+            MacInlineTouchIDIcon(authenticationView: inlineTouchID.authenticationView)
+                .fixedSize()
+                .accessibilityIdentifier("unlock.inline-touch-id")
+
+            switch inlineTouchID.phase {
+            case .idle, .listening:
+                Text("Place your finger on Touch ID to unlock")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            case .stopped(let message):
+                Text(message)
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                Button("Try Touch ID Again") {
+                    inlineTouchID.arm(viewModel: viewModel)
+                }
+                .font(.footnote.weight(.medium))
+                .accessibilityIdentifier("unlock.inline-touch-id.retry")
+            }
+        }
+        .frame(maxWidth: .infinity)
+    }
+    #endif
 
     private func failureSection(_ failure: DatabaseOpenFailure) -> some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -460,6 +519,26 @@ struct UnlockView: View {
         HapticService.success()
     }
 
+    /// Return on an empty password field means "use Touch ID / Face ID", even
+    /// with an associated key file loaded — that key file alone would only
+    /// count as a failed attempt for a password-protected database. The Unlock
+    /// button keeps unlocking with whatever the form holds.
+    private func submitFromKeyboard() {
+        #if os(macOS)
+        // The inline icon is already waiting for a finger; Return only
+        // re-arms it after Touch ID stopped on its own.
+        if password.isEmpty, viewModel.canUseBiometrics, inlineTouchID.usesInlineView {
+            inlineTouchID.arm(viewModel: viewModel)
+            return
+        }
+        #endif
+        if password.isEmpty, viewModel.canUseBiometrics {
+            unlockWithBiometrics()
+        } else {
+            unlockWithPassword()
+        }
+    }
+
     private func unlockWithPassword() {
         let pwd = password.isEmpty ? nil : password
         guard pwd != nil || keyFileData != nil else { return }
@@ -474,7 +553,7 @@ struct UnlockView: View {
     private func unlockWithBiometrics() {
         Task {
             switch await viewModel.unlockWithBiometrics() {
-            case .passwordFallback, .promptUnavailable:
+            case .passwordFallback, .promptUnavailable, .cancelled:
                 // Either way nothing was unlocked and no prompt is coming;
                 // hand focus to the password field so the tap visibly did
                 // something.

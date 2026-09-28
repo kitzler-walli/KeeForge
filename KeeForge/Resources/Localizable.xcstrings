@@ -3649,46 +3649,6 @@
         }
       }
     },
-    "AutoFill can unlock with Touch ID on its own. NextPass itself never unlocks automatically — use the Touch ID button on the unlock screen." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AutoFill kann sich selbst mit Touch ID entsperren. NextPass selbst entsperrt sich nie automatisch – verwende dafür die Touch-ID-Taste im Entsperrbildschirm."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El autorrelleno puede desbloquearse por sí solo con Touch ID. NextPass nunca se desbloquea automáticamente: usa el botón de Touch ID en la pantalla de desbloqueo."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le remplissage automatique peut se déverrouiller seul avec Touch ID. NextPass ne se déverrouille jamais automatiquement — utilisez le bouton Touch ID de l'écran de déverrouillage."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "自動入力は Touch ID だけでロックを解除できます。NextPass 本体が自動でロックを解除することはありません。ロック解除画面の Touch ID ボタンをお使いください。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "自动填充可以自行使用触控 ID 解锁。NextPass 本身绝不会自动解锁——请使用解锁屏幕上的触控 ID 按钮。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "自動填寫可以自行使用觸控 ID 解鎖。NextPass 本身絕不會自動解鎖——請使用解鎖畫面上的觸控 ID 按鈕。"
-          }
-        }
-      }
-    },
     "AutoFill from all your databases" : {
       "localizations" : {
         "de" : {
@@ -22498,6 +22458,46 @@
         }
       }
     },
+    "Place your finger on Touch ID to unlock" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Legen Sie Ihren Finger auf Touch ID, um zu entsperren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coloca el dedo en Touch ID para desbloquear"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Posez votre doigt sur Touch ID pour déverrouiller"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touch ID に指を置いてロックを解除"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将手指放在触控 ID 上以解锁"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "將手指放在觸控 ID 上以解鎖"
+          }
+        }
+      }
+    },
     "Please reconnect this cloud account." : {
       "localizations" : {
         "de" : {
@@ -32748,6 +32748,86 @@
         }
       }
     },
+    "Touch ID didn't recognize this finger." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touch ID hat diesen Finger nicht erkannt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touch ID no ha reconocido este dedo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touch ID n'a pas reconnu ce doigt."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touch ID はこの指を認識できませんでした。"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "触控 ID 未能识别此手指。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "觸控 ID 無法辨識此手指。"
+          }
+        }
+      }
+    },
+    "Touch ID is locked. Enter your password to unlock." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touch ID ist gesperrt. Geben Sie Ihr Passwort ein, um zu entsperren."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touch ID está bloqueado. Introduce tu contraseña para desbloquear."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touch ID est verrouillé. Saisissez votre mot de passe pour déverrouiller."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touch ID はロックされています。パスワードを入力してロックを解除してください。"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "触控 ID 已锁定。请输入密码以解锁。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "觸控 ID 已鎖定。請輸入密碼以解鎖。"
+          }
+        }
+      }
+    },
     "Try Again" : {
       "localizations" : {
         "de" : {
@@ -32784,6 +32864,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "再試一次"
+          }
+        }
+      }
+    },
+    "Try Touch ID Again" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touch ID erneut versuchen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volver a intentar con Touch ID"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réessayer Touch ID"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touch ID をもう一度試す"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再次尝试触控 ID"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再次嘗試觸控 ID"
           }
         }
       }
@@ -35544,6 +35664,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "當螢幕鎖定或進入睡眠時"
+          }
+        }
+      }
+    },
+    "While NextPass is in front, its unlock screen waits for Touch ID — just place your finger on the sensor. AutoFill can unlock with Touch ID on its own." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solange NextPass im Vordergrund ist, wartet der Entsperrbildschirm auf Touch ID – legen Sie einfach Ihren Finger auf den Sensor. AutoFill kann sich selbst mit Touch ID entsperren."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mientras NextPass está en primer plano, su pantalla de desbloqueo espera Touch ID: solo tienes que colocar el dedo en el sensor. El autorrelleno puede desbloquearse por sí solo con Touch ID."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tant que NextPass est au premier plan, son écran de déverrouillage attend Touch ID : posez simplement votre doigt sur le capteur. Le remplissage automatique peut se déverrouiller seul avec Touch ID."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NextPass が前面にあるあいだ、ロック解除画面は Touch ID を待機しています。センサーに指を置くだけです。自動入力は Touch ID だけでロックを解除できます。"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NextPass 位于前台时，其解锁屏幕会等待触控 ID——只需将手指放在传感器上。自动填充可以自行使用触控 ID 解锁。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NextPass 位於前景時，其解鎖畫面會等待觸控 ID——只要將手指放在感應器上即可。自動填寫可以自行使用觸控 ID 解鎖。"
           }
         }
       }

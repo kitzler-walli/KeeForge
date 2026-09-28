@@ -145,9 +145,9 @@ enum BiometricAutoUnlockPolicy {
         // attempt in `View.biometricAutoUnlock(_:)` would raise a Touch ID
         // prompt for a Mac the user just walked away from, and
         // `.promptUnavailable` hands the cycle its attempt back so it repeats.
-        // Touch ID stays one click away in `UnlockView`, and
-        // `SettingsService.autoUnlockWithFaceID` still governs the Mac
-        // AutoFill extension.
+        // The Mac's opt-in prompt keys off arrivals instead
+        // (`MacTouchIDPromptGate`), and `SettingsService.autoUnlockWithFaceID`
+        // still governs the Mac AutoFill extension.
         return false
         #endif
     }
@@ -228,6 +228,9 @@ final class DatabaseViewModel {
         case promptUnavailable
         /// The user picked the password fallback inside the biometric prompt.
         case passwordFallback
+        /// The prompt was dismissed (macOS only; iOS keeps the failure screen,
+        /// because its auto-unlock scene shows no unlock form while locked).
+        case cancelled
     }
 
     /// Typed rejection reasons for `changeMasterKey`. Presentation strings are
@@ -308,6 +311,12 @@ final class DatabaseViewModel {
         _ reference: DatabaseReference,
         _ reason: String
     ) async throws -> SymmetricKey
+    /// The keychain read alone, authorized by a context that already passed
+    /// biometric evaluation (the Mac's inline Touch ID view).
+    typealias AuthenticatedCompositeKeyOperation = @Sendable (
+        _ reference: DatabaseReference,
+        _ authentication: AuthenticatedBiometricContext
+    ) throws -> SymmetricKey
     typealias PendingUploadMarkerCheck = @Sendable (_ reference: DatabaseReference) -> Bool
     typealias StoredKeyPresenceCheck = @Sendable (_ reference: DatabaseReference) -> Bool
     typealias StoredKeyStoreOperation = @Sendable (_ compositeKey: SymmetricKey, _ reference: DatabaseReference) throws -> Void
@@ -487,6 +496,7 @@ final class DatabaseViewModel {
     private let cloudConflictCopyOperation: CloudConflictCopyOperation
     private let reloadOperation: ReloadOperation
     private let biometricCompositeKeyOperation: BiometricCompositeKeyOperation
+    private let authenticatedCompositeKeyOperation: AuthenticatedCompositeKeyOperation
     private let pendingUploadMarkerCheck: PendingUploadMarkerCheck
     private let storedKeyPresenceCheck: StoredKeyPresenceCheck
     private let storedKeyStoreOperation: StoredKeyStoreOperation
@@ -561,6 +571,9 @@ final class DatabaseViewModel {
             let context = try await BiometricService.authenticate(reason: reason)
             return try DatabaseViewModel.retrieveStoredCompositeKey(for: reference, context: context)
         },
+        authenticatedCompositeKeyOperation: @escaping AuthenticatedCompositeKeyOperation = { reference, authentication in
+            try DatabaseViewModel.retrieveStoredCompositeKey(for: reference, context: authentication.context)
+        },
         pendingUploadMarkerCheck: @escaping PendingUploadMarkerCheck = { reference in
             PendingUploadQueue.listMarkers(for: reference.id).isEmpty == false
         },
@@ -594,6 +607,7 @@ final class DatabaseViewModel {
         self.cloudConflictCopyOperation = cloudConflictCopyOperation
         self.reloadOperation = reloadOperation
         self.biometricCompositeKeyOperation = biometricCompositeKeyOperation
+        self.authenticatedCompositeKeyOperation = authenticatedCompositeKeyOperation
         self.pendingUploadMarkerCheck = pendingUploadMarkerCheck
         self.storedKeyPresenceCheck = storedKeyPresenceCheck
         self.storedKeyStoreOperation = storedKeyStoreOperation
@@ -866,6 +880,25 @@ final class DatabaseViewModel {
 
     @discardableResult
     func unlockWithBiometrics() async -> BiometricUnlockOutcome {
+        let operation = biometricCompositeKeyOperation
+        let reason = String(localized: "Unlock your password database")
+        return await performBiometricUnlock { reference in
+            try await operation(reference, reason)
+        }
+    }
+
+    /// Finishes an unlock whose biometric check already happened in view — the
+    /// Mac's inline Touch ID icon — so the keychain read shows no second prompt.
+    func unlock(withAuthenticatedBiometrics authentication: AuthenticatedBiometricContext) async -> BiometricUnlockOutcome {
+        let operation = authenticatedCompositeKeyOperation
+        return await performBiometricUnlock { reference in
+            try operation(reference, authentication)
+        }
+    }
+
+    private func performBiometricUnlock(
+        compositeKey retrieveCompositeKey: @Sendable (DatabaseReference) async throws -> SymmetricKey
+    ) async -> BiometricUnlockOutcome {
         let failedAttemptsBeforeAttempt = failedAttempts
         prepareForUnlock()
 
@@ -873,10 +906,7 @@ final class DatabaseViewModel {
         var cloudSyncStatus: CloudSyncResolution.Status?
 
         do {
-            let compositeKey = try await biometricCompositeKeyOperation(
-                databaseReference,
-                String(localized: "Unlock your password database")
-            )
+            let compositeKey = try await retrieveCompositeKey(databaseReference)
             let readResult = try await readDatabaseData()
             let data = readResult.data
             encryptedData = data
@@ -939,6 +969,9 @@ final class DatabaseViewModel {
         switch LAError.Code(rawValue: nsError.code) {
         case .notInteractive: return .promptUnavailable
         case .userFallback: return .passwordFallback
+        #if os(macOS)
+        case .userCancel, .appCancel, .systemCancel: return .cancelled
+        #endif
         default: return nil
         }
     }

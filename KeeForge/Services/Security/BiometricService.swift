@@ -1,6 +1,13 @@
 import Foundation
 import LocalAuthentication
 
+/// An `LAContext` that already passed biometric evaluation and now authorizes
+/// keychain reads without prompting again. LocalAuthentication documents
+/// `LAContext` as usable from any thread, hence the unchecked conformance.
+struct AuthenticatedBiometricContext: @unchecked Sendable {
+    let context: LAContext
+}
+
 enum BiometricService {
     @MainActor
     static var isBiometricAuthInProgress = false

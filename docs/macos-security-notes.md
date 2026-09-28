@@ -113,11 +113,22 @@ disable the whole macOS lock guarantee with no UI to notice or repair it.
 macOS also never takes the iOS clipboard exemption: every Mac lock trigger
 means the user walked away, so the copy is scrubbed (see "Clipboard" below).
 
-## No lifecycle biometric auto-unlock on macOS
+## No lock-driven biometric auto-unlock on macOS
 
 `BiometricAutoUnlockPolicy.allowsAutomaticUnlock` is `false` for the native Mac
-app, so KeeForge never raises a Touch ID prompt on its own there; the Mac keeps
-the explicit "Unlock with Touch ID" button in `UnlockView`.
+app, so the iOS-style auto-unlock — a system prompt raised as a lock cycle
+begins — never runs there.
+
+Instead the Mac unlock screen listens for Touch ID inline
+(`Views/Unlock/MacInlineTouchID.swift`): an `LAAuthenticationView` waits for a
+finger without any system alert, so nothing pops up on a Mac the user walked
+away from. It listens only while NextPass is the active app; resigning
+invalidates the context, so a backgrounded NextPass never consumes a touch meant
+for another app. The same enrolled-finger requirement applies as for the button,
+and the keychain item's `.biometryCurrentSet` access control is still what
+releases the composite key — the inline view only changes where the prompt is
+drawn. If LocalAuthentication refuses the inline view, the unlock screen falls
+back to the standard "Unlock with Touch ID" button for that launch.
 
 The reason is the same one that disables it for iOS apps running in
 compatibility mode on a Mac (#84): `scenePhase == .active` does not prove the
