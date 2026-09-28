@@ -18,6 +18,7 @@
 
 ### Fixes
 
+- Mac: the NextPass window now reopens where you left it, at the same size, instead of in the middle of the screen.
 - Mac: saving a new passkey through AutoFill into a database stored as a file on your Mac failed with "you don't have permission". The passkey is now saved, and NextPass writes it into the file right away while it's running, or the next time you open it. If another app changed the file in the meantime, NextPass keeps the passkey and marks the database instead of overwriting that change.
 - Some text stayed English in every language: the group delete confirmation joined its entry and group counts with an English "and", and the cloud sync status read "Healthy", "Disconnected", or "Sync older than 24h" in Database Details and the database list. All of it is translated now.
 - Cloud sync warnings now follow the language you read the app in. A warning recorded before you switched languages kept showing up in the old one.

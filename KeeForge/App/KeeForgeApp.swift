@@ -40,7 +40,10 @@ struct KeeForgeApp: App {
     }
 
     private var mainWindow: some Scene {
-        let windowGroup = WindowGroup {
+        // A stable scene id gives the window a stable frame-autosave name, so
+        // macOS restores its position; without one SwiftUI derives the name
+        // from the root view's type, which changes on every launch.
+        let windowGroup = WindowGroup(id: "main") {
             rootView
             #if os(macOS)
             // The height floor is the content area, so it must stay clear of
