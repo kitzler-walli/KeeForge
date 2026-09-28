@@ -16,6 +16,7 @@ Entry point for coding agents working on KeeForge. This file is intentionally br
 
 - Native iPhone, iPad, and Mac KeePass manager for KDBX 4.x databases; also reads KDBX 3.1 (read-only)
 - Swift 6, SwiftUI, iOS 18+ / macOS 15+, `@Observable`, strict concurrency
+- The product is now branded **NextPass**: `PRODUCT_NAME` is `NextPass`, bundle IDs are `at.kw.nextpass*`, and the built app is `NextPass.app`. The repo, targets, schemes, folders, and Swift types still use `KeeForge`. Any new user-facing string in the app should say NextPass.
 - XcodeGen build graph: edit `project.yml`, then regenerate `KeeForge.xcodeproj`
 - Main targets: `KeeForge`, `KeeForgeMac`, `KeeForgeAutoFill`, `KeeForgeMacAutoFill`, `KeeForgeWatch` (Apple Watch companion, embedded in the iOS app), `KeeForgeTests`, `KeeForgeMacTests`, `KeeForgeUITests`, `KeeForgeMacUITests`, `KeeForgeWatchUITests`. The native macOS app shipped in v1.16.0; macOS work now follows the ordinary changelog flow under `## Unreleased`.
 
@@ -103,6 +104,8 @@ xcodebuild test -project KeeForge.xcodeproj -scheme KeeForgeMac \
   -only-testing:KeeForgeMacTests/DatabaseViewModelTests -quiet
 ```
 
+- Before the first build, run `cp BuildConfig.local.example.xcconfig BuildConfig.local.xcconfig`. The file is gitignored, and a pre-build script (`ci_scripts/prepare_build_config.sh`) validates it. Placeholder keys are fine for simulator builds and tests; only archives need real keys. `.worktreeinclude` copies the file into new worktrees.
+- When other agent sessions or worktrees may be running, wrap builds, tests, and simulator work in `scripts/with-repo-lock.sh xcode -- <cmd>`. This is a lock shared across all worktrees (see `scripts/README.md`).
 - Always prefer the smallest relevant test slice.
 - Always use `-only-testing:`.
 - Do not run the full UI suite unless explicitly asked.
