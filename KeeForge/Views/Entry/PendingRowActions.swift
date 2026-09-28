@@ -177,6 +177,11 @@ struct ListScopedDeletionAlert: ViewModifier {
 
 /// Identifies the item whose Move-to-Group picker is showing, so
 /// `sheet(item:)` has an `Identifiable` to key on.
+/// An entry the user asked to merge into another; `id` is that entry.
+struct PendingMerge: Identifiable, Equatable {
+    let id: UUID
+}
+
 enum PendingMove: Identifiable {
     case entry(UUID)
     case group(UUID)

@@ -992,6 +992,39 @@ final class SearchResultsMoveUITests: EntryEditUITestCase {
 }
 
 @MainActor
+final class EntryMergeUITests: EntryEditUITestCase {
+    func testContextMenuMergeFoldsEntryIntoTheChosenOne() {
+        unlockSuccessfully()
+        openGroup(named: socialGroupName)
+
+        revealContextMenuButton(
+            rowNamed: twitterEntryTitle,
+            identifier: "entry-row.merge-context",
+            preferredIdentifier: "entry.navlink"
+        ).tap()
+
+        let search = app.textFields["entry-merge.search"]
+        XCTAssertTrue(search.waitForExistence(timeout: Self.ciElementTimeout), "Merge sheet did not present")
+        search.tap()
+        search.typeText(discordEntryTitle)
+
+        let target = app.descendants(matching: .any).matching(
+            NSPredicate(format: "identifier BEGINSWITH 'entry-merge.target.' AND label CONTAINS[c] %@", discordEntryTitle)
+        ).firstMatch
+        XCTAssertTrue(target.waitForExistence(timeout: Self.ciElementTimeout), "Search did not find the target entry")
+        target.tap()
+
+        let confirm = app.buttons["entry-merge.confirm"]
+        XCTAssertTrue(confirm.waitForExistence(timeout: Self.ciElementTimeout), "Merge preview did not appear")
+        confirm.tap()
+        waitForAutosaveAttempt()
+
+        XCTAssertTrue(revealElement(entry(named: discordEntryTitle)), "The kept entry is missing")
+        XCTAssertFalse(entry(named: twitterEntryTitle).exists, "The merged entry is still in its group")
+    }
+}
+
+@MainActor
 final class EntryEditEdgeUITests: EntryEditUITestCase {
     func testCreateGroupDuplicateShowsErrorAndDoesNotAddSecondGroup() {
         unlockSuccessfully()

@@ -32,6 +32,7 @@ struct MacEntriesList: View {
     @FocusState private var isListFocused: Bool
     @State private var pendingDeletion: PendingDeletion?
     @State private var pendingMove: PendingMove?
+    @State private var pendingMerge: PendingMerge?
     /// The prefilled New Entry form a Duplicate raised. Hosted here rather
     /// than raised to the workspace the way the group column does it, because
     /// these lists own their presentations.
@@ -47,6 +48,7 @@ struct MacEntriesList: View {
                 isListFocused: $isListFocused,
                 onOpenEntry: openEntry,
                 onRequestMove: { pendingMove = $0 },
+                onRequestMerge: { pendingMerge = $0 },
                 onRequestDuplicate: { duplicateEditor = $0 },
                 onRequestDeletion: requestDeletion
             )
@@ -72,6 +74,7 @@ struct MacEntriesList: View {
                 pending.apply(destinationGroupID: destinationGroupID, viewModel: viewModel)
             }
         }
+        .entryMergeSheet(item: $pendingMerge, viewModel: viewModel)
         .sheet(item: $duplicateEditor) { formViewModel in
             NavigationStack {
                 EntryEditView(
@@ -114,6 +117,7 @@ struct MacEntryRow: View {
     @FocusState.Binding var isListFocused: Bool
     let onOpenEntry: (UUID) -> Void
     let onRequestMove: (PendingMove) -> Void
+    let onRequestMerge: (PendingMerge) -> Void
     let onRequestDuplicate: (EntryEditViewModel) -> Void
     let onRequestDeletion: (PendingDeletion) -> Void
 
@@ -160,6 +164,10 @@ struct MacEntryRow: View {
 
             EntryRowMoveAction(entryID: entry.id, viewModel: viewModel) { move in
                 onRequestMove(move)
+            }
+
+            EntryRowMergeAction(entryID: entry.id, viewModel: viewModel) { merge in
+                onRequestMerge(merge)
             }
 
             if viewModel.isReadOnly == false {

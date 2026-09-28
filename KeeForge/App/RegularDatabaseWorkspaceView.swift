@@ -37,6 +37,7 @@ struct RegularDatabaseWorkspaceView: View {
     /// in a column would tear a row-scoped host down mid-presentation.
     @State private var pendingDeletion: PendingDeletion?
     @State private var pendingMove: PendingMove?
+    @State private var pendingMerge: PendingMerge?
     /// Parent for the next group the New Group sheet creates. Set by "New
     /// Subgroup" to target a specific row; otherwise the current selection.
     @State private var newGroupParentID: UUID?
@@ -411,6 +412,7 @@ struct RegularDatabaseWorkspaceView: View {
                 pending.apply(destinationGroupID: destinationGroupID, viewModel: viewModel)
             }
         }
+        .entryMergeSheet(item: $pendingMerge, viewModel: viewModel)
         .sheet(isPresented: $isShowingDatabaseDetails) {
             DatabaseDetailsView(
                 reference: viewModel.databaseReference,
@@ -560,6 +562,7 @@ struct RegularDatabaseWorkspaceView: View {
                     viewModel: viewModel,
                     onOpenEntry: { beginEntryEdit(entryID: $0) },
                     onRequestMove: { pendingMove = $0 },
+                    onRequestMerge: { pendingMerge = $0 },
                     onRequestDuplicate: { beginEntryDuplicate($0) },
                     onRequestDeletion: { pendingDeletion = $0 }
                 )
@@ -811,6 +814,7 @@ private struct MacEntriesColumn: View {
     /// Raised to the workspace, which hosts the picker and the confirmation;
     /// a row-scoped host dies with the row the action removes.
     let onRequestMove: (PendingMove) -> Void
+    let onRequestMerge: (PendingMerge) -> Void
     /// Raised to the workspace too, so a duplicate opens the one editor sheet
     /// ⌘N and ⌘E open rather than a second one over this column.
     let onRequestDuplicate: (EntryEditViewModel) -> Void
@@ -839,6 +843,7 @@ private struct MacEntriesColumn: View {
                             isListFocused: $isListFocused,
                             onOpenEntry: onOpenEntry,
                             onRequestMove: onRequestMove,
+                            onRequestMerge: onRequestMerge,
                             onRequestDuplicate: onRequestDuplicate,
                             onRequestDeletion: onRequestDeletion
                         )

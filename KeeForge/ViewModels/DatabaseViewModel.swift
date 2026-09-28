@@ -204,6 +204,15 @@ final class DatabaseViewModel {
     /// moved item, with its tree depth for indentation. The current parent is
     /// flagged rather than omitted so the picker can show where the item
     /// already lives instead of presenting a hole in the tree.
+    /// An entry another entry can be merged into, with the folder it sits in.
+    struct MergeTargetOption: Identifiable, Equatable, Sendable {
+        let id: UUID
+        let title: String
+        let username: String
+        /// The entry's folder as a path from the database's top-level group.
+        let groupPath: String
+    }
+
     struct MoveDestinationOption: Identifiable, Equatable, Sendable {
         let id: UUID
         let name: String
@@ -1271,6 +1280,56 @@ final class DatabaseViewModel {
         guard let destination = groupIndex[toGroupID] else { return }
         guard destination.groups.contains(where: { $0.id == groupID }) == false else { return }
         try applyEntryEdit(.moveGroup(groupID: groupID, destinationGroupID: toGroupID))
+    }
+
+    /// Entries `entryID` can be merged into: every other entry outside the
+    /// recycle bin, in tree order with its folder path.
+    func mergeTargetOptions(forEntryID entryID: UUID) -> [MergeTargetOption] {
+        _ = contentRevision
+        guard let visibleRoot = visibleRootGroup else { return [] }
+        let recycleBinID = currentRootGroup?.recycleBinUUID
+        var options: [MergeTargetOption] = []
+
+        func collect(_ group: KPGroup, path: String) {
+            guard group.id != recycleBinID else { return }
+            for entry in group.entries where entry.id != entryID {
+                options.append(
+                    MergeTargetOption(id: entry.id, title: entry.title, username: entry.username, groupPath: path)
+                )
+            }
+            for child in group.groups {
+                collect(child, path: "\(path) › \(child.name)")
+            }
+        }
+        collect(visibleRoot, path: visibleRoot.name)
+        return options
+    }
+
+    /// What merging `sourceID` into `targetID` would do, without changing
+    /// anything. Throws `EntryMerger.Failure` when the two cannot be merged.
+    func mergePreview(merging sourceID: UUID, into targetID: UUID) throws -> EntryMerger.Result {
+        guard let source = entryIndex[sourceID], let target = entryIndex[targetID], let sessionKey else {
+            throw DatabaseDraft.DraftError.entryNotFound(sourceID)
+        }
+        return try EntryMerger.merge(source, into: target, sessionKey: sessionKey)
+    }
+
+    /// Merges `sourceID` into `targetID` in one draft change: the target gains
+    /// what it lacks (its previous version goes to history) and the source
+    /// goes to the recycle bin, so both halves apply or neither does.
+    func mergeEntry(_ sourceID: UUID, into targetID: UUID) throws {
+        guard isReadOnly == false else { throw SaveError.databaseIsReadOnly }
+        guard sourceID != targetID else { return }
+        let result = try mergePreview(merging: sourceID, into: targetID)
+        draft = try makeWorkingDraft()
+            .apply(.updateEntry(entryID: targetID, draft: result.draft))
+            .apply(.deleteEntry(entryID: sourceID, sendToRecycleBin: isEntryInRecycleBin(entryID: sourceID) == false))
+        saveConflict = nil
+        republishCurrentTreeIfNeeded()
+        resetInactivityTimer()
+        if selectedEntryID == sourceID {
+            selectedEntryID = targetID
+        }
     }
 
     /// The groups this entry could move into, in tree order from the visible

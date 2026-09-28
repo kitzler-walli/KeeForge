@@ -36,6 +36,7 @@ struct GroupListView: View {
     @State private var pendingIconChange: PendingIconChange?
     /// The entry or group whose Move-to-Group picker is presented, or `nil`.
     @State private var pendingMove: PendingMove?
+    @State private var pendingMerge: PendingMerge?
     #if os(macOS)
     @FocusState private var isSearchFieldFocused: Bool
     #endif
@@ -268,6 +269,7 @@ struct GroupListView: View {
                 pending.apply(destinationGroupID: destinationGroupID, viewModel: viewModel)
             }
         }
+        .entryMergeSheet(item: $pendingMerge, viewModel: viewModel)
     }
 
     /// Presents the entry editor. iOS pushes it onto the navigation stack;
@@ -503,6 +505,10 @@ struct GroupListView: View {
 
             EntryRowMoveAction(entryID: entry.id, viewModel: viewModel) { move in
                 pendingMove = move
+            }
+
+            EntryRowMergeAction(entryID: entry.id, viewModel: viewModel) { merge in
+                pendingMerge = merge
             }
 
             if viewModel.isReadOnly == false {

@@ -249,6 +249,45 @@ final class DatabaseViewModelTests: XCTestCase {
         XCTAssertFalse(vm.isDirty)
     }
 
+    /// Merge Into: the kept entry gains the other one's passkey in the saved
+    /// file, and the merged-away entry is in the recycle bin.
+    func testMergeEntryMovesAPasskeyOntoTheKeptEntryAndRecyclesTheOther() async throws {
+        let vm = try await makeCreatedViewModel(displayName: "Merge Entries")
+        let groupID = try XCTUnwrap(vm.visibleRootGroupID)
+        try vm.applyEntryEdit(.createEntry(
+            parentGroupID: groupID,
+            draft: EntryDraftPayload(title: "Login", username: "alice@example.com", password: "login-secret", url: "https://example.com")
+        ))
+        var passkeyEntryFields = passkeyFields()
+        passkeyEntryFields[PasskeyCredential.privateKeyPEMKey] = P256.Signing.PrivateKey().pemRepresentation
+        try vm.applyEntryEdit(.createEntry(
+            parentGroupID: groupID,
+            draft: EntryDraftPayload(
+                title: "example.com",
+                url: "https://www.example.com",
+                customFields: passkeyEntryFields,
+                protectedCustomFieldKeys: PasskeyCredential.protectedFieldKeys
+            )
+        ))
+        let entries = try XCTUnwrap(vm.group(withID: groupID)?.entries)
+        let login = try XCTUnwrap(entries.first { $0.title == "Login" })
+        let passkeyEntry = try XCTUnwrap(entries.first { $0.title == "example.com" })
+
+        try vm.mergeEntry(passkeyEntry.id, into: login.id)
+        try await vm.save()
+
+        let parsed = try KDBXParser.parse(
+            data: Data(contentsOf: try XCTUnwrap(DatabaseListStore.cachedDatabaseURL(for: vm.databaseReference))),
+            password: "Merge Entries password",
+            sessionKey: SymmetricKey(size: .bits256)
+        )
+        let kept = try XCTUnwrap(parsed.allEntries.first { $0.id == login.id })
+        XCTAssertEqual(kept.passkeyCredential?.relyingParty, "example.com")
+        XCTAssertEqual(kept.additionalURLs, ["https://www.example.com"])
+        XCTAssertEqual(kept.history.count, 1)
+        XCTAssertTrue(vm.isEntryInRecycleBin(entryID: passkeyEntry.id))
+    }
+
     /// End-to-end proof for #14: hide a group, save through the real save path,
     /// then read the encrypted file back from disk and check that AutoFill's
     /// actual entry source no longer offers the entry.

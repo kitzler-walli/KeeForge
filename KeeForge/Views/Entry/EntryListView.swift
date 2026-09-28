@@ -14,6 +14,7 @@ struct EntryListView: View {
     @State private var pendingDeletion: PendingDeletion?
     /// The entry whose Move-to-Group picker is presented, or `nil` when none is.
     @State private var pendingMove: PendingMove?
+    @State private var pendingMerge: PendingMerge?
     /// The prefilled New Entry form a Duplicate raised, or `nil` when none is.
     /// A sheet rather than a push: this list is the search results and the tag
     /// browser, which the iPad renders in the sidebar column, and a form
@@ -52,6 +53,7 @@ struct EntryListView: View {
                 pending.apply(destinationGroupID: destinationGroupID, viewModel: viewModel)
             }
         }
+        .entryMergeSheet(item: $pendingMerge, viewModel: viewModel)
         // Outside the branches for the same reason as the hosts above.
         .sheet(item: $duplicateEditor) { formViewModel in
             NavigationStack {
@@ -120,6 +122,10 @@ struct EntryListView: View {
 
             EntryRowMoveAction(entryID: entry.id, viewModel: viewModel) { move in
                 pendingMove = move
+            }
+
+            EntryRowMergeAction(entryID: entry.id, viewModel: viewModel) { merge in
+                pendingMerge = merge
             }
 
             if viewModel.isReadOnly == false {

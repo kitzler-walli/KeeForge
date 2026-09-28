@@ -81,6 +81,7 @@
 		168CC74285D5A4DE4043056F /* CredentialIdentityStoreManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF40C9649E6870C49081C9C0 /* CredentialIdentityStoreManagerTests.swift */; };
 		16A9D6A7C4CAA92D6491803D /* CredentialProviderPickerCreationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F97E4DEBF17DC23B5695A4A /* CredentialProviderPickerCreationTests.swift */; };
 		175271DB3D4B017FD4044CB2 /* EntryHistoryTrimmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B23EE0FFF365E0E5F1E571E /* EntryHistoryTrimmer.swift */; };
+		178331A190AE8E14AC90CF3F /* EntryMerger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849B4777E9671212E12AF08A /* EntryMerger.swift */; };
 		17D1F06AF2FE6680C75D8957 /* DistributionChannelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95571BBCA58EA386C4C081C /* DistributionChannelTests.swift */; };
 		186B0BF0473B22258603AFB1 /* DatabaseCreationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFC8C91D571F07AF7531393 /* DatabaseCreationService.swift */; };
 		18E9620DF8E3F382B79C9B24 /* AttachmentsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF584DE7CA99C49E8FD44CF /* AttachmentsSection.swift */; };
@@ -216,6 +217,7 @@
 		463EB91BA8FFCC2C6EAB82EF /* DatabaseReferenceMigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92FD27E759F00EDA86B1F88 /* DatabaseReferenceMigrationTests.swift */; };
 		466ACD61E778357A956E010A /* PlatformCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB6EEC55FC21C0E0612931E /* PlatformCompat.swift */; };
 		46C37BDFE49BF3B27E7C60FE /* SaveConflictMergeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B7208FC9199C3B6A619B18 /* SaveConflictMergeUITests.swift */; };
+		480BE718BD8951AE2FFD47F3 /* EntryMergeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8339DB8C06E102A6EA2558C2 /* EntryMergeSheet.swift */; };
 		48B196D18783A6205792621A /* PublicSuffixList in Frameworks */ = {isa = PBXBuildFile; productRef = 821C8659E5022EA9F87A8E5A /* PublicSuffixList */; };
 		492B3890EF152B160A560423 /* WhatsNewPresentationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDEBC96D0673E928CD9681C /* WhatsNewPresentationServiceTests.swift */; };
 		4994CC6E9C1FB4ABBDC4F0B0 /* AppGroupGuardrailTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784030A42906B5F3F8E2076B /* AppGroupGuardrailTests.swift */; };
@@ -273,6 +275,7 @@
 		5BD730EFB541A3245E67BA3C /* FTPListingParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF514DB674DAD987C03929D4 /* FTPListingParser.swift */; };
 		5BEEA3D4302FCFF4346D6AF7 /* TOTPQRScannerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F715792780CA7205B5924EE /* TOTPQRScannerSheet.swift */; };
 		5C06127D64C6675A64D3CA38 /* EntryIconPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5188612D8251D8EEAA729F2 /* EntryIconPickerView.swift */; };
+		5C4C7FEBCC7F56EED8A819D5 /* EntryMergerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632FF1960513F8CE43A87AF6 /* EntryMergerTests.swift */; };
 		5CD4C4237D5663668464CFCD /* KDBXMergerOracleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD42819A2CA0A2C67A7B6C2 /* KDBXMergerOracleTests.swift */; };
 		5D09209965C749545FF9B37C /* CloudFileBrowserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C7BB3AE108B90D95FE02D7 /* CloudFileBrowserSession.swift */; };
 		5D1534A2DAB9C6EC61C8551B /* CloudSyncModelsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6037B710DE638D64C1ED6576 /* CloudSyncModelsTests.swift */; };
@@ -404,6 +407,7 @@
 		8760E46C60E30BA00E6928B3 /* WebDAVModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A588089AE7F905EFA86465F5 /* WebDAVModels.swift */; };
 		87ED2910779A455EAF662945 /* KDBXFileSummaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7891343E62D744890CF243 /* KDBXFileSummaryTests.swift */; };
 		88511AE7115CDEAFB5D7613E /* EntryHistoryTrimmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B23EE0FFF365E0E5F1E571E /* EntryHistoryTrimmer.swift */; };
+		8891B0B74A4BB13E09D03F8D /* EntryRowMergeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815DC01AA3723F0AE3EDCC3C /* EntryRowMergeAction.swift */; };
 		8896685A7AD0595926312D61 /* DatabaseRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111C97CB5E5C656BD1970277 /* DatabaseRowView.swift */; };
 		897048166743B87F85CACA6E /* DatabaseListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F178F4027D7DB837D823C54C /* DatabaseListViewModel.swift */; };
 		8A337E187B2D7B4382CB465A /* PasskeyCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEA3048149FA6E823621EA0 /* PasskeyCrypto.swift */; };
@@ -422,6 +426,7 @@
 		8E54AEF7D995D0778431B77D /* AutoFillMemoryLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CCBDF8ED23DD32B45AD2C3 /* AutoFillMemoryLimit.swift */; };
 		8E99F20C4C299C88E89B34ED /* test-v1.key in Resources */ = {isa = PBXBuildFile; fileRef = 4C350259754DFA5D42D782A7 /* test-v1.key */; };
 		8EAB80EF201B8AE0EA7F865F /* EntryEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E36B86BDCAAD4E3C120428 /* EntryEdit.swift */; };
+		8EB7D4A26FEFE0A8B2BA5820 /* EntryMerger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849B4777E9671212E12AF08A /* EntryMerger.swift */; };
 		8FA0019B0584A2AD0E31D45F /* AppGroupContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937C9B16043303DE08327973 /* AppGroupContainer.swift */; };
 		905BA80573BBE56B2F44ACA0 /* AutoFillMemoryLimitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA46D95A76DACF922DE02732 /* AutoFillMemoryLimitTests.swift */; };
 		90744D6CBDBAAE6F533052D5 /* DatabaseCreationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ECE57184BC7684A8E946B6 /* DatabaseCreationUITests.swift */; };
@@ -493,6 +498,7 @@
 		A70DC1369C5F42750B6EE9A1 /* PasswordInputRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A81C906DE4BC0FFCA1CC754 /* PasswordInputRow.swift */; };
 		A744EE21ECE7EE2131A2EE04 /* AutoFillMacChrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE594C96C5ABCA153E8A179 /* AutoFillMacChrome.swift */; };
 		A802EF2A8BAEBB48BEFF71C7 /* FakeFTPServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC423EA352CF0CC13552A212 /* FakeFTPServer.swift */; };
+		A83D04FC523DC9A5D4CC0354 /* EntryRowMergeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815DC01AA3723F0AE3EDCC3C /* EntryRowMergeAction.swift */; };
 		A8C0C2410A1450B0C670BD73 /* AutoFillMemoryLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CCBDF8ED23DD32B45AD2C3 /* AutoFillMemoryLimit.swift */; };
 		A91E8FC4271F8638EA091F79 /* KDBXOuterCipher.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F4F443BDAB986A5BF03E8 /* KDBXOuterCipher.swift */; };
 		A974C7B2BE0AE30AB71C184A /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 6D8AAE0BC5540DB06342C80C /* Localizable.xcstrings */; };
@@ -586,6 +592,7 @@
 		C286024AD16EE608EFE1A59F /* FieldReferenceResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5262DAD579E97D03F4BBD00C /* FieldReferenceResolver.swift */; };
 		C2AD719517065CB7FC2BEB4F /* TOTPViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3660A7394A4B715ECCC64FF /* TOTPViewModelTests.swift */; };
 		C345E0CBF0AE22D43AA5D5EB /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2317B165FEAEFCF3181EE596 /* KeychainService.swift */; };
+		C345FEEA41470F850B2D25BE /* EntryMerger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849B4777E9671212E12AF08A /* EntryMerger.swift */; };
 		C41B33D4701327ACF71FE19B /* TagNormalizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04A6F5E71D63FC88AC15D59 /* TagNormalizerTests.swift */; };
 		C4569AEDD8D5B5C80A2CF460 /* SecurityScopedBookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3FF6C98ADE49FE6BDB7B6D /* SecurityScopedBookmarkManager.swift */; };
 		C4B59ECF60FD685739453897 /* CloudProviderRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7852EA57A46BC264E0B5916B /* CloudProviderRegistry.swift */; };
@@ -601,6 +608,7 @@
 		C830C4BDCE2A486F2F1F27C8 /* DocumentsVaultUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1209029C4B875501D2326C3D /* DocumentsVaultUITests.swift */; };
 		C8C4A4DA9D8EEB1A479CAF54 /* UITestWebDAVCloudProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB86A3375C87F5074F1AB7D /* UITestWebDAVCloudProvider.swift */; };
 		C9236BDC30BEAC14BC57865C /* CredentialProviderSaveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0987977B0D41FBB5C1456C5 /* CredentialProviderSaveTests.swift */; };
+		C927165F5D85A1BA58150B08 /* EntryMergerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632FF1960513F8CE43A87AF6 /* EntryMergerTests.swift */; };
 		C96DA87ACFF111A934447885 /* FTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC11153DD6293E8BFE1679AD /* FTPClient.swift */; };
 		CA1666C766F8232364BDE1D3 /* PasswordGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD42E436B84E873D08B91ACA /* PasswordGenerator.swift */; };
 		CADA85848D7284D9C9804FCD /* GroupEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949A21E632A57DDE3E8BDF5A /* GroupEditView.swift */; };
@@ -664,6 +672,7 @@
 		DF799AD406B024CAAD8B743D /* KeeForgeTwofish in Frameworks */ = {isa = PBXBuildFile; productRef = 336B83E709465A5D06020D06 /* KeeForgeTwofish */; };
 		DFA18DA04E592BE59E29ED71 /* OTPAuthURI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865A630BD5812CB4820143D8 /* OTPAuthURI.swift */; };
 		DFACF9C48405A21B5374AC8C /* DocumentPickerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B37093A769E7D22F7C7EC7C /* DocumentPickerService.swift */; };
+		DFECAA5FDA0FECDB8A452F11 /* EntryMergeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8339DB8C06E102A6EA2558C2 /* EntryMergeSheet.swift */; };
 		E027C64EC2BE81082E21A754 /* AcknowledgmentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105B7B9B10B9F3B9B8971EBC /* AcknowledgmentsView.swift */; };
 		E0A5FAB1EB180F9009612F3C /* CustomIconXMLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8777AF29F684C087EE1C71 /* CustomIconXMLTests.swift */; };
 		E0CB1EC53DB5B11A289A0035 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C758C904DCAA6C878595ABE5 /* TagListView.swift */; };
@@ -680,6 +689,7 @@
 		E3D7895440CF711F291EEE23 /* CloudProviderRegistryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE77955BBD928FFC22F1048 /* CloudProviderRegistryTests.swift */; };
 		E3E35E925EA40FD6E2824269 /* AttachmentPreviewFileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDA78854986EA7182C73B73 /* AttachmentPreviewFileStore.swift */; };
 		E421F7A34B249C0D0B45A745 /* MoveToGroupPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA47392458DE23AA1C2D00EC /* MoveToGroupPickerView.swift */; };
+		E44ACA75B917E010CE6B2938 /* EntryMerger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849B4777E9671212E12AF08A /* EntryMerger.swift */; };
 		E4D3328007354A914933E0D2 /* SecureWipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEA60D513A06248ED78E7E9 /* SecureWipe.swift */; };
 		E4F45B8FBA394E4487C00C9D /* TagNormalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC4E044FDBDD9171C7DC509 /* TagNormalizer.swift */; };
 		E51993135B2AAE686FAE5C0A /* EncryptedValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6594B5A580C44B4042FE110 /* EncryptedValue.swift */; };
@@ -1015,6 +1025,7 @@
 		60F824C74A6F1AF872065828 /* WatchOfflineTOTPUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchOfflineTOTPUITests.swift; sourceTree = "<group>"; };
 		613225A0024C030E19B2F7E1 /* PasswordGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordGeneratorTests.swift; sourceTree = "<group>"; };
 		61951932997F9667EC4417A3 /* TOTPSmokeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TOTPSmokeUITests.swift; sourceTree = "<group>"; };
+		632FF1960513F8CE43A87AF6 /* EntryMergerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryMergerTests.swift; sourceTree = "<group>"; };
 		633D74C75C8E56DA9DAF5458 /* CloudSyncCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSyncCoordinatorTests.swift; sourceTree = "<group>"; };
 		6371CF6584F8950C4679FE28 /* DatabaseListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseListViewModelTests.swift; sourceTree = "<group>"; };
 		63CD5B20E6190897E216C7F3 /* CredentialProviderViewControllerMac.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialProviderViewControllerMac.swift; sourceTree = "<group>"; };
@@ -1061,8 +1072,11 @@
 		7D98A5017BAC07F0E89FDAB7 /* MacTransitionNoticeServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacTransitionNoticeServiceTests.swift; sourceTree = "<group>"; };
 		7EA0111DE46F6C0B6D89B6B4 /* KeeForgeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeeForgeApp.swift; sourceTree = "<group>"; };
 		8041ADA15CF0D9DDB01FD94A /* WatchVaultStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchVaultStore.swift; sourceTree = "<group>"; };
+		815DC01AA3723F0AE3EDCC3C /* EntryRowMergeAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryRowMergeAction.swift; sourceTree = "<group>"; };
 		81B2FABC051E0E4F1B4BCFBE /* URLSchemeFormatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSchemeFormatTests.swift; sourceTree = "<group>"; };
+		8339DB8C06E102A6EA2558C2 /* EntryMergeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryMergeSheet.swift; sourceTree = "<group>"; };
 		843FD93201393B6BA39234E5 /* DatabaseFileInfoLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseFileInfoLoaderTests.swift; sourceTree = "<group>"; };
+		849B4777E9671212E12AF08A /* EntryMerger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryMerger.swift; sourceTree = "<group>"; };
 		859C701D22CBF7ABEF51E825 /* CloudTokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudTokenStore.swift; sourceTree = "<group>"; };
 		85B5D788DA54A0CEC1A03E7E /* ReadOnlyIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadOnlyIndicator.swift; sourceTree = "<group>"; };
 		865A630BD5812CB4820143D8 /* OTPAuthURI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPAuthURI.swift; sourceTree = "<group>"; };
@@ -1459,8 +1473,10 @@
 				4EF6EDA485C64C556F3AFC50 /* EntryHistoryView.swift */,
 				E5188612D8251D8EEAA729F2 /* EntryIconPickerView.swift */,
 				C8F125AC304D7385EF54E7A8 /* EntryListView.swift */,
+				8339DB8C06E102A6EA2558C2 /* EntryMergeSheet.swift */,
 				DE329B5193927500F922C84C /* EntryRowCopyActions.swift */,
 				64D2970205BB303CDA5A78A0 /* EntryRowDuplicateAction.swift */,
+				815DC01AA3723F0AE3EDCC3C /* EntryRowMergeAction.swift */,
 				3C71D4D96F2A13F178F7A8B2 /* EntryRowMoveAction.swift */,
 				596A02F7CDB9320B4B325A37 /* MacEntriesList.swift */,
 				A27CD1F92E039BFE26CEBD31 /* PendingRowActions.swift */,
@@ -1822,6 +1838,7 @@
 				FEDEBBDC91EBD1B2FBB3716B /* EncryptedValueTests.swift */,
 				A01A49238AD6DEF29C56B328 /* EntryEditCompletionGateTests.swift */,
 				42780494357246F25C55F3FD /* EntryEditViewModelTests.swift */,
+				632FF1960513F8CE43A87AF6 /* EntryMergerTests.swift */,
 				EBE598EE72ABE3EAD3DEED34 /* FaviconIconEncoderTests.swift */,
 				E3217CA8D7D14799D216386B /* FaviconServiceTests.swift */,
 				BF77C387846CFF3B94A08369 /* FeedbackSubmissionServiceTests.swift */,
@@ -1891,6 +1908,7 @@
 				AEF7A2480DF3853AFF0AF02B /* Entry.swift */,
 				F0E36B86BDCAAD4E3C120428 /* EntryEdit.swift */,
 				6B23EE0FFF365E0E5F1E571E /* EntryHistoryTrimmer.swift */,
+				849B4777E9671212E12AF08A /* EntryMerger.swift */,
 				5262DAD579E97D03F4BBD00C /* FieldReferenceResolver.swift */,
 				FA5A20BA0FFA29C1067EB5EE /* Group.swift */,
 				F136563BB0F4D53B63F68EE5 /* KDBX3Parser.swift */,
@@ -2468,6 +2486,7 @@
 				67588569A4F91D0F594C89F8 /* Entry.swift in Sources */,
 				EFCD3AF2A4422E87A46B3DD8 /* EntryEdit.swift in Sources */,
 				A5E49E50B0892570919D12D3 /* EntryHistoryTrimmer.swift in Sources */,
+				8EB7D4A26FEFE0A8B2BA5820 /* EntryMerger.swift in Sources */,
 				BE167A0887042AC8BB417658 /* FaviconService.swift in Sources */,
 				151A067AB3D982AD9FEAF14A /* FieldReferenceResolver.swift in Sources */,
 				EB14CC44460459F97342E1AC /* Group.swift in Sources */,
@@ -2550,6 +2569,7 @@
 				81234DB453AFE697C39405B0 /* EncryptedValueTests.swift in Sources */,
 				B6AC05995DAF7D2C27CACE6E /* EntryEditCompletionGateTests.swift in Sources */,
 				6D7B0F0F5E4A1157EE41A4F3 /* EntryEditViewModelTests.swift in Sources */,
+				5C4C7FEBCC7F56EED8A819D5 /* EntryMergerTests.swift in Sources */,
 				D989F3E41DB9770D696C92E0 /* FTPCloudProviderTests.swift in Sources */,
 				000960C46F5958BDFD034AA0 /* FTPConnectViewModelTests.swift in Sources */,
 				9B0C0D6CECBCE0251BDA19BF /* FTPListingParserTests.swift in Sources */,
@@ -2681,8 +2701,11 @@
 				F921012A399E8F239629BE56 /* EntryHistoryView.swift in Sources */,
 				5C06127D64C6675A64D3CA38 /* EntryIconPickerView.swift in Sources */,
 				B283218F7F6FB2F72076119C /* EntryListView.swift in Sources */,
+				480BE718BD8951AE2FFD47F3 /* EntryMergeSheet.swift in Sources */,
+				178331A190AE8E14AC90CF3F /* EntryMerger.swift in Sources */,
 				AEC5F5CE3289124448F27CC3 /* EntryRowCopyActions.swift in Sources */,
 				AA8AB683250C1761356F5580 /* EntryRowDuplicateAction.swift in Sources */,
+				8891B0B74A4BB13E09D03F8D /* EntryRowMergeAction.swift in Sources */,
 				11A289FF690728A45523DB2E /* EntryRowMoveAction.swift in Sources */,
 				C96DA87ACFF111A934447885 /* FTPClient.swift in Sources */,
 				E60165789713375DA6CBEC01 /* FTPCloudProvider.swift in Sources */,
@@ -2867,8 +2890,11 @@
 				60E0865B54F522E6E021E7C7 /* EntryHistoryView.swift in Sources */,
 				29DDAA2E34F0D576EE67B15A /* EntryIconPickerView.swift in Sources */,
 				C4C8E7DC122BD0F87C49FAB6 /* EntryListView.swift in Sources */,
+				DFECAA5FDA0FECDB8A452F11 /* EntryMergeSheet.swift in Sources */,
+				C345FEEA41470F850B2D25BE /* EntryMerger.swift in Sources */,
 				EBD80723C6978E5DAB7C41F9 /* EntryRowCopyActions.swift in Sources */,
 				2631C138D8751076163C1501 /* EntryRowDuplicateAction.swift in Sources */,
+				A83D04FC523DC9A5D4CC0354 /* EntryRowMergeAction.swift in Sources */,
 				6F6C9C0529AD4D0154E1E799 /* EntryRowMoveAction.swift in Sources */,
 				A3DAF354BB96EB5A179CFFBC /* FTPClient.swift in Sources */,
 				DA2B6F83E90095061ADE571C /* FTPCloudProvider.swift in Sources */,
@@ -3052,6 +3078,7 @@
 				F9F8C9E33B5C2D486617E10B /* EncryptedValueTests.swift in Sources */,
 				2E8C1464E89E7DF540940F2F /* EntryEditCompletionGateTests.swift in Sources */,
 				352D3826009F6D117BCCC736 /* EntryEditViewModelTests.swift in Sources */,
+				C927165F5D85A1BA58150B08 /* EntryMergerTests.swift in Sources */,
 				D2ACB8FC0A5B75F3D41837FD /* FTPCloudProviderTests.swift in Sources */,
 				D93D4937D19F55097450280D /* FTPConnectViewModelTests.swift in Sources */,
 				4F89BA03F74E928F9521B733 /* FTPListingParserTests.swift in Sources */,
@@ -3167,6 +3194,7 @@
 				775F9BA8EFAEF1F361AFF6BB /* Entry.swift in Sources */,
 				09FBAFFF781352378D9795B4 /* EntryEdit.swift in Sources */,
 				175271DB3D4B017FD4044CB2 /* EntryHistoryTrimmer.swift in Sources */,
+				E44ACA75B917E010CE6B2938 /* EntryMerger.swift in Sources */,
 				C200AECBA8FF1A46A2C049EC /* FaviconService.swift in Sources */,
 				C286024AD16EE608EFE1A59F /* FieldReferenceResolver.swift in Sources */,
 				854F53222F9E7ECC3CD4257E /* Group.swift in Sources */,
