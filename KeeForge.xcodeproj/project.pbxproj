@@ -398,7 +398,6 @@
 		856593F321A58DE4FFEB709F /* KDBXParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB771146F2B327CB67076403 /* KDBXParser.swift */; };
 		85800F363D34B2A7DAAE8B41 /* HapticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7B832DCD71D53272108662 /* HapticService.swift */; };
 		858EED9B6FD7F607B24A3D30 /* KDBXWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C243B2746CDA396F76E052B6 /* KDBXWriter.swift */; };
-		85B6D69E0E714772F3080902 /* KeeForge.icon in Resources */ = {isa = PBXBuildFile; fileRef = 1028DFCD0B2E32B19BDA02FE /* KeeForge.icon */; };
 		85F4BF94918B5C26592668EA /* NavigationConformances.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FB55D1B41198FB84115734 /* NavigationConformances.swift */; };
 		866E2940326D223418ACB677 /* TOTPEnrollmentViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EABC573B9DDDD74E1987F94 /* TOTPEnrollmentViewModelTests.swift */; };
 		86C6A3B9E01FE0CEB7214DD4 /* KDBX3Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F136563BB0F4D53B63F68EE5 /* KDBX3Parser.swift */; };
@@ -909,7 +908,6 @@
 		0F7522B62793839313AC4DC5 /* DropboxCloudProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxCloudProviderTests.swift; sourceTree = "<group>"; };
 		0F8C59064BBAD164E487E1AF /* PasswordStrengthEstimatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStrengthEstimatorTests.swift; sourceTree = "<group>"; };
 		0FE57E0CBBA459436725D382 /* KeeForgeTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = KeeForgeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		1028DFCD0B2E32B19BDA02FE /* KeeForge.icon */ = {isa = PBXFileReference; lastKnownFileType = wrapper.icon; path = KeeForge.icon; sourceTree = "<group>"; };
 		105B7B9B10B9F3B9B8971EBC /* AcknowledgmentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcknowledgmentsView.swift; sourceTree = "<group>"; };
 		10A47D12FBB464C7B0F41E94 /* CloudDatabaseSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudDatabaseSaver.swift; sourceTree = "<group>"; };
 		111C97CB5E5C656BD1970277 /* DatabaseRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseRowView.swift; sourceTree = "<group>"; };
@@ -1750,7 +1748,6 @@
 		ED085A8C1666D500B09A3437 = {
 			isa = PBXGroup;
 			children = (
-				1028DFCD0B2E32B19BDA02FE /* KeeForge.icon */,
 				0538CE7912AC14AC4ABBC3F8 /* Merge */,
 				C215140854AFDC51CA451F3C /* App */,
 				A376BB645DDF43A121708494 /* AutoFillExtension */,
@@ -2300,7 +2297,6 @@
 			files = (
 				BE8A0B0A4A034961DB88DD3A /* Assets.xcassets in Resources */,
 				0E8053247FA51EB6D8516ED5 /* InfoPlist.xcstrings in Resources */,
-				85B6D69E0E714772F3080902 /* KeeForge.icon in Resources */,
 				09362745917126AC3B21F167 /* Localizable.xcstrings in Resources */,
 				80DBB3D115D961D5C851DA65 /* PrivacyInfo.xcprivacy in Resources */,
 			);
@@ -3292,7 +3288,7 @@
 		0E93D64A6464CAA6D0CCDA04 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = KeeForge;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLOUD_KEYCHAIN_ACCESS_GROUP = "$(AppIdentifierPrefix)at.kw.nextpass.sharedkeychain";
 				CODE_SIGN_ENTITLEMENTS = KeeForgeMac/KeeForgeMac.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -3522,7 +3518,7 @@
 		8C90ED6379752ADB18CFE908 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = KeeForge;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLOUD_KEYCHAIN_ACCESS_GROUP = "$(AppIdentifierPrefix)at.kw.nextpass.sharedkeychain";
 				CODE_SIGN_ENTITLEMENTS = KeeForgeMac/KeeForgeMac.entitlements;
 				CODE_SIGN_STYLE = Automatic;

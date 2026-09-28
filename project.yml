@@ -157,10 +157,7 @@ targets:
       base:
         INFOPLIST_FILE: KeeForgeMac/Info.plist
         PRODUCT_BUNDLE_IDENTIFIER: at.kw.nextpass
-        # Reuse the shared Icon Composer bundle (KeeForge.icon) so the Mac app
-        # has an archivable icon; lower-risk than bumping xcodeVersion since
-        # the installed Xcode (26.x) already compiles it for the iOS target.
-        ASSETCATALOG_COMPILER_APPICON_NAME: KeeForge
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ENABLE_HARDENED_RUNTIME: "YES"
         CODE_SIGN_STYLE: Automatic
         CODE_SIGN_ENTITLEMENTS: KeeForgeMac/KeeForgeMac.entitlements
@@ -229,8 +226,6 @@ targets:
       - path: AutoFillExtension/AutoFillSearchView.swift
       - path: AutoFillExtension/AutoFillPasskeyCreatorView.swift
       - path: AutoFillExtension/AutoFillMacChrome.swift
-      - path: KeeForge.icon
-        buildPhase: resources
 
   KeeForgeAutoFill:
     type: app-extension

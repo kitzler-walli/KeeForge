@@ -10,6 +10,7 @@
 
 ### Changes
 
+- Mac: NextPass now uses the same cloud-and-keyhole app icon as on iPhone and iPad.
 - Dropbox and OneDrive are no longer offered when adding or creating a database. NextPass syncs through Nextcloud, WebDAV, and FTP.
 - Mac: the frosted-glass cover NextPass puts over its windows while another app is in front can now be turned off with "Blur Windows When Inactive" in Settings → Security. It stays on by default.
 - Press Return on the unlock screen with an empty password field to unlock with Touch ID or Face ID.
