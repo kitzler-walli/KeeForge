@@ -232,7 +232,7 @@ extension CredentialProviderViewController: CredentialProviderPresenting {
 
     func presentPasskeyCreator(
         context: CredentialProviderPasskeyCreatorContext,
-        onSave: @escaping @Sendable (String) async -> CredentialProviderEntrySaveOutcome,
+        onSave: @escaping @Sendable (CredentialProviderPasskeyDestination) async -> CredentialProviderEntrySaveOutcome,
         onCancel: @escaping () -> Void
     ) {
         let creatorView = AutoFillPasskeyCreatorView(

@@ -246,6 +246,107 @@ final class CredentialProviderRegistrationTests: XCTestCase {
 
     // MARK: - Save
 
+    func test_save_newEntryGoesIntoTheChosenGroup() async throws {
+        let (coordinator, presenter) = makeCoordinator()
+        let banking = KPGroup(name: "Banking")
+        let root = KPGroup(name: "Root", groups: [KPGroup(name: "Vault", groups: [banking])])
+        seedUnlockedVaultState(coordinator, rootGroup: root)
+        coordinator.activeDatabaseReference = try TestDatabaseSupport.makeReference(
+            for: makeTemporaryFileURL(name: "target.kdbx")
+        )
+        let recorder = Recorder()
+        coordinator.passkeySaveEnvironment = makeRecordingEnvironment(recorder)
+        coordinator.pendingPasskeyRegistrationRequest = makeRegistrationRequest()
+
+        XCTAssertTrue(coordinator.handlePendingPasskeyRegistrationIfNeeded())
+        let creator = try XCTUnwrap(presenter.passkeyCreator)
+        XCTAssertEqual(creator.context.groups.map(\.path), ["Vault", "Vault › Banking"])
+        XCTAssertEqual(creator.context.defaultGroupID, root.groups.first?.id)
+
+        let outcome = await creator.onSave(.newEntry(title: "Example", groupID: banking.id))
+
+        guard case .completed = outcome else { return XCTFail("Expected the save to complete, got \(outcome)") }
+        let savedBanking = try XCTUnwrap(recorder.savedRootGroups.first?.groups.first?.groups.first)
+        XCTAssertEqual(savedBanking.entries.map(\.title), ["Example"])
+    }
+
+    /// Adding a passkey to the site's existing login keeps everything the entry
+    /// had; its previous version goes to history.
+    func test_save_existingEntryGainsThePasskeyAndKeepsItsFields() async throws {
+        let (coordinator, presenter) = makeCoordinator()
+        let sessionKey = SymmetricKey(size: .bits256)
+        let login = KPEntry(
+            title: "Example Login",
+            username: "alice@example.com",
+            password: try EncryptedValue.encrypt("login-password", using: sessionKey),
+            url: "https://example.com",
+            notes: "security questions",
+            customFields: ["Recovery Code": "1234"]
+        )
+        let root = KPGroup(name: "Root", groups: [KPGroup(name: "Vault", entries: [login])])
+        seedUnlockedVaultState(coordinator, entries: [login], rootGroup: root, sessionKey: sessionKey)
+        coordinator.activeDatabaseReference = try TestDatabaseSupport.makeReference(
+            for: makeTemporaryFileURL(name: "target.kdbx")
+        )
+        let recorder = Recorder()
+        coordinator.passkeySaveEnvironment = makeRecordingEnvironment(recorder)
+        coordinator.pendingPasskeyRegistrationRequest = makeRegistrationRequest()
+
+        XCTAssertTrue(coordinator.handlePendingPasskeyRegistrationIfNeeded())
+        let creator = try XCTUnwrap(presenter.passkeyCreator)
+        XCTAssertEqual(creator.context.existingEntries.map(\.id), [login.id])
+
+        let outcome = await creator.onSave(.existingEntry(login.id))
+
+        guard case .completed = outcome else { return XCTFail("Expected the save to complete, got \(outcome)") }
+        let savedEntries = try XCTUnwrap(recorder.savedRootGroups.first).allEntries
+        XCTAssertEqual(savedEntries.count, 1, "No second entry is created")
+        let entry = try XCTUnwrap(savedEntries.first)
+        XCTAssertEqual(entry.id, login.id)
+        XCTAssertEqual(entry.title, "Example Login")
+        XCTAssertEqual(try entry.password.decrypt(using: sessionKey), "login-password")
+        XCTAssertEqual(entry.notes, "security questions")
+        XCTAssertEqual(entry.customFields["Recovery Code"], "1234")
+        XCTAssertEqual(entry.customFields[PasskeyCredential.relyingPartyKey], "example.com")
+        XCTAssertNotNil(entry.passkeyPrivateKey)
+        XCTAssertTrue(entry.protectedStringKeys.isSuperset(of: PasskeyCredential.protectedFieldKeys))
+        XCTAssertEqual(entry.history.count, 1)
+        XCTAssertNil(entry.history.first?.passkeyCredential)
+    }
+
+    func test_candidateEntries_skipPasskeyHoldersAndListTheSameUserFirst() throws {
+        let otherUser = KPEntry(title: "A Example", username: "bob@example.com", url: "https://example.com")
+        let sameUser = KPEntry(title: "B Example", username: "alice@example.com", url: "https://example.com")
+        let unrelated = KPEntry(title: "Elsewhere", username: "alice@example.com", url: "https://other.test")
+
+        let candidates = CredentialProviderCoordinator.passkeyCandidateEntries(
+            from: [
+                otherUser,
+                try makePasskeyEntry(privateKey: P256.Signing.PrivateKey(), sessionKey: SymmetricKey(size: .bits256)),
+                unrelated,
+                sameUser,
+            ],
+            relyingPartyID: "example.com",
+            userName: "alice@example.com"
+        )
+
+        XCTAssertEqual(candidates.map(\.id), [sameUser.id, otherUser.id])
+    }
+
+    func test_destinationGroups_skipTheRecycleBinAndGroupsWithoutAutoFill() {
+        let bin = KPGroup(name: "Recycle Bin")
+        let hidden = KPGroup(name: "Hidden", groups: [KPGroup(name: "Inside Hidden")], searchingEnabled: .disabled)
+        let root = KPGroup(
+            name: "Root",
+            groups: [KPGroup(name: "Vault", groups: [KPGroup(name: "Work"), hidden, bin])],
+            recycleBinUUID: bin.id
+        )
+
+        let groups = CredentialProviderCoordinator.passkeyDestinationGroups(in: root)
+
+        XCTAssertEqual(groups.map(\.path), ["Vault", "Vault › Work"])
+    }
+
     func test_save_happyPath_savesEntryThenCompletesRegistration() async throws {
         let (coordinator, presenter) = makeCoordinator()
         let reference = try TestDatabaseSupport.makeReference(
@@ -264,7 +365,7 @@ final class CredentialProviderRegistrationTests: XCTestCase {
         XCTAssertTrue(coordinator.handlePendingPasskeyRegistrationIfNeeded())
         let creator = try XCTUnwrap(presenter.passkeyCreator)
 
-        let outcome = await creator.onSave("My Passkey")
+        let outcome = await creator.onSave(.newEntry(title: "My Passkey", groupID: creator.context.defaultGroupID))
 
         guard case .completed = outcome else {
             return XCTFail("Expected the save to complete, got \(outcome)")
@@ -350,7 +451,7 @@ final class CredentialProviderRegistrationTests: XCTestCase {
         XCTAssertTrue(coordinator.handlePendingPasskeyRegistrationIfNeeded())
         let creator = try XCTUnwrap(presenter.passkeyCreator)
 
-        let outcome = await creator.onSave("My Passkey")
+        let outcome = await creator.onSave(.newEntry(title: "My Passkey", groupID: creator.context.defaultGroupID))
 
         guard case .showWarningAndCancel(let message) = outcome else {
             return XCTFail("Expected the conflict warning, got \(outcome)")
@@ -385,7 +486,7 @@ final class CredentialProviderRegistrationTests: XCTestCase {
         XCTAssertTrue(coordinator.handlePendingPasskeyRegistrationIfNeeded())
         let creator = try XCTUnwrap(presenter.passkeyCreator)
 
-        let outcome = await creator.onSave("My Passkey")
+        let outcome = await creator.onSave(.newEntry(title: "My Passkey", groupID: creator.context.defaultGroupID))
 
         guard case .showError = outcome else {
             return XCTFail("Expected the error outcome, got \(outcome)")
@@ -473,10 +574,11 @@ final class CredentialProviderRegistrationTests: XCTestCase {
     private func seedUnlockedVaultState(
         _ coordinator: CredentialProviderCoordinator,
         entries: [KPEntry] = [],
+        rootGroup: KPGroup = KPGroup(name: "Root"),
         sessionKey: SymmetricKey = SymmetricKey(size: .bits256)
     ) {
         coordinator.parsedEntries = entries
-        coordinator.parsedRootGroup = KPGroup(name: "Root")
+        coordinator.parsedRootGroup = rootGroup
         coordinator.parsedMeta = KPMeta()
         coordinator.sessionKey = sessionKey
         coordinator.compositeKey = SymmetricKey(data: Data("composite-key".utf8))

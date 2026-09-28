@@ -58,7 +58,7 @@ final class CredentialProviderPresentingSpy: CredentialProviderPresenting {
 
     struct PasskeyCreator {
         let context: CredentialProviderPasskeyCreatorContext
-        let onSave: @Sendable (String) async -> CredentialProviderEntrySaveOutcome
+        let onSave: @Sendable (CredentialProviderPasskeyDestination) async -> CredentialProviderEntrySaveOutcome
         let onCancel: () -> Void
     }
 
@@ -154,7 +154,7 @@ final class CredentialProviderPresentingSpy: CredentialProviderPresenting {
 
     func presentPasskeyCreator(
         context: CredentialProviderPasskeyCreatorContext,
-        onSave: @escaping @Sendable (String) async -> CredentialProviderEntrySaveOutcome,
+        onSave: @escaping @Sendable (CredentialProviderPasskeyDestination) async -> CredentialProviderEntrySaveOutcome,
         onCancel: @escaping () -> Void
     ) {
         passkeyCreator = PasskeyCreator(context: context, onSave: onSave, onCancel: onCancel)

@@ -32,14 +32,37 @@ struct CredentialProviderDatabaseSwitcherContext {
 
 /// What the passkey-registration confirmation sheet shows: the relying party
 /// and user name from the request, the database the passkey will be saved
-/// into, and the editable entry title's initial value. The sheet's save
-/// callback returns only the edited title; everything else about the new
-/// entry is derived from the request by the coordinator.
+/// into, the editable entry title's initial value, and where it can go — a
+/// group for a new entry, or an existing entry for this site. The sheet's
+/// save callback returns only that choice; the passkey itself is derived
+/// from the request by the coordinator.
 struct CredentialProviderPasskeyCreatorContext {
+    struct Group: Identifiable, Hashable {
+        let id: UUID
+        /// The group's path from the database's top-level group.
+        let path: String
+    }
+
+    struct ExistingEntry: Identifiable, Hashable {
+        let id: UUID
+        let title: String
+        let username: String
+    }
+
     let relyingPartyIdentifier: String
     let userName: String
     let databaseName: String
     let initialTitle: String
+    let groups: [Group]
+    let defaultGroupID: UUID
+    /// Entries for this site that have no passkey yet, likeliest first.
+    let existingEntries: [ExistingEntry]
+}
+
+/// Where the user chose to save a registered passkey.
+enum CredentialProviderPasskeyDestination: Sendable, Equatable {
+    case newEntry(title: String, groupID: UUID)
+    case existingEntry(UUID)
 }
 
 /// The narrow seam between the coordinator and a platform presentation shell.
@@ -97,12 +120,11 @@ protocol CredentialProviderPresenting: AnyObject {
         onCancel: @escaping () -> Void
     )
 
-    /// Confirmation sheet for a passkey registration. `onSave` receives the
-    /// user-edited entry title; `onCancel` covers both the Cancel action and
-    /// sheet dismissal.
+    /// Confirmation sheet for a passkey registration. `onSave` receives where
+    /// to save it; `onCancel` covers both the Cancel action and sheet dismissal.
     func presentPasskeyCreator(
         context: CredentialProviderPasskeyCreatorContext,
-        onSave: @escaping @Sendable (String) async -> CredentialProviderEntrySaveOutcome,
+        onSave: @escaping @Sendable (CredentialProviderPasskeyDestination) async -> CredentialProviderEntrySaveOutcome,
         onCancel: @escaping () -> Void
     )
 
@@ -1506,6 +1528,100 @@ final class CredentialProviderCoordinator {
         }
     }
 
+    /// Groups a new passkey entry can go into: every group under the database's
+    /// top-level group, as a path, skipping the recycle bin and groups where
+    /// AutoFill (KDBX `EnableSearching`) is off, since a passkey saved there
+    /// would never be offered. The top-level group comes first — it is the
+    /// default. Never the parser's synthetic root, which other KeePass apps
+    /// cannot read entries from.
+    static func passkeyDestinationGroups(in root: KPGroup) -> [CredentialProviderPasskeyCreatorContext.Group] {
+        var result: [CredentialProviderPasskeyCreatorContext.Group] = []
+        func visit(_ group: KPGroup, path: String?, inheritedSearchingEnabled: Bool) {
+            guard group.id != root.recycleBinUUID else { return }
+            let isSearchable = group.searchingEnabled?.boolValue ?? inheritedSearchingEnabled
+            let groupPath = path.map { "\($0) › \(group.name)" } ?? group.name
+            if isSearchable {
+                result.append(.init(id: group.id, path: groupPath))
+            }
+            for child in group.groups {
+                visit(child, path: groupPath, inheritedSearchingEnabled: isSearchable)
+            }
+        }
+        for topLevel in root.groups {
+            visit(topLevel, path: nil, inheritedSearchingEnabled: true)
+        }
+        return result
+    }
+
+    /// Entries for the relying party that can take the new passkey: matched
+    /// like the password picker, without a passkey of their own (an entry
+    /// holds one), same user name first.
+    static func passkeyCandidateEntries(
+        from entries: [KPEntry],
+        relyingPartyID: String,
+        userName: String
+    ) -> [CredentialProviderPasskeyCreatorContext.ExistingEntry] {
+        let identifier = ASCredentialServiceIdentifier(identifier: relyingPartyID, type: .domain)
+        return CredentialMatcher.matchedEntries(from: entries, for: [identifier])
+            .filter { !$0.hasPasskey && !$0.isExpired() }
+            .sorted { lhs, rhs in
+                let lhsSameUser = lhs.username.caseInsensitiveCompare(userName) == .orderedSame
+                let rhsSameUser = rhs.username.caseInsensitiveCompare(userName) == .orderedSame
+                if lhsSameUser != rhsSameUser { return lhsSameUser }
+                return lhs.title.localizedStandardCompare(rhs.title) == .orderedAscending
+            }
+            .map { .init(id: $0.id, title: $0.title, username: $0.username) }
+    }
+
+    /// The KeePassXC `KPEX_PASSKEY_*` fields for a new passkey.
+    nonisolated static func passkeyFields(
+        credentialID: Data,
+        privateKeyPEM: String,
+        relyingPartyID: String,
+        userName: String,
+        userHandle: Data
+    ) -> [String: String] {
+        [
+            PasskeyCredential.credentialIDKey: base64URLEncode(credentialID),
+            PasskeyCredential.privateKeyPEMKey: privateKeyPEM,
+            PasskeyCredential.relyingPartyKey: relyingPartyID,
+            PasskeyCredential.usernameKey: userName,
+            PasskeyCredential.userHandleKey: base64URLEncode(userHandle),
+        ]
+    }
+
+    /// The update draft that adds a passkey to `entry`, carrying every other
+    /// field forward unchanged; the entry keeps its title and user name, and
+    /// its previous version goes to its history. Kept off the main actor: it
+    /// decrypts the entry's secrets.
+    nonisolated static func makePasskeyAdditionDraft(
+        for entry: KPEntry,
+        passkeyFields: [String: String],
+        sessionKey: SymmetricKey
+    ) throws -> EntryDraftPayload {
+        let totpConfig = try entry.totpConfig.map { config in
+            EntryDraftPayload.TOTPConfiguration(
+                secret: try config.secret.decrypt(using: sessionKey),
+                decodedSecret: try config.decodedSecret?.decryptData(using: sessionKey),
+                keeOTPSource: config.keeOTPSource,
+                period: config.period,
+                digits: config.digits,
+                algorithm: config.algorithm
+            )
+        }
+        return EntryDraftPayload(
+            title: entry.title,
+            username: entry.username,
+            password: try entry.password.decrypt(using: sessionKey),
+            url: entry.url,
+            notes: entry.notes,
+            customFields: entry.customFields.merging(passkeyFields) { _, passkeyValue in passkeyValue },
+            protectedCustomFieldKeys: PasskeyCredential.protectedFieldKeys,
+            tags: entry.tags,
+            totpConfig: totpConfig
+        )
+    }
+
     /// Builds the update draft that appends `requestURL` as the next free
     /// `KP2A_URL_<n>` field, carrying every other field (including TOTP)
     /// forward unchanged. Returns nil when the URL's host is already stored.
@@ -1915,19 +2031,32 @@ final class CredentialProviderCoordinator {
 
         presentWhenActive { [weak self] in
             guard let self else { return }
+            guard let parsedRootGroup else {
+                // A registration request must never be left unanswered.
+                cancelRequest(code: .failed)
+                return
+            }
+            let groups = Self.passkeyDestinationGroups(in: parsedRootGroup)
             presenter?.presentPasskeyCreator(
                 context: CredentialProviderPasskeyCreatorContext(
                     relyingPartyIdentifier: relyingPartyID,
                     userName: userName,
                     databaseName: activeDatabaseReference?.displayName ?? "",
-                    initialTitle: relyingPartyID
+                    initialTitle: relyingPartyID,
+                    groups: groups,
+                    defaultGroupID: groups.first?.id ?? parsedRootGroup.id,
+                    existingEntries: Self.passkeyCandidateEntries(
+                        from: parsedEntries,
+                        relyingPartyID: relyingPartyID,
+                        userName: userName
+                    )
                 ),
-                onSave: { [weak self] title in
+                onSave: { [weak self] destination in
                     guard let self else {
                         return .showError(String(localized: "The request is no longer available."))
                     }
                     return await self.savePasskeyEntry(
-                        title: title,
+                        destination: destination,
                         relyingPartyID: relyingPartyID,
                         userName: userName,
                         userHandle: userHandle,
@@ -1953,7 +2082,7 @@ final class CredentialProviderCoordinator {
     /// credential to the system — the relying party must never receive a
     /// credential the database did not persist.
     private func savePasskeyEntry(
-        title: String,
+        destination: CredentialProviderPasskeyDestination,
         relyingPartyID: String,
         userName: String,
         userHandle: Data,
@@ -1987,24 +2116,40 @@ final class CredentialProviderCoordinator {
             return .showError(error.localizedDescription)
         }
 
-        let trimmedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
-        let draftPayload = EntryDraftPayload(
-            title: trimmedTitle.isEmpty ? relyingPartyID : trimmedTitle,
-            username: userName,
-            url: "https://\(relyingPartyID)",
-            customFields: [
-                PasskeyCredential.credentialIDKey: base64URLEncode(material.credentialID),
-                PasskeyCredential.privateKeyPEMKey: material.privateKeyPEM,
-                PasskeyCredential.relyingPartyKey: relyingPartyID,
-                PasskeyCredential.usernameKey: userName,
-                PasskeyCredential.userHandleKey: base64URLEncode(userHandle),
-            ],
-            protectedCustomFieldKeys: [
-                PasskeyCredential.credentialIDKey,
-                PasskeyCredential.privateKeyPEMKey,
-                PasskeyCredential.userHandleKey,
-            ]
+        let passkeyFields = Self.passkeyFields(
+            credentialID: material.credentialID,
+            privateKeyPEM: material.privateKeyPEM,
+            relyingPartyID: relyingPartyID,
+            userName: userName,
+            userHandle: userHandle
         )
+
+        let draftPayload: EntryDraftPayload
+        let edit: EntryEdit
+        switch destination {
+        case .newEntry(let title, let groupID):
+            let trimmedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
+            draftPayload = EntryDraftPayload(
+                title: trimmedTitle.isEmpty ? relyingPartyID : trimmedTitle,
+                username: userName,
+                url: "https://\(relyingPartyID)",
+                customFields: passkeyFields,
+                protectedCustomFieldKeys: PasskeyCredential.protectedFieldKeys
+            )
+            edit = .createEntry(parentGroupID: groupID, draft: draftPayload)
+        case .existingEntry(let entryID):
+            guard let entry = parsedRootGroup.allEntries.first(where: { $0.id == entryID }) else {
+                return .showError(String(localized: "That entry is no longer in the database."))
+            }
+            do {
+                draftPayload = try await Task.detached(priority: .userInitiated) {
+                    try Self.makePasskeyAdditionDraft(for: entry, passkeyFields: passkeyFields, sessionKey: sessionKey)
+                }.value
+            } catch {
+                return .showError(error.localizedDescription)
+            }
+            edit = .updateEntry(entryID: entryID, draft: draftPayload)
+        }
 
         do {
             let result = try await AutoFillSaveCoordinator.saveNewEntry(
@@ -2015,7 +2160,8 @@ final class CredentialProviderCoordinator {
                 sessionKey: sessionKey,
                 compositeKey: compositeKey,
                 openTimeSHA512: openTimeSHA512,
-                environment: passkeySaveEnvironment
+                environment: passkeySaveEnvironment,
+                edit: edit
             )
 
             switch result {

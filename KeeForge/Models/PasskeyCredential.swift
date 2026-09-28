@@ -49,6 +49,9 @@ extension PasskeyCredential {
     /// Legacy KPXC-prefixed username field written by older KeePassXC builds.
     static let legacyUsernameKey = "KPXC_PASSKEY_USERNAME"
 
+    /// The fields KeePassXC stores with Protected=True.
+    static let protectedFieldKeys: Set<String> = [credentialIDKey, privateKeyPEMKey, userHandleKey]
+
     /// All passkey field keys (current and legacy), used to filter them from
     /// the generic custom fields display.
     static let allFieldKeys: Set<String> = [

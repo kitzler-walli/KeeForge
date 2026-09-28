@@ -15,24 +15,36 @@ struct AutoFillPasskeyCreatorView: View {
         }
     }
 
+    /// What the Save To picker selects; `nil` is a new entry.
+    private typealias Target = UUID?
+
     let context: CredentialProviderPasskeyCreatorContext
-    let onSave: @Sendable (String) async -> CredentialProviderEntrySaveOutcome
+    let onSave: @Sendable (CredentialProviderPasskeyDestination) async -> CredentialProviderEntrySaveOutcome
     let onCancel: () -> Void
 
     @State private var title: String
+    @State private var target: Target
+    @State private var groupID: UUID
     @State private var isSaving = false
     @State private var inlineWarningMessage: String?
     @State private var alertState: AlertState?
 
     init(
         context: CredentialProviderPasskeyCreatorContext,
-        onSave: @escaping @Sendable (String) async -> CredentialProviderEntrySaveOutcome,
+        onSave: @escaping @Sendable (CredentialProviderPasskeyDestination) async -> CredentialProviderEntrySaveOutcome,
         onCancel: @escaping () -> Void
     ) {
         self.context = context
         self.onSave = onSave
         self.onCancel = onCancel
         _title = State(initialValue: context.initialTitle)
+        // An entry already signed in with this user name is almost certainly
+        // the login the passkey belongs to.
+        let sameUserEntry = context.existingEntries.first {
+            $0.username.caseInsensitiveCompare(context.userName) == .orderedSame
+        }
+        _target = State(initialValue: sameUserEntry?.id)
+        _groupID = State(initialValue: context.defaultGroupID)
     }
 
     var body: some View {
@@ -110,16 +122,43 @@ struct AutoFillPasskeyCreatorView: View {
                     .accessibilityIdentifier("autofill-passkey-creator.database")
             }
 
-            Section {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("Title")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-
-                    titleField
-                        .accessibilityIdentifier("autofill-passkey-creator.title-field")
+            if context.existingEntries.isEmpty == false {
+                Section {
+                    Picker("Save To", selection: $target) {
+                        Text("New Entry").tag(Target.none)
+                        ForEach(context.existingEntries) { entry in
+                            Text(entryLabel(entry)).tag(Target.some(entry.id))
+                        }
+                    }
+                    .accessibilityIdentifier("autofill-passkey-creator.target")
+                } footer: {
+                    if target != nil {
+                        Text("Adds the passkey to this entry. Its current version is kept in the entry's history.")
+                    }
                 }
-                .padding(.vertical, 2)
+            }
+
+            if target == nil {
+                Section {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Title")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+
+                        titleField
+                            .accessibilityIdentifier("autofill-passkey-creator.title-field")
+                    }
+                    .padding(.vertical, 2)
+
+                    if context.groups.count > 1 {
+                        Picker("Group", selection: $groupID) {
+                            ForEach(context.groups) { group in
+                                Text(group.path).tag(group.id)
+                            }
+                        }
+                        .accessibilityIdentifier("autofill-passkey-creator.group")
+                    }
+                }
             }
         }
         .macGroupedForm()
@@ -158,7 +197,9 @@ struct AutoFillPasskeyCreatorView: View {
             isSaving = false
         }
 
-        switch await onSave(title) {
+        let destination: CredentialProviderPasskeyDestination = target.map { .existingEntry($0) }
+            ?? .newEntry(title: title, groupID: groupID)
+        switch await onSave(destination) {
         case .completed:
             break
         case .showWarningAndCancel(let message):
@@ -168,6 +209,10 @@ struct AutoFillPasskeyCreatorView: View {
             alertState = AlertState(kind: .error, message: message)
         }
     }
+}
+
+private func entryLabel(_ entry: CredentialProviderPasskeyCreatorContext.ExistingEntry) -> String {
+    entry.username.isEmpty ? entry.title : "\(entry.title) — \(entry.username)"
 }
 
 private extension View {

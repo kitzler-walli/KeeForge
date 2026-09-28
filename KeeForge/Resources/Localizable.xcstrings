@@ -2408,6 +2408,46 @@
         }
       }
     },
+    "Adds the passkey to this entry. Its current version is kept in the entry's history." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fügt den Passkey diesem Eintrag hinzu. Die aktuelle Version bleibt im Verlauf des Eintrags erhalten."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añade la llave de acceso a esta entrada. Su versión actual se conserva en el historial de la entrada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoute la clé d'accès à cette entrée. Sa version actuelle est conservée dans l'historique de l'entrée."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このエントリにパスキーを追加します。現在のバージョンはエントリの履歴に保持されます。"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将通行密钥添加到此条目。其当前版本会保留在条目的历史记录中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "將通行金鑰加入此項目。其目前版本會保留在項目的歷史記錄中。"
+          }
+        }
+      }
+    },
     "Advanced" : {
       "localizations" : {
         "de" : {
@@ -28056,6 +28096,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "該較早版本已無法使用。"
+          }
+        }
+      }
+    },
+    "That entry is no longer in the database." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Eintrag ist nicht mehr in der Datenbank."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esa entrada ya no está en la base de datos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette entrée ne figure plus dans la base de données."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "そのエントリはデータベースにもうありません。"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该条目已不在数据库中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "該項目已不在資料庫中。"
           }
         }
       }
