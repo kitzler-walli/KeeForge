@@ -171,7 +171,8 @@ struct EntryDetailView: View {
                             label: String(localized: "Username"),
                             value: viewModel.resolvingFieldReferences(entry.username),
                             icon: "person.fill",
-                            accessibilityKey: "username"
+                            accessibilityKey: "username",
+                            copiesOnTap: true
                         )
                     }
 
@@ -716,6 +717,8 @@ struct FieldRow: View {
     /// in the row avoids nesting `Section` views, which gives SwiftUI
     /// inconsistent separator insets.
     var showsInlineLabel: Bool = false
+    var copiesOnTap: Bool = false
+    @State private var rowTaps = 0
 
     @ViewBuilder
     var body: some View {
@@ -745,7 +748,15 @@ struct FieldRow: View {
             Text(value)
                 .textSelection(.enabled)
             Spacer()
-            CopyButton(text: value, accessibilityID: "\(accessibilityPrefix).copy.\(normalizedLabel)")
+            CopyButton(
+                text: value,
+                accessibilityID: "\(accessibilityPrefix).copy.\(normalizedLabel)",
+                rowTaps: rowTaps
+            )
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            if copiesOnTap { rowTaps += 1 }
         }
     }
 
@@ -801,6 +812,7 @@ struct ProtectedFieldRow: View {
             }
             .frame(width: 44, height: 44)
             .contentShape(Rectangle())
+            .buttonStyle(.borderless)
             .disabled(authenticating)
             .accessibilityIdentifier("\(accessibilityPrefix).protected-field.\(normalizedLabel).reveal")
             .macHelp(revealed ? String(localized: "Hide \(label)") : String(localized: "Show \(label)"))
@@ -864,6 +876,7 @@ struct PasswordFieldRow: View {
     @State private var revealed = false
     @State private var revealedText: String?
     @State private var authenticating = false
+    @State private var rowTaps = 0
 
     var body: some View {
         Section("Password") {
@@ -874,6 +887,9 @@ struct PasswordFieldRow: View {
                 }
                 .frame(width: 44, height: 44)
                 .contentShape(Rectangle())
+                // A default-styled button in a List row claims taps anywhere in
+                // the row, which revealed the password on any tap.
+                .buttonStyle(.borderless)
                 .disabled(authenticating)
                 .accessibilityIdentifier("\(accessibilityPrefix).password.reveal")
                 .macHelp(revealTooltip)
@@ -881,9 +897,12 @@ struct PasswordFieldRow: View {
                 CopyButton(
                     resolveText: { plaintext(of: password) },
                     requireAuth: true,
-                    accessibilityID: "\(accessibilityPrefix).copy.password"
+                    accessibilityID: "\(accessibilityPrefix).copy.password",
+                    rowTaps: rowTaps
                 )
             }
+            .contentShape(Rectangle())
+            .onTapGesture { rowTaps += 1 }
         }
         .onChange(of: password) { _, updatedPassword in
             guard revealed else { return }
@@ -986,6 +1005,9 @@ struct CopyButton: View {
     var requireAuth: Bool = false
     var authenticationReason: String = String(localized: "Copy password")
     let accessibilityID: String
+    /// Incremented by the enclosing row on a tap outside the button, so the row
+    /// copies through the same auth gate and feedback as the button itself.
+    var rowTaps: Int = 0
     @State private var copied = false
 
     /// Copy a plaintext value.
@@ -993,12 +1015,14 @@ struct CopyButton: View {
         text: String,
         requireAuth: Bool = false,
         authenticationReason: String = String(localized: "Copy password"),
-        accessibilityID: String
+        accessibilityID: String,
+        rowTaps: Int = 0
     ) {
         self.resolveText = { text }
         self.requireAuth = requireAuth
         self.authenticationReason = authenticationReason
         self.accessibilityID = accessibilityID
+        self.rowTaps = rowTaps
     }
 
     /// Copy a value that is decrypted lazily on demand.
@@ -1006,40 +1030,18 @@ struct CopyButton: View {
         resolveText: @escaping () -> String,
         requireAuth: Bool = false,
         authenticationReason: String = String(localized: "Copy password"),
-        accessibilityID: String
+        accessibilityID: String,
+        rowTaps: Int = 0
     ) {
         self.resolveText = resolveText
         self.requireAuth = requireAuth
         self.authenticationReason = authenticationReason
         self.accessibilityID = accessibilityID
+        self.rowTaps = rowTaps
     }
 
     var body: some View {
-        Button {
-            // Same device-owner gate as password reveal: biometrics when
-            // available, passcode/login password/Apple Watch fallback
-            // otherwise. Skipped only when the device has no protection.
-            if requireAuth && BiometricService.canAuthenticateDeviceOwner {
-                Task {
-                    await MainActor.run {
-                        BiometricService.isBiometricAuthInProgress = true
-                    }
-                    do {
-                        _ = try await BiometricService.authenticateDeviceOwner(reason: authenticationReason)
-                        await MainActor.run {
-                            performCopy()
-                        }
-                    } catch {
-                        // Intentionally no-op on failed authentication.
-                    }
-                    await MainActor.run {
-                        BiometricService.isBiometricAuthInProgress = false
-                    }
-                }
-            } else {
-                performCopy()
-            }
-        } label: {
+        Button(action: copy) {
             Image(systemName: copied ? "checkmark" : "doc.on.doc")
                 .font(.body)
                 .foregroundStyle(copied ? Color.green : Color.accentColor)
@@ -1049,6 +1051,33 @@ struct CopyButton: View {
         .buttonStyle(.borderless)
         .accessibilityIdentifier(accessibilityID)
         .macHelp(String(localized: "Copy"))
+        .onChange(of: rowTaps) { copy() }
+    }
+
+    private func copy() {
+        // Same device-owner gate as password reveal: biometrics when
+        // available, passcode/login password/Apple Watch fallback
+        // otherwise. Skipped only when the device has no protection.
+        if requireAuth && BiometricService.canAuthenticateDeviceOwner {
+            Task {
+                await MainActor.run {
+                    BiometricService.isBiometricAuthInProgress = true
+                }
+                do {
+                    _ = try await BiometricService.authenticateDeviceOwner(reason: authenticationReason)
+                    await MainActor.run {
+                        performCopy()
+                    }
+                } catch {
+                    // Intentionally no-op on failed authentication.
+                }
+                await MainActor.run {
+                    BiometricService.isBiometricAuthInProgress = false
+                }
+            }
+        } else {
+            performCopy()
+        }
     }
 
     private func performCopy() {

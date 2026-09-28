@@ -152,6 +152,26 @@ final class UnlockedDatabaseBrowseAndDetailUITests: UnlockedDatabaseUITestCase {
         urlCopy.tap()
     }
 
+    func testTappingUsernameAndPasswordRowsCopiesWithoutRevealing() {
+        unlockSuccessfully()
+
+        openFixtureEntry()
+
+        for identifier in ["entry.copy.username", "entry.copy.password"] {
+            let copyButton = app.buttons[identifier]
+            XCTAssertTrue(revealElement(copyButton), "\(identifier) was not visible")
+            let idleLabel = copyButton.label
+
+            // Well left of the row's trailing buttons, on the value itself.
+            copyButton.coordinate(withNormalizedOffset: CGVector(dx: -5, dy: 0.5)).tap()
+
+            let copied = expectation(for: NSPredicate(format: "label != %@", idleLabel), evaluatedWith: copyButton)
+            wait(for: [copied], timeout: 3)
+        }
+
+        XCTAssertFalse(app.staticTexts["twitterpass123"].exists, "Tapping the password row revealed it")
+    }
+
     func testFixtureEntryDetailShowsTimestamps() {
         unlockSuccessfully()
 

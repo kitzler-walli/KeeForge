@@ -11,6 +11,7 @@
 ### Changes
 
 - Dropbox and OneDrive are no longer offered when adding or creating a database. NextPass syncs through Nextcloud, WebDAV, and FTP.
+- Tap the username or password in an entry to copy it. The password stays hidden until you tap the eye button; tapping anywhere on its row used to reveal it.
 
 ### Fixes
 
