@@ -303,6 +303,9 @@ apart from `app-sandbox`, which iOS extensions get implicitly:
   extension cannot resolve a security-scoped bookmark or reach the user's
   original `.kdbx` on disk. It reads only the encrypted copy the app cached into
   the App Group container — which is why the app refreshes that copy on save.
+  It writes only there too: a save it makes (a new passkey, say) waits in that
+  copy under a pending marker until the app writes it into the file, and only
+  if the file has not changed since, so the extension never gains file access.
 - **One keychain group**, the shared one, in the same order as the app's, so a
   composite key written by either process is readable by the other and by
   nothing else. MSAL's group is app-only and intentionally absent.

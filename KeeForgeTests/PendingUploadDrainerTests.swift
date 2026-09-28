@@ -217,7 +217,9 @@ final class PendingUploadDrainerTests: XCTestCase {
         XCTAssertEqual(viewModel.pendingUploadAlert?.message, CloudProviderError.writeScopeRequired.localizedDescription)
     }
 
-    func test_drain_skipsLocalSourceMarkers() async {
+    /// A local marker without a recorded file base predates the Mac hand-off
+    /// and has nothing to verify the file against.
+    func test_drain_skipsLocalSourceMarkersWithoutAFileBase() async {
         let reference = makeLocalReference()
         let storedMarker = makeStoredMarker(databaseId: reference.id, expectedRev: nil)
         let recorder = Recorder()
@@ -238,6 +240,56 @@ final class PendingUploadDrainerTests: XCTestCase {
         XCTAssertEqual(outcome.skippedDatabaseIDs, [reference.id])
         XCTAssertTrue(recorder.droppedMarkerIDs.isEmpty)
         XCTAssertTrue(recorder.updatedMarkers.isEmpty)
+    }
+
+    func test_drain_appliesALocalMarkerWhoseFileBaseStillMatches() async {
+        let reference = makeLocalReference()
+        let storedMarker = makeLocalStoredMarker(databaseId: reference.id, baseSHA512: Data("file-base".utf8))
+        let recorder = Recorder()
+        let drainer = PendingUploadDrainer(
+            environment: makeEnvironment(
+                markers: [storedMarker],
+                reference: reference,
+                recorder: recorder,
+                applyLocalPendingChange: { _, payload, baseSHA512 in
+                    XCTAssertEqual(payload, Data("encrypted-bytes".utf8))
+                    XCTAssertEqual(baseSHA512, Data("file-base".utf8))
+                    return .applied
+                },
+                pushPendingUpload: { _, _, _ in
+                    XCTFail("Local markers are applied, never pushed")
+                    return .saved(updatedReference: reference)
+                }
+            )
+        )
+
+        let outcome = await drainer.drainAll()
+
+        XCTAssertEqual(outcome.drainedDatabaseIDs, [reference.id])
+        XCTAssertEqual(recorder.droppedMarkerIDs, [storedMarker.id])
+    }
+
+    /// Another KeePass app changed the file after the AutoFill save was based
+    /// on it: the marker stays, flagged, and nothing is written.
+    func test_drain_flagsALocalMarkerWhoseFileChanged() async {
+        let reference = makeLocalReference()
+        let storedMarker = makeLocalStoredMarker(databaseId: reference.id, baseSHA512: Data("file-base".utf8))
+        let recorder = Recorder()
+        let drainer = PendingUploadDrainer(
+            environment: makeEnvironment(
+                markers: [storedMarker],
+                reference: reference,
+                recorder: recorder,
+                applyLocalPendingChange: { _, _, _ in .conflict },
+                pushPendingUpload: { _, _, _ in .saved(updatedReference: reference) }
+            )
+        )
+
+        let outcome = await drainer.drainAll()
+
+        XCTAssertEqual(outcome.conflictDatabaseIDs, [reference.id])
+        XCTAssertTrue(recorder.droppedMarkerIDs.isEmpty)
+        XCTAssertEqual(recorder.updatedMarkers.map(\.marker.isConflicted), [true])
     }
 
     func test_drain_rebasesOnlyWhenPayloadDerivesFromRemoteHead() async {
@@ -463,6 +515,7 @@ final class PendingUploadDrainerTests: XCTestCase {
         recorder: Recorder = Recorder(),
         readBytes: (@Sendable (String) throws -> Data)? = nil,
         sha512: (@Sendable (Data) -> Data)? = nil,
+        applyLocalPendingChange: (@Sendable (DatabaseReference, Data, Data) throws -> LocalDatabaseSaver.PendingChangeResult)? = nil,
         pushPendingUpload: @escaping @Sendable (DatabaseReference, Data, String?) async throws -> CloudDatabaseSaver.PendingUploadPushResult
     ) -> PendingUploadDrainer.Environment {
         PendingUploadDrainer.Environment(
@@ -490,6 +543,10 @@ final class PendingUploadDrainerTests: XCTestCase {
             // payload-integrity guard treats the cached bytes as unchanged.
             sha512: sha512 ?? { _ in Data("open-sha".utf8) },
             pushPendingUpload: pushPendingUpload,
+            applyLocalPendingChange: applyLocalPendingChange ?? { _, _, _ in
+                XCTFail("A cloud marker must never be applied as a local change")
+                return .conflict
+            },
         )
     }
 
@@ -545,6 +602,21 @@ final class PendingUploadDrainerTests: XCTestCase {
                     lastSyncedAt: nil,
                     lastSyncIssue: nil
                 )
+            )
+        )
+    }
+
+    private func makeLocalStoredMarker(databaseId: UUID, baseSHA512: Data) -> PendingUploadQueue.StoredMarker {
+        PendingUploadQueue.StoredMarker(
+            id: UUID(),
+            fileURL: URL(fileURLWithPath: "/tmp/\(UUID().uuidString).json"),
+            marker: PendingUploadQueue.Marker(
+                databaseId: databaseId,
+                encryptedBytesCacheURL: "database-cache/\(databaseId.uuidString).kdbx",
+                openTimeSHA512: Data("open-sha".utf8),
+                expectedRev: nil,
+                createdAt: Date(timeIntervalSince1970: 1_000),
+                baseSHA512: baseSHA512
             )
         )
     }

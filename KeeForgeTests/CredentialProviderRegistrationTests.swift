@@ -536,6 +536,7 @@ final class CredentialProviderRegistrationTests: XCTestCase {
             finalizePendingUpload: { _ in },
             dropPendingUpload: { _ in },
             dropSupersededPendingUploads: { _, _, _ in },
+            pendingLocalBaseSHA512: { _, _ in nil },
             notifyPendingUploadEnqueued: {},
             resolveReference: { _ in nil },
             populateCredentialStore: { [recorder] _, entries in

@@ -285,6 +285,66 @@ enum LocalDatabaseSaver {
         return .saved(newSHA512: KDBXCrypto.sha512(newData))
     }
 
+    enum PendingChangeResult: Equatable, Sendable {
+        case applied
+        /// The file already holds the payload, e.g. an earlier drain wrote it
+        /// and crashed before dropping the marker.
+        case alreadyApplied
+        /// The file no longer holds the bytes the payload was derived from.
+        case conflict
+    }
+
+    /// Writes an AutoFill save into the database file. The Mac extension cannot
+    /// open the user's file, so it saves into the shared cache and the app hands
+    /// the payload on here — only while the file still hashes to `baseSHA512`,
+    /// so a change made meanwhile (another KeePass app) is never overwritten.
+    static func applyPendingChange(
+        _ payload: Data,
+        baseSHA512: Data,
+        reference: DatabaseReference,
+        environment: Environment = .live
+    ) throws -> PendingChangeResult {
+        guard let location = environment.resolveLocation(reference) else {
+            throw SaveError.databaseLocationUnavailable
+        }
+
+        let hasSecurityScope = location.usesSecurityScope
+            ? location.url.startAccessingSecurityScopedResource()
+            : false
+        defer {
+            if hasSecurityScope {
+                location.url.stopAccessingSecurityScopedResource()
+            }
+        }
+
+        let currentData = try environment.readData(location.url)
+        let currentSHA512 = KDBXCrypto.sha512(currentData)
+        if currentSHA512 == KDBXCrypto.sha512(payload) {
+            return .alreadyApplied
+        }
+        guard currentSHA512 == baseSHA512 else {
+            return .conflict
+        }
+
+        let backupDirectoryURL = environment.backupDirectoryURL(reference)
+        try environment.createDirectory(backupDirectoryURL)
+        try environment.writeBackup(
+            currentData,
+            backupDirectoryURL.appendingPathComponent(backupFilename(for: environment.now()), isDirectory: false)
+        )
+        try environment.replaceFileAtomically(payload, location.url)
+        try? environment.pruneBackups(reference, 5)
+        return .applied
+    }
+
+    /// Where the Mac AutoFill extension saves a local database: the shared
+    /// cache, since the security-scoped bookmark to the user's file only
+    /// resolves in the app that created it. `applyPendingChange` moves the
+    /// bytes into the file.
+    static func sharedCacheLocation(for reference: DatabaseReference) -> ResolvedLocation {
+        ResolvedLocation(url: DatabaseListStore.cacheLocation(for: reference), usesSecurityScope: false)
+    }
+
     private static func resolveLocation(for reference: DatabaseReference) -> ResolvedLocation? {
         if let url = DatabaseListStore.resolveDatabaseURL(for: reference) {
             return ResolvedLocation(url: url, usesSecurityScope: true)
@@ -302,7 +362,7 @@ enum LocalDatabaseSaver {
         url.standardizedFileURL.resolvingSymlinksInPath().path
     }
 
-    private static func backupFilename(for date: Date) -> String {
+    static func backupFilename(for date: Date) -> String {
         let utcCalendar = Calendar(identifier: .gregorian)
         let utcTimeZone = TimeZone(secondsFromGMT: 0) ?? .current
         let components = utcCalendar.dateComponents(in: utcTimeZone, from: date)

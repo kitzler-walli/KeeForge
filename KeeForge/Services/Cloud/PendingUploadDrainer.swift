@@ -41,6 +41,9 @@ final class PendingUploadDrainer {
         var readBytes: @Sendable (String) throws -> Data
         var sha512: @Sendable (Data) -> Data
         var pushPendingUpload: @Sendable (DatabaseReference, Data, String?) async throws -> CloudDatabaseSaver.PendingUploadPushResult
+        /// Local databases: writes the payload into the file if it still holds
+        /// `baseSHA512` (`LocalDatabaseSaver.applyPendingChange`).
+        var applyLocalPendingChange: @Sendable (_ reference: DatabaseReference, _ payload: Data, _ baseSHA512: Data) throws -> LocalDatabaseSaver.PendingChangeResult
 
         static let live = Environment(
             beginBackgroundTask: LocalDatabaseSaver.Environment.live.beginBackgroundTask,
@@ -69,6 +72,9 @@ final class PendingUploadDrainer {
                     encryptedBytes: data,
                     expectedRev: expectedRev
                 )
+            },
+            applyLocalPendingChange: { reference, payload, baseSHA512 in
+                try LocalDatabaseSaver.applyPendingChange(payload, baseSHA512: baseSHA512, reference: reference)
             }
         )
     }
@@ -187,7 +193,8 @@ final class PendingUploadDrainer {
                 continue
             }
 
-            guard reference.isCloudBacked else {
+            let localBaseSHA512 = reference.isCloudBacked ? nil : storedMarker.marker.baseSHA512
+            guard reference.isCloudBacked || localBaseSHA512 != nil else {
                 outcome.skippedDatabaseIDs.insert(reference.id)
                 continue
             }
@@ -232,6 +239,28 @@ final class PendingUploadDrainer {
                 storedMarker.marker.isConflicted = true
                 _ = try? environment.updateMarker(storedMarker)
                 outcome.conflictDatabaseIDs.insert(reference.id)
+                continue
+            }
+
+            if let localBaseSHA512 {
+                do {
+                    switch try environment.applyLocalPendingChange(reference, encryptedBytes, localBaseSHA512) {
+                    case .applied, .alreadyApplied:
+                        try environment.dropMarker(storedMarker)
+                        outcome.drainedDatabaseIDs.insert(reference.id)
+                        uploadedPayloadSHAs[reference.id, default: []].insert(storedMarker.marker.openTimeSHA512)
+                    case .conflict:
+                        storedMarker.marker.isConflicted = true
+                        _ = try? environment.updateMarker(storedMarker)
+                        outcome.conflictDatabaseIDs.insert(reference.id)
+                    }
+                } catch {
+                    outcome.userIssue = UserIssue(
+                        databaseId: reference.id,
+                        kind: .message,
+                        message: error.localizedDescription
+                    )
+                }
                 continue
             }
 

@@ -3,6 +3,18 @@ import CryptoKit
 import Foundation
 
 enum AutoFillSaveCoordinator {
+    /// The Mac extension cannot open a local database's file (its security-
+    /// scoped bookmark only resolves in the app that made it), so it saves into
+    /// the shared cache under a pending marker the app applies — the same
+    /// hand-off cloud databases use. iOS extensions write the file directly.
+    static var handsLocalSavesToApp: Bool {
+        #if os(macOS)
+        true
+        #else
+        false
+        #endif
+    }
+
     struct SaveOutcome: Sendable {
         let savedRootGroup: KPGroup
         let newSHA512: Data
@@ -32,6 +44,10 @@ enum AutoFillSaveCoordinator {
         /// SHA — provably superseded by the save being enqueued. The excluded
         /// id is the just-enqueued marker itself.
         var dropSupersededPendingUploads: @Sendable (_ databaseId: UUID, _ payloadSHA512: Data, _ excludedMarkerID: UUID) -> Void
+        /// The file base of a still-pending local save whose payload this save
+        /// builds on. That save is about to be superseded, and the file still
+        /// holds its base, not its payload.
+        var pendingLocalBaseSHA512: @Sendable (_ databaseId: UUID, _ payloadSHA512: Data) -> Data?
         var notifyPendingUploadEnqueued: @Sendable () -> Void
         var resolveReference: @Sendable (UUID) -> DatabaseReference?
         /// Publishes the given entries as credential identities owned by the
@@ -44,12 +60,19 @@ enum AutoFillSaveCoordinator {
                 PasswordGenerator.generate(options: SettingsService.passwordGeneratorOptions)
             },
             saveDraft: { draft, reference, compositeKey, openTimeSHA512 in
+                var saverEnvironment = LocalDatabaseSaver.Environment.live
+                if handsLocalSavesToApp, reference.isCloudBacked == false {
+                    saverEnvironment.resolveLocation = { reference in
+                        LocalDatabaseSaver.sharedCacheLocation(for: reference)
+                    }
+                }
                 let result = try await LocalDatabaseSaver.save(
                     draft: draft,
                     reference: reference,
                     compositeKey: compositeKey,
                     openTimeSHA512: openTimeSHA512,
-                    kdfPolicy: .autoFillExtension
+                    kdfPolicy: .autoFillExtension,
+                    environment: saverEnvironment
                 )
                 switch result {
                 case .saved(let newSHA512):
@@ -82,6 +105,11 @@ enum AutoFillSaveCoordinator {
                     for: databaseId,
                     excluding: excludedMarkerID
                 )
+            },
+            pendingLocalBaseSHA512: { databaseId, payloadSHA512 in
+                PendingUploadQueue.listMarkers(for: databaseId)
+                    .first { $0.marker.openTimeSHA512 == payloadSHA512 }?
+                    .marker.baseSHA512
             },
             notifyPendingUploadEnqueued: {
                 PendingUploadQueue.postEnqueuedNotification()
@@ -149,10 +177,13 @@ enum AutoFillSaveCoordinator {
         // re-pushes identical bytes; after it, the mismatch surfaces as a
         // conflict rather than a silent wrong push.
         var provisionalMarker: PendingUploadQueue.StoredMarker?
-        if reference.isCloudBacked {
+        if usesPendingMarker(reference) {
             let cacheURL = DatabaseListStore.cacheLocation(for: reference)
             let relativePath = try environment.relativePathForURL(cacheURL)
             provisionalMarker = try await Task.detached(priority: .utility) {
+                let baseSHA512 = reference.isCloudBacked
+                    ? nil
+                    : environment.pendingLocalBaseSHA512(reference.id, openTimeSHA512) ?? openTimeSHA512
                 let storedMarker = try environment.enqueuePendingUpload(
                     PendingUploadQueue.Marker(
                         databaseId: reference.id,
@@ -160,7 +191,8 @@ enum AutoFillSaveCoordinator {
                         openTimeSHA512: openTimeSHA512,
                         expectedRev: reference.expectedCloudRevision,
                         createdAt: environment.now(),
-                        baseRev: reference.expectedCloudRevision
+                        baseRev: reference.expectedCloudRevision,
+                        baseSHA512: baseSHA512
                     )
                 )
                 // An older marker whose payload hashes to this save's base
@@ -217,7 +249,7 @@ enum AutoFillSaveCoordinator {
                 SaveOutcome(
                     savedRootGroup: outcome.savedRootGroup,
                     newSHA512: outcome.newSHA512,
-                    enqueuedPendingUpload: reference.isCloudBacked
+                    enqueuedPendingUpload: usesPendingMarker(reference)
                 )
             )
         case .conflict:
@@ -249,7 +281,7 @@ enum AutoFillSaveCoordinator {
             environment.notifyPendingUploadEnqueued()
         } catch {
             guard let refreshedReference = environment.resolveReference(reference.id),
-                  refreshedReference.isCloudBacked else {
+                  usesPendingMarker(refreshedReference) else {
                 return
             }
 
@@ -260,6 +292,10 @@ enum AutoFillSaveCoordinator {
                 environment.notifyPendingUploadEnqueued()
             }
         }
+    }
+
+    private static func usesPendingMarker(_ reference: DatabaseReference) -> Bool {
+        reference.isCloudBacked || handsLocalSavesToApp
     }
 
     static func credentialStoreEntries(from root: KPGroup) -> [KPEntry] {

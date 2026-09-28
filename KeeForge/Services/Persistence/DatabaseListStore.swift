@@ -522,9 +522,38 @@ enum DatabaseListStore {
             withIntermediateDirectories: true,
             attributes: nil
         )
+        if reference.isCloudBacked == false {
+            try preservePendingLocalChange(in: url, replacingWith: data, reference: reference)
+        }
         try CoordinatedFileReader.writeData(
             data,
             to: url,
+            options: .atomicProtected
+        )
+    }
+
+    /// A local database's cache can hold a Mac AutoFill save the app has not
+    /// written into the file yet (`AutoFillSaveCoordinator.handsLocalSavesToApp`).
+    /// Replacing it would lose the only copy, so it goes to the backup
+    /// directory first; the drainer then sees the mismatch and flags the
+    /// marker. A failed backup throws, so the cache is not overwritten.
+    private static func preservePendingLocalChange(
+        in cacheURL: URL,
+        replacingWith data: Data,
+        reference: DatabaseReference
+    ) throws {
+        let markers = PendingUploadQueue.listMarkers(for: reference.id).filter { $0.marker.baseSHA512 != nil }
+        guard markers.isEmpty == false,
+              let cachedData = try? CoordinatedFileReader.readData(from: cacheURL) else { return }
+
+        let cachedSHA512 = KDBXCrypto.sha512(cachedData)
+        guard cachedSHA512 != KDBXCrypto.sha512(data),
+              markers.contains(where: { $0.marker.openTimeSHA512 == cachedSHA512 }) else { return }
+
+        let backupDirectory = databaseBackupDirectoryURL(for: reference)
+        try FileManager.default.createDirectory(at: backupDirectory, withIntermediateDirectories: true, attributes: nil)
+        try cachedData.write(
+            to: backupDirectory.appendingPathComponent(LocalDatabaseSaver.backupFilename(for: .now), isDirectory: false),
             options: .atomicProtected
         )
     }

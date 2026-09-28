@@ -672,6 +672,88 @@ final class LocalDatabaseSaverTests: XCTestCase {
 
     /// A real KDBX under the same key whose bytes differ from `databaseURL`'s
     /// — what another client would have left behind.
+    // MARK: - Pending changes from the Mac AutoFill extension
+
+    func testApplyPendingChangeWritesThePayloadAndBacksUpTheBase() throws {
+        let databaseURL = try makeScratchDatabaseCopy()
+        let reference = try TestDatabaseSupport.makeReference(for: databaseURL)
+        let baseData = try Data(contentsOf: databaseURL)
+        let payload = Data("autofill-payload".utf8)
+
+        let result = try LocalDatabaseSaver.applyPendingChange(
+            payload,
+            baseSHA512: KDBXCrypto.sha512(baseData),
+            reference: reference
+        )
+
+        XCTAssertEqual(result, .applied)
+        XCTAssertEqual(try Data(contentsOf: databaseURL), payload)
+        let backups = try FileManager.default.contentsOfDirectory(
+            at: DatabaseListStore.databaseBackupDirectoryURL(for: reference),
+            includingPropertiesForKeys: nil
+        )
+        XCTAssertEqual(try backups.map { try Data(contentsOf: $0) }, [baseData])
+    }
+
+    func testApplyPendingChangeLeavesAFileChangedSinceTheBaseUntouched() throws {
+        let databaseURL = try makeScratchDatabaseCopy()
+        let reference = try TestDatabaseSupport.makeReference(for: databaseURL)
+        let currentData = try Data(contentsOf: databaseURL)
+
+        let result = try LocalDatabaseSaver.applyPendingChange(
+            Data("autofill-payload".utf8),
+            baseSHA512: KDBXCrypto.sha512(Data("an older version".utf8)),
+            reference: reference
+        )
+
+        XCTAssertEqual(result, .conflict)
+        XCTAssertEqual(try Data(contentsOf: databaseURL), currentData)
+    }
+
+    func testApplyPendingChangeRecognizesAnAlreadyAppliedPayload() throws {
+        let databaseURL = try makeScratchDatabaseCopy()
+        let reference = try TestDatabaseSupport.makeReference(for: databaseURL)
+        let payload = try Data(contentsOf: databaseURL)
+
+        let result = try LocalDatabaseSaver.applyPendingChange(
+            payload,
+            baseSHA512: KDBXCrypto.sha512(Data("an older version".utf8)),
+            reference: reference
+        )
+
+        XCTAssertEqual(result, .alreadyApplied)
+    }
+
+    /// The app must not replace a local database's cache while it still holds
+    /// a Mac AutoFill save that has not reached the file.
+    func testCacheRefreshBacksUpAPendingLocalChangeBeforeReplacingIt() throws {
+        let databaseURL = try makeScratchDatabaseCopy()
+        let reference = try TestDatabaseSupport.makeReference(for: databaseURL)
+        let pendingPayload = Data("autofill-payload".utf8)
+        try DatabaseListStore.cacheDatabaseCopy(pendingPayload, for: reference)
+        _ = try PendingUploadQueue.enqueue(
+            PendingUploadQueue.Marker(
+                databaseId: reference.id,
+                encryptedBytesCacheURL: PendingUploadQueue.makeRelativeAppGroupPath(
+                    for: DatabaseListStore.cacheLocation(for: reference)
+                ),
+                openTimeSHA512: KDBXCrypto.sha512(pendingPayload),
+                expectedRev: nil,
+                createdAt: .now,
+                baseSHA512: KDBXCrypto.sha512(Data("file-base".utf8))
+            ),
+            notifying: false
+        )
+
+        try DatabaseListStore.cacheDatabaseCopy(try Data(contentsOf: databaseURL), for: reference)
+
+        let backups = try FileManager.default.contentsOfDirectory(
+            at: DatabaseListStore.databaseBackupDirectoryURL(for: reference),
+            includingPropertiesForKeys: nil
+        )
+        XCTAssertEqual(try backups.map { try Data(contentsOf: $0) }, [pendingPayload])
+    }
+
     private func makeDivergedDatabaseData(from databaseURL: URL) throws -> Data {
         let compositeKey = try KDBXCrypto.compositeKey(password: fixturePassword)
         let sessionKey = SymmetricKey(size: .bits256)

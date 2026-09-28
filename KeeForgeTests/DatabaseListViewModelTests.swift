@@ -632,6 +632,7 @@ final class DatabaseListViewModelTests: XCTestCase {
                 readBytes: { _ in Data("encrypted-bytes".utf8) },
                 sha512: { _ in Data("open-sha".utf8) },
                 pushPendingUpload: pushPendingUpload,
+                applyLocalPendingChange: { _, _, _ in .applied },
             )
         )
     }

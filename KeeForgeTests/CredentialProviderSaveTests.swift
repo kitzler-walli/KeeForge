@@ -59,7 +59,9 @@ final class CredentialProviderSaveTests: XCTestCase {
         XCTAssertEqual(draft.url, "")
     }
 
-    func test_saveNewEntry_localSource_writesCacheAndCallsCompleteRequest_doesNotEnqueue() async throws {
+    /// iOS extensions write a local database's file themselves; the Mac one
+    /// hands the payload to the app under a marker (see the macOS tests below).
+    func test_saveNewEntry_localSource_writesCacheAndCallsCompleteRequest_enqueuesOnlyOnMac() async throws {
         let reference = makeLocalReference()
         let sessionKey = SymmetricKey(size: .bits256)
         let visibleRoot = KPGroup(name: "MyDatabase")
@@ -86,17 +88,63 @@ final class CredentialProviderSaveTests: XCTestCase {
             return XCTFail("Expected save to succeed")
         }
 
-        XCTAssertFalse(outcome.enqueuedPendingUpload)
+        XCTAssertEqual(outcome.enqueuedPendingUpload, AutoFillSaveCoordinator.handsLocalSavesToApp)
         XCTAssertEqual(outcome.savedRootGroup.allEntries.count, 1)
         XCTAssertEqual(outcome.savedRootGroup.allEntries.first?.title, "Example")
         XCTAssertEqual(outcome.savedRootGroup.allEntries.first?.username, "alex")
         XCTAssertTrue(outcome.savedRootGroup.entries.isEmpty, "Entry should not be on the synthetic root")
         XCTAssertEqual(outcome.savedRootGroup.groups.first?.entries.count, 1, "Entry should be in the visible root group")
         XCTAssertEqual(recorder.saveCalls.count, 1)
-        XCTAssertTrue(recorder.enqueuedMarkers.isEmpty)
+        XCTAssertEqual(recorder.enqueuedMarkers.isEmpty, AutoFillSaveCoordinator.handsLocalSavesToApp == false)
         XCTAssertEqual(recorder.populatedEntryTitles, [["Example"]])
         XCTAssertEqual(DatabaseListStore.activeAutoFillDatabaseID, reference.id)
     }
+
+    #if os(macOS)
+    func test_saveNewEntry_localSourceOnMac_recordsTheFileBaseForTheApp() async throws {
+        let recorder = SaveRecorder()
+
+        let result = try await AutoFillSaveCoordinator.saveNewEntry(
+            draftPayload: EntryDraftPayload(title: "Example", username: "alex", password: "secret", url: ""),
+            reference: makeLocalReference(),
+            rootGroup: KPGroup(name: "Root", groups: [KPGroup(name: "MyDatabase")]),
+            meta: KPMeta(),
+            sessionKey: SymmetricKey(size: .bits256),
+            compositeKey: SymmetricKey(data: Data("composite-key".utf8)),
+            openTimeSHA512: Data("open-sha".utf8),
+            environment: makeEnvironment(recorder: recorder)
+        )
+
+        guard case .saved = result else { return XCTFail("Expected save to succeed") }
+        let marker = try XCTUnwrap(recorder.enqueuedMarkers.first)
+        XCTAssertEqual(marker.baseSHA512, Data("open-sha".utf8))
+        XCTAssertNil(marker.expectedRev)
+        XCTAssertEqual(recorder.notifyCount, 1, "The app is woken to apply the save")
+    }
+
+    /// A second save built on a first that the app has not applied yet
+    /// supersedes it, but the file still holds the first save's base.
+    func test_saveNewEntry_localSourceOnMac_inheritsTheBaseOfTheSupersededSave() async throws {
+        let recorder = SaveRecorder()
+        var environment = makeEnvironment(recorder: recorder)
+        environment.pendingLocalBaseSHA512 = { _, payloadSHA512 in
+            payloadSHA512 == Data("first-payload".utf8) ? Data("file-base".utf8) : nil
+        }
+
+        _ = try await AutoFillSaveCoordinator.saveNewEntry(
+            draftPayload: EntryDraftPayload(title: "Example", username: "alex", password: "secret", url: ""),
+            reference: makeLocalReference(),
+            rootGroup: KPGroup(name: "Root", groups: [KPGroup(name: "MyDatabase")]),
+            meta: KPMeta(),
+            sessionKey: SymmetricKey(size: .bits256),
+            compositeKey: SymmetricKey(data: Data("composite-key".utf8)),
+            openTimeSHA512: Data("first-payload".utf8),
+            environment: environment
+        )
+
+        XCTAssertEqual(recorder.enqueuedMarkers.first?.baseSHA512, Data("file-base".utf8))
+    }
+    #endif
 
     func test_saveNewEntry_twofishLocalSource_preservesCipherInCachedBytes() async throws {
         let loaded = try KDBXCompatibilitySupport.load(
@@ -138,6 +186,7 @@ final class CredentialProviderSaveTests: XCTestCase {
             finalizePendingUpload: { _ in },
             dropPendingUpload: { _ in },
             dropSupersededPendingUploads: { _, _, _ in },
+            pendingLocalBaseSHA512: { _, _ in nil },
             notifyPendingUploadEnqueued: {},
             resolveReference: { _ in nil },
             populateCredentialStore: { _, _ in },
@@ -555,6 +604,7 @@ final class CredentialProviderSaveTests: XCTestCase {
                     )
                 )
             },
+            pendingLocalBaseSHA512: { _, _ in nil },
             notifyPendingUploadEnqueued: {
                 recorder.events.append("notify")
                 recorder.notifyCount += 1

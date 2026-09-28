@@ -30,6 +30,11 @@ enum PendingUploadQueue {
         /// auto-rebases a conflicted marker when this equals the remote head.
         /// Legacy markers decode as `nil`, disabling auto-rebase for them.
         var baseRev: String?
+        /// Local databases only: SHA-512 of the database file the payload was
+        /// derived from. The Mac AutoFill extension cannot open the user's file,
+        /// so it saves into the shared cache and the app applies the payload —
+        /// only while the file still hashes to this. `nil` for cloud markers.
+        var baseSHA512: Data?
 
         init(
             databaseId: UUID,
@@ -38,7 +43,8 @@ enum PendingUploadQueue {
             expectedRev: String?,
             createdAt: Date,
             isConflicted: Bool = false,
-            baseRev: String? = nil
+            baseRev: String? = nil,
+            baseSHA512: Data? = nil
         ) {
             self.databaseId = databaseId
             self.encryptedBytesCacheURL = encryptedBytesCacheURL
@@ -47,6 +53,7 @@ enum PendingUploadQueue {
             self.createdAt = createdAt
             self.isConflicted = isConflicted
             self.baseRev = baseRev
+            self.baseSHA512 = baseSHA512
         }
 
         /// Hand-written so markers persisted before `isConflicted` existed keep
@@ -64,6 +71,7 @@ enum PendingUploadQueue {
             createdAt = try container.decode(Date.self, forKey: .createdAt)
             isConflicted = try container.decodeIfPresent(Bool.self, forKey: .isConflicted) ?? false
             baseRev = try container.decodeIfPresent(String.self, forKey: .baseRev)
+            baseSHA512 = try container.decodeIfPresent(Data.self, forKey: .baseSHA512)
         }
     }
 
