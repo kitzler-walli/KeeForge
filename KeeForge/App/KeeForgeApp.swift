@@ -15,6 +15,7 @@ struct KeeForgeApp: App {
     #if os(macOS)
     @State private var macLockMonitor = MacLockMonitor()
     @State private var macWindowCloseGuard = MacWindowCloseGuard()
+    @State private var browserBridge: BrowserBridgeServer?
     #else
     @State private var isShowingAppSettings = false
     #endif
@@ -197,6 +198,23 @@ struct KeeForgeApp: App {
         // runs before it.
         macWindowCloseGuard.vaultProvider = { activeViewModel.wrappedValue }
         macWindowCloseGuard.start()
+
+        let bridgeHandler = BrowserBridgeRequestHandler(
+            environment: BrowserBridgeRequestHandler.Environment(
+                vault: { activeViewModel.wrappedValue },
+                pairings: BrowserBridgePairingStore(),
+                approvePairing: { await BrowserBridgeConnector.approvePairing(browserName: $0) },
+                presentForUnlock: { BrowserBridgeConnector.presentForUnlock() },
+                copyToClipboard: { ClipboardService.copy($0) }
+            )
+        )
+        if browserBridge == nil {
+            let server = BrowserBridgeServer(extensionID: BrowserBridgeConnector.extensionID) {
+                await bridgeHandler.handle($0)
+            }
+            server.start()
+            browserBridge = server
+        }
         #endif
     }
 

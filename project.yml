@@ -137,6 +137,7 @@ targets:
           - "**/AGENTS.md"
           - "AppSupport/MacLockMonitor.swift"
           - "AppSupport/MacWindowCloseGuard.swift"
+          - "BrowserBridge/**"
       - path: KeeForge/ViewModels
         excludes: ["README.md", "CLAUDE.md", "AGENTS.md"]
       - path: KeeForge/Views

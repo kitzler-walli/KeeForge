@@ -436,6 +436,9 @@ private struct AutoFillSettingsView: View {
             #endif
 
             clearEntriesSection
+            #if os(macOS)
+            BrowserExtensionSettingsSection()
+            #endif
         }
         #if os(iOS)
         .navigationTitle("AutoFill")
@@ -865,4 +868,27 @@ private struct MacDisplaySettingsTab: View {
     }
 }
 
+#endif
+
+#if os(macOS)
+/// Browsers the NextPass extension was allowed in; see
+/// `KeeForge/Services/BrowserBridge`.
+private struct BrowserExtensionSettingsSection: View {
+    @State private var hasPairings = BrowserBridgePairingStore().hasPairings
+
+    var body: some View {
+        Section {
+            Button("Forget Connected Browsers", role: .destructive) {
+                BrowserBridgePairingStore().removeAll()
+                hasPairings = false
+            }
+            .disabled(hasPairings == false)
+            .accessibilityIdentifier("settings.browser.forget")
+        } header: {
+            Text("Browser Extension")
+        } footer: {
+            Text("The NextPass extension for Brave and Chrome connects to NextPass while it is running. The first time, NextPass asks you to allow that browser.")
+        }
+    }
+}
 #endif

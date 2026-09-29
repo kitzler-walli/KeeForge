@@ -11,6 +11,7 @@ Each subfolder's `CLAUDE.md` loads automatically when you work in it.
 - `Cloud/CloudSyncCoordinator.swift` owns cloud download-before-open and post-save cache/reference refresh behavior.
 - `AutoFill/AutoFillSaveCoordinator.swift` owns the extension-safe save path for new credentials.
 - `Security/KeychainService.swift` owns composite-key storage with biometric access control.
+- `BrowserBridge/` (macOS only) serves the NextPass browser extension on 127.0.0.1; see its `AGENTS.md`.
 
 Platform scope: macOS supports local files and WebDAV, not the
 iOS app's Dropbox or OneDrive connections. Mac AutoFill fills passwords,

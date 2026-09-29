@@ -128,4 +128,4 @@ Mac XCUITest is the slowest and most fragile lever available: it needs an unlock
 - Composite keys live in Keychain, not raw master passwords.
 - Local saves compare the open-time SHA-512 before overwrite, create timestamped backups, and refresh the shared cached copy for AutoFill.
 - App Group and security-scoped bookmark behavior affect both the app and AutoFill extension.
-- Network egress stays limited to cloud sync, opt-in favicon fetching (DuckDuckGo, `icons.duckduckgo.com`), and the user-initiated feedback form (`feedback.keeforge.com`).
+- Network egress stays limited to cloud sync, opt-in favicon fetching (DuckDuckGo, `icons.duckduckgo.com`), and the user-initiated feedback form (`feedback.keeforge.com`). The Mac app also listens on 127.0.0.1:19735 for the NextPass browser extension (`BrowserExtension/`, `KeeForge/Services/BrowserBridge/`), loopback only and extension-origin only.

@@ -234,7 +234,8 @@ key. What the **App Store app** asks for, and why:
 | `app-sandbox` | Required for the Mac App Store, kept for the direct channel too. |
 | `files.user-selected.read-write` | The user picks a `.kdbx` themselves; there is no other way to reach it. Grants access to what they chose, nothing else. |
 | `files.bookmarks.app-scope` | Re-opening that same file after relaunch without asking again. The alternative is a file picker on every launch. |
-| `network.client` | Cloud sync (currently WebDAV on macOS), opt-in favicon fetching, and the user-initiated feedback form. Outbound only; there is no `network.server`. |
+| `network.client` | Cloud sync (currently WebDAV on macOS), opt-in favicon fetching, and the user-initiated feedback form. |
+| `network.server` | The browser extension bridge, which listens on 127.0.0.1:19735 only (see "Browser extension bridge"). |
 | `application-groups` → `group.com.keevault.shared` | The only channel through which the AutoFill extension sees a database. See the container caveat above. |
 | `keychain-access-groups` → `com.keevault.sharedkeychain` | Composite keys shared with the extension. Must stay **first**: an item stored without an explicit `kSecAttrAccessGroup` lands in the first listed group. |
 
@@ -320,6 +321,31 @@ The memory ceiling is a separate constraint with a security edge:
 the extension to allocate. It is the **only** KDF guard on macOS, where
 `os_proc_available_memory` does not exist and the iOS pre-flight has nothing to
 read (`AutoFillExtension/AGENTS.md`).
+
+## Browser extension bridge
+
+The NextPass extension for Brave and Chrome (`BrowserExtension/`) is new attack
+surface: the app listens on 127.0.0.1:19735 and answers credential requests.
+What bounds it:
+
+- Loopback only, so nothing off this Mac can connect. Every request must carry
+  `Origin: chrome-extension://<NextPass extension ID>`; browsers set that header
+  for extension requests and web pages cannot forge it, so no website can reach
+  the bridge. A local process can send any header, which is why pairing exists.
+- Nothing but `status` and `pair` answers an unpaired extension, and pairing
+  needs the user's click in NextPass. The app stores only hashes of each
+  extension's random key.
+- Credentials leave one entry at a time, only while the vault is unlocked, and
+  search results carry no secrets. The extension fills only frames on the
+  page's own host (or a parent/subdomain), plus a site the user explicitly
+  allowed after being told a login form comes from it (the browser's own
+  per-site permission), so an unannounced third-party frame never receives a
+  password. Password copy goes through the app's clipboard handling, never
+  through the browser.
+- Residual: anything that can run as the user and read the browser profile can
+  take the extension's pairing key and, while the vault is unlocked, request
+  credentials — the same exposure KeePassXC-Browser accepts. Local malware with
+  that reach can also read the screen and keystrokes (see below).
 
 ## Sparkle update channel — direct builds only
 
