@@ -57,6 +57,9 @@ fastlane/screenshots/**/*.png
 *.swp
 *~
 Icon?
+# `Icon?` targets macOS's hidden Icon\r files but also matches "icons" on a
+# case-insensitive checkout.
+!BrowserExtension/icons/
 
 # Code signing
 *.mobileprovision
