@@ -1,118 +1,115 @@
 <p align="center">
-  <img src="../../.github/assets/KeeForge-iOS-Default-1024x1024@1x.png" alt="Icono de la app KeeForge" width="128" />
+  <img src="../../.github/assets/NextPass-icon-1024.png" alt="Icono de la app NextPass" width="128" />
 </p>
 
-<h1 align="center">KeeForge</h1>
+<h1 align="center">NextPass</h1>
 
 <p align="center">
   <a href="../../README.md">English</a> | <a href="README.de.md">Deutsch</a> | <a href="README.fr.md">Français</a> | Español | <a href="README.zh-Hans.md">简体中文</a> | <a href="README.zh-Hant.md">繁體中文</a> | <a href="README.ja.md">日本語</a>
 </p>
 
 <p align="center">
-  Un gestor de KeePass gratuito y de código abierto para iPhone, iPad y Mac.
+  Un gestor de KeePass gratuito y de código abierto para iPhone, iPad, Mac y Apple Watch.
   <br />
-  SwiftUI nativo, almacenamiento local, autorrelleno, llaves de acceso, TOTP, sincronización en la nube, edición de KDBX y visualización de archivos adjuntos.
+  SwiftUI nativo, almacenamiento local primero, autorrelleno, llaves de acceso, TOTP, sincronización con Nextcloud y WebDAV, y una extensión de navegador para Brave y Chrome.
 </p>
 
 <p align="center">
-  <a href="https://apps.apple.com/us/app/keeforge/id6759309295">
-    <img alt="Descargar en App Store" src="https://img.shields.io/badge/App%20Store-Download-0D96F6?style=for-the-badge&logo=appstore&logoColor=white" />
-  </a>
-  <a href="https://testflight.apple.com/join/mPAT4f1a">
-    <img alt="Unirse a la beta pública en TestFlight" src="https://img.shields.io/badge/TestFlight-Public%20Beta-1F8AF0?style=for-the-badge&logo=apple&logoColor=white" />
-  </a>
   <img alt="Requiere iOS 18.0 o posterior" src="https://img.shields.io/badge/iOS-18.0%2B-000000?style=for-the-badge&logo=apple&logoColor=white" />
   <img alt="Requiere macOS 15.0 o posterior" src="https://img.shields.io/badge/macOS-15.0%2B-000000?style=for-the-badge&logo=apple&logoColor=white" />
-  <img alt="Swift LoC" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Ftokei.kojix2.net%2Fapi%2Fgithub%2FKeeForge%2FKeeForge%2Flanguages&query=%24.data.languages.Swift.code&label=swift%20loc&color=orange&style=for-the-badge" />
   <a href="../../LICENSE">
     <img alt="Licencia: GPLv3" src="https://img.shields.io/badge/license-GPLv3-blue?style=for-the-badge" />
   </a>
 </p>
 
-## ¿Por qué KeeForge?
+## ¿Por qué NextPass?
 
-KeeForge es un cliente nativo de KeePass para iPhone, iPad y Mac. Los archivos locales y WebDAV funcionan en todas las plataformas; iCloud Drive, Dropbox, OneDrive y otros proveedores de Archivos están disponibles en iPhone y iPad. Desbloquee con contraseña maestra, archivo de clave o datos biométricos y gestione su bóveda sin confiarla a un servicio alojado.
+NextPass es un cliente nativo de KeePass para iPhone, iPad y Mac, pensado para quienes quieren que su bóveda siga siendo suya. Abra bases de datos `.kdbx` desde archivos locales, Nextcloud, WebDAV o FTP en todas las plataformas, y desde iCloud Drive y otros proveedores de la app Archivos en iPhone y iPad; desbloquee con contraseña maestra, archivo de clave o biometría; y después explore, busque, edite, guarde y autorrellene sin entregar su bóveda a un servicio de contraseñas alojado.
 
-## Beta pública
-
-**[Únase a la beta de KeeForge en TestFlight](https://testflight.apple.com/join/mPAT4f1a)**
+NextPass aún no está en el App Store; las compilaciones llegan a los testers mediante TestFlight.
 
 > [!WARNING]
-> **Pruebe con una copia de su base de datos, no con su bóveda principal.** Las compilaciones beta no están revisadas y comparten el identificador de paquete y el contenedor con la app de la App Store, por lo que abren sus archivos `.kdbx` reales.
+> **Pruebe con una copia de su base de datos, no con su bóveda principal.** Las compilaciones de prueba abren sus archivos `.kdbx` reales.
 
 ## Funciones destacadas
 
-| Área | Qué hace KeeForge |
+| Área | Qué hace NextPass |
 | --- | --- |
-| **Compatibilidad con KeePass** | Lee y escribe bases de datos KDBX 4.x con cifrado AES-256, ChaCha20 o Twofish, y AES-KDF, Argon2d o Argon2id. También abre bases de datos KDBX 3.1 en modo de solo lectura. |
-| **Edición local** | Cree, edite, mueva y elimine entradas y grupos; y guarde con comprobación de conflictos, copias de seguridad con marca de tiempo, y conservación del historial de entradas y del XML desconocido. |
-| **Nuevas bases de datos** | Cree bases KDBX 4.x localmente o por WebDAV en todas las plataformas; Dropbox y OneDrive están disponibles en iPhone y iPad. |
+| **Compatibilidad con KeePass** | Lee y escribe bases KDBX 4.x con cifrado AES-256, ChaCha20 o Twofish y AES-KDF, Argon2d o Argon2id. También abre bases KDBX 3.1 en modo de solo lectura. |
+| **Edición local primero** | Cree, edite, mueva, combine y elimine entradas y grupos; y guarde con detección de conflictos, copias de seguridad con marca de tiempo y conservación del historial de entradas y del XML desconocido. |
+| **Bases de datos nuevas** | Cree bases KDBX 4.x nuevas en local o en un servidor Nextcloud, WebDAV o FTP. |
 | **Claves compuestas** | Desbloquee con contraseña, archivo de clave o ambos, incluidos archivos de clave binarios, hexadecimales, XML v1/v2 (`.key`/`.keyx`) y arbitrarios. |
-| **Autorrelleno** | Autorrelleno nativo en apps y navegadores con desbloqueo biométrico, más registro de passkeys en todas las plataformas; QuickType y la creación de entradas de contraseña desde la extensión también están disponibles en iPhone y iPad. |
-| **Llaves de acceso** | Detecta y autentica llaves de acceso FIDO2/WebAuthn almacenadas en campos personalizados compatibles con KeePassXC. |
-| **TOTP** | Visualización, copia y cuenta regresiva en todas las plataformas, además del autorrelleno de códigos de verificación en iOS 18+ y Mac. |
-| **Sincronización en la nube** | WebDAV en todas las plataformas. Dropbox y OneDrive están disponibles actualmente en iPhone y iPad; en Mac puede abrir sus carpetas sincronizadas como archivos locales. |
-| **Archivos adjuntos** | Vea los archivos adjuntos de las entradas de KeePass, obtenga una vista previa de los archivos compatibles con QuickLook, y compártalos desde archivos temporales protegidos de corta duración. La edición de archivos adjuntos aún no es compatible. |
-| **Nativo en cada pantalla** | Navegación enfocada en iPhone, espacio de trabajo dividido en iPad y una app nativa para Mac optimizada para el escritorio, con menús, comandos y Touch ID. |
-| **Seguridad** | Cifrado AES-GCM de secretos en memoria, retardo tras desbloqueos fallidos, límites contra bombas de descompresión, y comparación HMAC en tiempo constante. |
+| **Autorrelleno** | Autorrelleno nativo de contraseñas en apps y navegadores, con desbloqueo biométrico; en iPhone y iPad, además, sugerencias de QuickType y creación de entradas desde la extensión. |
+| **Llaves de acceso** | Guarde y use llaves de acceso FIDO2/WebAuthn en su base KeePass, en campos compatibles con KeePassXC — añadidas a una entrada de inicio de sesión existente o a una entrada nueva en el grupo que elija. |
+| **Extensión de navegador** | En el Mac, una extensión para Brave y Chrome muestra las entradas del sitio abierto, busca en toda la base y rellena el inicio de sesión. La base se queda en NextPass, y cada navegador debe aprobarse con un código coincidente. |
+| **TOTP** | Códigos de un solo uso con cuenta atrás y copia, configurados desde códigos QR o enlaces de configuración, además del autorrelleno de códigos de verificación en iOS 18+ y Mac. |
+| **Apple Watch** | Las entradas con la etiqueta «Apple Watch» se copian al reloj, cuyos códigos de verificación siguen funcionando cuando el iPhone está fuera de alcance. |
+| **Sincronización en la nube** | Inicie sesión en Nextcloud desde el navegador o conecte cualquier servidor WebDAV o FTP, con sincronización de lectura y escritura en todas las plataformas. |
+| **Adjuntos** | Vea los adjuntos de las entradas de KeePass, previsualice los archivos compatibles con Vista rápida y compártalos desde archivos temporales protegidos y de corta duración. La edición de adjuntos aún no está disponible. |
+| **Nativo en cada pantalla** | Navegación enfocada en iPhone, un espacio de trabajo en vista dividida en iPad y una app nativa para Mac con menús, comandos y Touch ID. |
+| **Seguridad** | Cifrado AES-GCM de los secretos en memoria, espera creciente tras desbloqueos fallidos, límites contra bombas de descompresión y comparación HMAC en tiempo constante. |
 
 ## Privacidad
 
-KeeForge no tiene analítica, ni telemetría en segundo plano, ni SDK de informes de fallos. Los datos de la bóveda permanecen en el dispositivo y en las ubicaciones de almacenamiento que usted elija. El acceso a la red se limita a los proveedores de nube conectados, la obtención opcional de favicones a través de DuckDuckGo, las compras opcionales en la App Store para la propina, las comprobaciones de actualización de la app de Mac descargada directamente y el formulario de comentarios integrado en la app cuando usted envía explícitamente un mensaje.
+NextPass no incluye analítica, telemetría en segundo plano ni SDK de informes de fallos. Los datos de la bóveda se quedan en el dispositivo y en las ubicaciones de almacenamiento que usted elija. El acceso a la red se limita a los servidores que conecte, la descarga opcional de iconos de sitios mediante DuckDuckGo, las compras opcionales en el App Store para las propinas y el formulario de comentarios de la app cuando envíe un mensaje de forma explícita. La app para Mac también escucha en 127.0.0.1 para su extensión de navegador, y solo si usted lo activa; nada fuera de su Mac puede alcanzarla.
 
-En iPhone y iPad, los secretos copiados se marcan como locales y no viajan por el Portapapeles universal. macOS no ofrece esa exclusión, por lo que en Mac pueden seguir su ajuste del sistema; KeeForge los marca como confidenciales y borra su entrada al poco tiempo o al bloquear. KeeForge también protege las vistas del selector de apps en iPhone y iPad. El bloqueo de capturas en Mac es una protección sin garantía y puede no impedir todas las capturas o grabaciones de pantalla.
-
-Lea la [política de privacidad](https://keeforge.com/es/privacy) ([original en inglés](https://keeforge.com/privacy)).
+En iPhone y iPad, los secretos copiados se marcan como solo locales para que no pasen por el Portapapeles universal. macOS no ofrece esa exclusión, así que los secretos copiados pueden seguir su ajuste del Portapapeles universal; NextPass los marca como ocultos y borra su entrada del portapapeles al poco tiempo o al bloquear la base. NextPass también protege las vistas previas del selector de apps en iPhone y iPad. El bloqueo de capturas de pantalla en Mac se ofrece en la medida de lo posible y puede no impedir todas las capturas o grabaciones.
 
 ## Seguridad de los datos
 
-KeeForge se toma muy en serio la seguridad de los datos: un gestor de contraseñas nunca debe corromper su bóveda ni perder silenciosamente ninguna parte de ella. Antes de publicar cualquier cambio, pruebas automatizadas verifican que:
+NextPass se toma muy en serio la seguridad de los datos: un gestor de contraseñas nunca debe dañar su bóveda ni perder parte de ella sin avisar. Antes de publicar cualquier cambio, pruebas automáticas verifican que:
 
-- **No se pierde nada al guardar.** Cada tipo de edición se guarda y se vuelve a leer pieza por pieza — contraseñas, notas, archivos adjuntos, historial de entradas e incluso datos de otras apps de KeePass que KeeForge no reconoce deben volver exactamente como se introdujeron.
-- **Su archivo está protegido antes de tocarlo.** KeeForge se niega a sobrescribir cambios hechos desde otro lugar mientras usted tenía el archivo abierto, escribe una copia de seguridad con marca de tiempo antes de cada guardado, y rechaza directamente las bases de datos dañadas en lugar de cargar datos parciales.
-- **Un programa independiente lo confirma.** Cada versión debe superar una prueba de control en la que KeePassXC — una app de KeePass muy usada que no comparte código con KeeForge — abre las bases de datos escritas por KeeForge, descifra las contraseñas y confirma que los archivos adjuntos coinciden bit a bit. Las bases de datos creadas por otro software de KeePass deben, a su vez, abrirse en KeeForge y seguir siendo legibles en otros programas después de que KeeForge las guarde.
+- **No se pierde nada al guardar.** Cada tipo de cambio se guarda y se vuelve a leer pieza por pieza: contraseñas, notas, adjuntos, historial de entradas e incluso datos de otras apps de KeePass que NextPass no reconoce deben volver exactamente como entraron.
+- **Su archivo está protegido antes de tocarlo.** NextPass se niega a sobrescribir cambios hechos en otro lugar mientras tenía el archivo abierto, crea una copia de seguridad con marca de tiempo antes de cada guardado y rechaza las bases dañadas en lugar de cargar datos parciales.
+- **Un programa independiente lo confirma.** Cada versión debe superar una verificación en la que KeePassXC — una app de KeePass muy usada que no comparte código con NextPass — abre bases escritas por NextPass, descifra las contraseñas y confirma que los adjuntos coinciden bit a bit. Las bases creadas por otro software de KeePass también deben abrirse en NextPass y seguir siendo legibles en otras apps después de que NextPass las guarde.
 
-Para quien tenga curiosidad técnica, la batería de pruebas está descrita en [`KeeForgeTests/AGENTS.md`](../../KeeForgeTests/AGENTS.md) y la prueba de control previa a cada versión en [`ci_scripts/README.md`](../../ci_scripts/README.md) (ambas en inglés).
+Para los más curiosos, el conjunto de pruebas se describe en [`KeeForgeTests/AGENTS.md`](../../KeeForgeTests/AGENTS.md) y la verificación previa a cada versión en [`ci_scripts/README.md`](../../ci_scripts/README.md) (en inglés).
+
+## Orígenes
+
+NextPass es un fork de [KeeForge](https://github.com/KeeForge/KeeForge), la app de KeePass de código abierto de crazytan y sus colaboradores. Las carpetas de código, los targets de Xcode y los tipos de Swift aún llevan ese nombre.
 
 ## Mapa del proyecto
 
 ```text
-KeeForge/
-├── App/              # Punto de entrada de la app, shell raíz adaptativo, ciclo de vida de la escena
-├── Extensions/       # Ayudantes de compatibilidad entre plataformas compartidos
-├── Models/           # Analizador/escritor de KDBX, criptografía, borrador de edición, TOTP, llaves de acceso
-├── Resources/        # Catálogos de cadenas y catálogos de recursos
-├── Services/         # Persistencia, sincronización en la nube, Llavero, marcadores, archivos adjuntos, ayudantes de autorrelleno
-├── ViewModels/       # Lista de bases de datos, desbloqueo, guardado, búsqueda, orden, estado de TOTP
-├── Views/            # Pantallas de SwiftUI, editor, ajustes, propina, controles reutilizables
-AutoFillExtension/    # Proveedor de credenciales de autorrelleno, autenticación con llave de acceso, creación de credenciales
-KeeForgeMac/          # App nativa para macOS (preparando su primera versión)
-KeeForgeMacUITests/   # Cobertura de XCUITest para la app de macOS
+KeeForge/             # Código compartido de la app
+├── App/              # Punto de entrada, shell raíz adaptable, ciclo de vida de escenas
+├── Extensions/       # Utilidades compartidas de compatibilidad entre plataformas
+├── Models/           # Lector/escritor KDBX, criptografía, borrador de edición, TOTP, llaves de acceso
+├── Resources/        # Catálogos de cadenas y de recursos
+├── Services/         # Persistencia, sincronización en la nube, llavero, marcadores, adjuntos, autorrelleno, puente del navegador
+├── ViewModels/       # Lista de bases, desbloqueo, guardado, búsqueda, orden, estado TOTP
+├── Views/            # Pantallas SwiftUI, editor, ajustes, propinas, controles reutilizables
+AutoFillExtension/    # Proveedor de credenciales, autenticación con llaves de acceso, creación de credenciales
+BrowserExtension/     # La extensión para Brave y Chrome
+KeeForgeMac/          # Configuración y entitlements de la app nativa para macOS
+KeeForgeWatch/        # App para Apple Watch
+KeeForgeMacUITests/   # Pruebas XCUITest de la app para macOS
 KeeForgeTests/        # Pruebas unitarias
-KeeForgeUITests/      # Cobertura de XCUITest
-TestFixtures/         # Bases de datos .kdbx de ejemplo y archivos de clave
-Vendor/               # Paquete Swift KeeForgeTwofish incluido en el repositorio
-ci_scripts/           # Scripts de arranque de Xcode Cloud y de la prueba de control de publicación
-scripts/              # Herramientas de desarrollo local
+KeeForgeUITests/      # Pruebas XCUITest
+TestFixtures/         # Bases .kdbx y archivos de clave de ejemplo
+Vendor/               # Paquete Swift de Twofish incluido
+ci_scripts/           # Scripts de arranque de Xcode Cloud y de verificación de versiones
+scripts/              # Herramientas de desarrollo locales
 ```
 
 ## Documentación
 
 - [`CHANGELOG.md`](../../CHANGELOG.md) – historial de versiones
-- [`ROADMAP.md`](../../ROADMAP.md) – trabajo de producto planificado y prioridades abiertas
-- [`AGENTS.md`](../../AGENTS.md) – contexto para agentes de codificación
-- [`KeeForge/README.md`](../../KeeForge/README.md) – mapa de la arquitectura de los targets de la app
+- [`ROADMAP.md`](../../ROADMAP.md) – trabajo previsto y prioridades abiertas
+- [`AGENTS.md`](../../AGENTS.md) – contexto para agentes de código
+- [`KeeForge/README.md`](../../KeeForge/README.md) – arquitectura del target de la app
 - [`AutoFillExtension/AGENTS.md`](../../AutoFillExtension/AGENTS.md) – restricciones de la extensión y notas sobre el código compartido
+- [`BrowserExtension/README.md`](../../BrowserExtension/README.md) – instalar y usar la extensión de navegador
 - [`SECURITY.md`](../../SECURITY.md) – política de divulgación de vulnerabilidades
-- [`docs/`](../../docs/) – especificaciones de implementación, auditorías y documentos de diseño más extensos
+- [`docs/macos-security-notes.md`](../../docs/macos-security-notes.md) – modelo de seguridad de macOS, límites de la plataforma y mitigaciones
+- [`docs/`](../../docs/) – especificaciones, auditorías y documentos de diseño extensos
 
 Aparte de este README y [`CONTRIBUTING.es.md`](CONTRIBUTING.es.md), la documentación para desarrolladores se mantiene solo en inglés.
 
 ## Soporte
 
-- App Store: [KeeForge en la App Store](https://apps.apple.com/us/app/keeforge/id6759309295)
-- Correo: [support@keeforge.com](mailto:support@keeforge.com)
-- Incidencias: [GitHub Issues](https://github.com/KeeForge/KeeForge/issues)
+- Código fuente e incidencias: [git.kw.at/stephan/nextpass](https://git.kw.at/stephan/nextpass)
 
 ## Contribuir
 
@@ -120,4 +117,4 @@ Consulte [`CONTRIBUTING.es.md`](CONTRIBUTING.es.md) para conocer los requisitos 
 
 ## Licencia
 
-KeeForge tiene licencia GPLv3. Consulte [`LICENSE`](../../LICENSE) para más información.
+NextPass tiene licencia GPLv3, como KeeForge antes que él. Consulte [`LICENSE`](../../LICENSE) para más detalles.
