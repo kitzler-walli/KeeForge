@@ -78,8 +78,8 @@ struct NextcloudLoginFlow: Sendable {
         return InitiateResult(loginURL: loginURL, pollToken: decoded.poll.token, pollEndpoint: pollEndpoint)
     }
 
-    /// `url` must use the server's own scheme and host; an `https` server
-    /// never hands off to `http`.
+    /// `url` must use the server's own scheme, host, and port; an `https`
+    /// server never hands off to `http`.
     private static func staysOnServer(_ url: URL, serverURL: URL) -> Bool {
         guard let scheme = url.scheme?.lowercased(),
               let host = url.host?.lowercased(),
@@ -87,7 +87,11 @@ struct NextcloudLoginFlow: Sendable {
               scheme == "https" || scheme == "http" else {
             return false
         }
-        return host == serverURL.host?.lowercased()
+        return host == serverURL.host?.lowercased() && effectivePort(url) == effectivePort(serverURL)
+    }
+
+    private static func effectivePort(_ url: URL) -> Int? {
+        url.port ?? (url.scheme?.lowercased() == "https" ? 443 : 80)
     }
 
     // MARK: - Poll

@@ -93,6 +93,13 @@ final class NextcloudLoginFlowTests: XCTestCase {
         try await assertInitiateRejectsUnsafeAddress(json)
     }
 
+    func testInitiateRejectsPollEndpointOnAnotherPort() async throws {
+        let json = """
+        { "poll": { "token": "t", "endpoint": "https://cloud.example.com:8443/index.php/login/v2/poll" }, "login": "https://cloud.example.com/index.php/login/v2/flow/t" }
+        """
+        try await assertInitiateRejectsUnsafeAddress(json)
+    }
+
     func testInitiateAcceptsHTTPAddressesFromOptedInHTTPServer() async throws {
         let json = """
         { "poll": { "token": "t", "endpoint": "http://localhost:8480/index.php/login/v2/poll" }, "login": "http://localhost:8480/index.php/login/v2/flow/t" }
