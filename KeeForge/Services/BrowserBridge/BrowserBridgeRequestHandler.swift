@@ -2,6 +2,7 @@
 import AuthenticationServices
 import CryptoKit
 import Foundation
+import Security
 
 /// What the browser bridge needs from an open database session.
 /// `DatabaseViewModel` conforms; tests supply a stub.
@@ -26,19 +27,31 @@ final class BrowserBridgeRequestHandler {
     struct Environment {
         var vault: @MainActor () -> BrowserBridgeVault?
         var pairings: BrowserBridgePairingStore
-        /// Asks the user, in NextPass, whether to allow the named browser.
-        var approvePairing: @MainActor (_ browserName: String) async -> Bool
+        /// Asks the user, in NextPass, whether to allow the named browser
+        /// that shows `code` in its popup.
+        var approvePairing: @MainActor (_ browserName: String, _ code: String) async -> Bool
         /// Brings NextPass forward so the user can unlock it.
         var presentForUnlock: @MainActor () -> Void
         /// Puts a password on the clipboard the way the app does (concealed,
         /// cleared after the timeout and on lock), so it never passes
         /// through the browser.
         var copyToClipboard: @MainActor (String) -> Void
+        var now: @MainActor () -> Date = { .now }
     }
 
     static let maxSearchResults = 50
+    /// Pairing prompts allowed per `pairingWindow`: a local process must not
+    /// be able to bury the user in dialogs until one is clicked through.
+    static let maxPairingPrompts = 3
+    static let pairingWindow: TimeInterval = 5 * 60
 
     private let environment: Environment
+    private var isPairingPromptShown = false
+    private var recentPairingPrompts: [Date] = []
+    /// When each paired client's use was last written to its Keychain item;
+    /// throttled so a popup's status polls do not write on every request.
+    private var lastRecordedUse: [String: Date] = [:]
+    static let useRecordingInterval: TimeInterval = 60
 
     init(environment: Environment) {
         self.environment = environment
@@ -61,27 +74,26 @@ final class BrowserBridgeRequestHandler {
             return Self.failure("badRequest")
         }
         let isPaired = environment.pairings.isPaired(clientKey)
+        if isPaired { recordUse(of: clientKey) }
 
         switch action {
         case "status":
+            // Nothing about the vault — not even whether it is unlocked —
+            // until the caller is paired.
+            guard isPaired else { return ["ok": true, "paired": false] }
             let vault = environment.vault()
             var status: [String: Any] = [
                 "ok": true,
-                "paired": isPaired,
+                "paired": true,
                 "unlocked": vault?.isBridgeUnlocked == true,
             ]
-            if isPaired, let vault {
+            if let vault {
                 status["database"] = vault.bridgeDatabaseName
             }
             return status
         case "pair":
             if isPaired { return ["ok": true, "paired": true] }
-            let browserName = (request["clientName"] as? String).map { String($0.prefix(40)) } ?? "Browser"
-            guard await environment.approvePairing(browserName) else {
-                return Self.failure("pairingDenied")
-            }
-            environment.pairings.pair(clientKey)
-            return ["ok": true, "paired": true]
+            return await pair(clientKey: clientKey, request: request)
         default:
             break
         }
@@ -119,6 +131,33 @@ final class BrowserBridgeRequestHandler {
         default:
             return Self.failure("badRequest")
         }
+    }
+
+    /// The popup shows a random code and NextPass asks the user whether the
+    /// browser shows the same one, so a prompt raised by anything other than
+    /// the extension the user is looking at cannot be matched. One prompt at a
+    /// time, a few per window.
+    private func pair(clientKey: String, request: [String: Any]) async -> [String: Any] {
+        guard let code = request["pairingCode"] as? String,
+              code.count == 6, code.allSatisfy({ $0.isASCII && $0.isNumber }) else {
+            return Self.failure("badRequest")
+        }
+        guard isPairingPromptShown == false else { return Self.failure("busy") }
+        let now = environment.now()
+        recentPairingPrompts.removeAll { now.timeIntervalSince($0) > Self.pairingWindow }
+        guard recentPairingPrompts.count < Self.maxPairingPrompts else {
+            return Self.failure("tooManyAttempts")
+        }
+
+        recentPairingPrompts.append(now)
+        isPairingPromptShown = true
+        defer { isPairingPromptShown = false }
+        let browserName = (request["clientName"] as? String).map { String($0.prefix(40)) } ?? "Browser"
+        guard await environment.approvePairing(browserName, code) else {
+            return Self.failure("pairingDenied")
+        }
+        environment.pairings.pair(clientKey, browserName: browserName)
+        return ["ok": true, "paired": true]
     }
 
     /// With no query, the entries matching the page; with one, every entry
@@ -161,21 +200,31 @@ final class BrowserBridgeRequestHandler {
         }
     }
 
+    private func recordUse(of clientKey: String) {
+        let now = environment.now()
+        if let last = lastRecordedUse[clientKey], now.timeIntervalSince(last) < Self.useRecordingInterval { return }
+        lastRecordedUse[clientKey] = now
+        environment.pairings.recordUse(of: clientKey, at: now)
+    }
+
     private static func failure(_ error: String) -> [String: Any] {
         ["ok": false, "error": error]
     }
 }
 
 /// Browser extensions the user approved, remembered by a hash of the random
-/// key each extension generated for itself. App-local; nothing secret is
-/// stored, since the hash cannot be turned back into a usable key.
+/// key each extension generated for itself. In the Keychain, not the app's
+/// preferences: any process running as the user can edit the preferences
+/// file, but none outside this team can add items to NextPass's keychain
+/// access group, so nothing can approve itself behind the user's back.
 final class BrowserBridgePairingStore: @unchecked Sendable {
-    static let defaultsKey = "KeeForge.browserBridgePairings"
+    static let defaultService = "at.kw.nextpass.browser-pairing"
+    static let didChangeNotification = Notification.Name("KeeForge.browserPairingsDidChange")
 
-    private let defaults: UserDefaults
+    private let service: String
 
-    init(defaults: UserDefaults = .standard) {
-        self.defaults = defaults
+    init(service: String = defaultService) {
+        self.service = service
     }
 
     /// A base64 key of at least 32 bytes, so a guessable key can never pair.
@@ -184,23 +233,83 @@ final class BrowserBridgePairingStore: @unchecked Sendable {
     }
 
     func isPaired(_ clientKey: String) -> Bool {
-        pairedHashes.contains(Self.hash(clientKey))
+        var query = baseQuery
+        query[kSecAttrAccount as String] = Self.hash(clientKey)
+        return SecItemCopyMatching(query as CFDictionary, nil) == errSecSuccess
     }
 
-    func pair(_ clientKey: String) {
-        defaults.set(Array(pairedHashes.union([Self.hash(clientKey)])), forKey: Self.defaultsKey)
+    func pair(_ clientKey: String, browserName: String) {
+        var item = baseQuery
+        item[kSecAttrAccount as String] = Self.hash(clientKey)
+        item[kSecAttrLabel as String] = browserName
+        item[kSecValueData as String] = Data()
+        item[kSecAttrAccessible as String] = kSecAttrAccessibleWhenUnlockedThisDeviceOnly
+        SecItemAdd(item as CFDictionary, nil)
+        NotificationCenter.default.post(name: Self.didChangeNotification, object: nil)
+    }
+
+    struct Pairing: Identifiable, Equatable {
+        /// The hash of the extension's key, which is also the item's account.
+        let id: String
+        let browserName: String
+        let pairedAt: Date
+        let lastUsedAt: Date?
+
+        /// Also shown at the bottom of the extension's popup, which hashes
+        /// its own key the same way, so the user can tell pairings apart.
+        var shortID: String { String(id.prefix(4)).uppercased() }
+    }
+
+    /// Oldest first.
+    var pairings: [Pairing] {
+        var query = baseQuery
+        query[kSecMatchLimit as String] = kSecMatchLimitAll
+        query[kSecReturnAttributes as String] = true
+        var result: CFTypeRef?
+        guard SecItemCopyMatching(query as CFDictionary, &result) == errSecSuccess,
+              let items = result as? [[String: Any]] else {
+            return []
+        }
+        return items.compactMap { item -> Pairing? in
+            guard let account = item[kSecAttrAccount as String] as? String else { return nil }
+            return Pairing(
+                id: account,
+                browserName: item[kSecAttrLabel as String] as? String ?? "",
+                pairedAt: item[kSecAttrCreationDate as String] as? Date ?? .distantPast,
+                lastUsedAt: (item[kSecAttrGeneric as String] as? Data)
+                    .flatMap { String(data: $0, encoding: .utf8) }
+                    .flatMap(TimeInterval.init)
+                    .map(Date.init(timeIntervalSinceReferenceDate:))
+            )
+        }
+        .sorted { $0.pairedAt < $1.pairedAt }
+    }
+
+    func recordUse(of clientKey: String, at date: Date) {
+        var query = baseQuery
+        query[kSecAttrAccount as String] = Self.hash(clientKey)
+        let update = [kSecAttrGeneric as String: Data(String(date.timeIntervalSinceReferenceDate).utf8)]
+        guard SecItemUpdate(query as CFDictionary, update as CFDictionary) == errSecSuccess else { return }
+        NotificationCenter.default.post(name: Self.didChangeNotification, object: nil)
+    }
+
+    func remove(_ pairing: Pairing) {
+        var query = baseQuery
+        query[kSecAttrAccount as String] = pairing.id
+        SecItemDelete(query as CFDictionary)
+        NotificationCenter.default.post(name: Self.didChangeNotification, object: nil)
     }
 
     func removeAll() {
-        defaults.removeObject(forKey: Self.defaultsKey)
+        SecItemDelete(baseQuery as CFDictionary)
     }
 
-    var hasPairings: Bool {
-        pairedHashes.isEmpty == false
-    }
-
-    private var pairedHashes: Set<String> {
-        Set(defaults.stringArray(forKey: Self.defaultsKey) ?? [])
+    private var baseQuery: [String: Any] {
+        [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecUseDataProtectionKeychain as String: true,
+        ]
     }
 
     private static func hash(_ clientKey: String) -> String {

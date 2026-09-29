@@ -15,11 +15,19 @@ final class BrowserBridgeServer: @unchecked Sendable {
     /// Fixed so the extension knows where to look; `BrowserExtension/popup.js`
     /// uses the same number.
     static let port: UInt16 = 19735
+    /// A client gets this long to deliver a whole request, and at most this
+    /// many are served at once, so a local process cannot pile up connections
+    /// until NextPass runs out of file descriptors (which would also break
+    /// saving). The extension sends one small request and waits.
+    static let requestTimeout: DispatchTimeInterval = .seconds(5)
+    static let maxConnections = 8
 
     private let allowedOrigin: String
     private let handle: @MainActor @Sendable (Data) async -> Data
+    /// Every piece of mutable state below is touched on this queue only.
     private let queue = DispatchQueue(label: "at.kw.nextpass.browser-bridge")
     private var listener: NWListener?
+    private var openConnections = 0
 
     private static let logger = Logger(subsystem: "NextPass", category: "BrowserBridge")
 
@@ -29,63 +37,110 @@ final class BrowserBridgeServer: @unchecked Sendable {
     }
 
     func start() {
-        let parameters = NWParameters.tcp
-        parameters.requiredLocalEndpoint = .hostPort(host: .ipv4(.loopback), port: NWEndpoint.Port(rawValue: Self.port) ?? .any)
-        do {
-            let listener = try NWListener(using: parameters)
-            listener.newConnectionHandler = { [weak self] connection in
-                self?.serve(connection)
-            }
-            listener.stateUpdateHandler = { state in
-                if case .failed(let error) = state {
-                    Self.logger.error("Browser bridge stopped: \(error.localizedDescription, privacy: .public)")
+        queue.async { [self] in
+            guard listener == nil else { return }
+            let parameters = NWParameters.tcp
+            parameters.requiredLocalEndpoint = .hostPort(host: .ipv4(.loopback), port: NWEndpoint.Port(rawValue: Self.port) ?? .any)
+            do {
+                let listener = try NWListener(using: parameters)
+                listener.newConnectionHandler = { [weak self] connection in
+                    self?.accept(connection)
                 }
+                listener.stateUpdateHandler = { state in
+                    if case .failed(let error) = state {
+                        Self.logger.error("Browser bridge stopped: \(error.localizedDescription, privacy: .public)")
+                    }
+                }
+                listener.start(queue: queue)
+                self.listener = listener
+            } catch {
+                Self.logger.error("Browser bridge could not listen: \(error.localizedDescription, privacy: .public)")
             }
-            listener.start(queue: queue)
-            self.listener = listener
-        } catch {
-            Self.logger.error("Browser bridge could not listen: \(error.localizedDescription, privacy: .public)")
         }
     }
 
-    private func serve(_ connection: NWConnection) {
-        connection.start(queue: queue)
-        receive(on: connection, buffer: Data())
+    func stop() {
+        queue.async { [self] in
+            listener?.cancel()
+            listener = nil
+        }
     }
 
-    private func receive(on connection: NWConnection, buffer: Data) {
-        connection.receive(minimumIncompleteLength: 1, maximumLength: 64 * 1024) { [weak self] data, _, isComplete, error in
-            guard let self else { return connection.cancel() }
+    private func accept(_ connection: NWConnection) {
+        guard openConnections < Self.maxConnections else {
+            connection.cancel()
+            return
+        }
+        openConnections += 1
+        let state = ConnectionState(connection: connection) { [weak self] in
+            self?.openConnections -= 1
+        }
+        // Only receiving is timed: a pairing request legitimately waits for
+        // the user's click in NextPass before it is answered.
+        queue.asyncAfter(deadline: .now() + Self.requestTimeout) {
+            if state.hasRequest == false { state.close() }
+        }
+        connection.start(queue: queue)
+        receive(state, buffer: Data())
+    }
+
+    private func receive(_ state: ConnectionState, buffer: Data) {
+        state.connection.receive(minimumIncompleteLength: 1, maximumLength: 64 * 1024) { [weak self] data, _, isComplete, error in
+            guard let self else { return state.close() }
             var buffer = buffer
             if let data { buffer.append(data) }
 
             switch BrowserBridgeHTTP.parse(buffer) {
             case .incomplete where error == nil && isComplete == false:
-                receive(on: connection, buffer: buffer)
+                receive(state, buffer: buffer)
             case .complete(let request):
-                respond(to: request, on: connection)
+                state.hasRequest = true
+                respond(to: request, state: state)
             case .incomplete, .invalid:
-                send(BrowserBridgeHTTP.response(status: 400, body: Data()), on: connection)
+                send(BrowserBridgeHTTP.response(status: 400, body: Data()), state: state)
             }
         }
     }
 
-    private func respond(to request: BrowserBridgeHTTP.Request, on connection: NWConnection) {
+    private func respond(to request: BrowserBridgeHTTP.Request, state: ConnectionState) {
         guard request.method == "POST", request.headers["origin"] == allowedOrigin else {
-            send(BrowserBridgeHTTP.response(status: 403, body: Data()), on: connection)
+            send(BrowserBridgeHTTP.response(status: 403, body: Data()), state: state)
             return
         }
         let handle = handle
         Task { @MainActor in
             let body = await handle(request.body)
-            self.send(BrowserBridgeHTTP.response(status: 200, body: body), on: connection)
+            self.queue.async {
+                self.send(BrowserBridgeHTTP.response(status: 200, body: body), state: state)
+            }
         }
     }
 
-    private func send(_ response: Data, on connection: NWConnection) {
-        connection.send(content: response, completion: .contentProcessed { _ in
-            connection.cancel()
+    private func send(_ response: Data, state: ConnectionState) {
+        guard state.isClosed == false else { return }
+        state.connection.send(content: response, completion: .contentProcessed { _ in
+            state.close()
         })
+    }
+
+    /// One connection's bookkeeping; used on the server's queue only.
+    private final class ConnectionState: @unchecked Sendable {
+        let connection: NWConnection
+        private let onClose: () -> Void
+        var hasRequest = false
+        private(set) var isClosed = false
+
+        init(connection: NWConnection, onClose: @escaping () -> Void) {
+            self.connection = connection
+            self.onClose = onClose
+        }
+
+        func close() {
+            guard isClosed == false else { return }
+            isClosed = true
+            connection.cancel()
+            onClose()
+        }
     }
 }
 

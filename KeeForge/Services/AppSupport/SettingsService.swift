@@ -17,6 +17,7 @@ enum SettingsService {
         static let macLockPolicy = "KeeForge.macLockPolicy"
         static let blockScreenCapture = "KeeForge.blockScreenCapture"
         static let blurWhenInactive = "KeeForge.blurWhenInactive"
+        static let browserExtensionEnabled = "KeeForge.browserExtensionEnabled"
         static let passwordGeneratorOptions = "KeeForge.passwordGeneratorOptions"
     }
 
@@ -299,6 +300,16 @@ enum SettingsService {
     // MARK: - Blur When Inactive (macOS)
     //
     // Same storage rationale as `blockScreenCapture`.
+
+    // MARK: - Browser Extension (macOS)
+    //
+    // Whether NextPass listens for its browser extension at all. Off by
+    // default, so a Mac that never installed the extension exposes nothing.
+
+    static var browserExtensionEnabled: Bool {
+        get { UserDefaults.standard.bool(forKey: Key.browserExtensionEnabled) }
+        set { UserDefaults.standard.set(newValue, forKey: Key.browserExtensionEnabled) }
+    }
 
     static var blurWhenInactive: Bool {
         get {

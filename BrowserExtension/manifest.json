@@ -5,7 +5,6 @@
   "version": "1.0.0",
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuKPfW3pPMjSUtekVHxUfrzqhHuUEKf0AMXlQyJzXprSxwCN0lNN+tlpU1nxhtYij0YYMqFwRZUaiSOJoKLAGom5sUxa1rWx3iqCtG+txvgcr/Jp8OQEQrSciOziO5M+P0b8StdgJaWlWShrYllQmKeDPWgTi+m3rGkCLqyiA5CRFcFK7ozsbkt/bTxB3QtW0RLUwBuKqNEccAgSytpeAWFqSM3eHgcfhqArs4mxnyrWxLq0qWpmOB2/IEE76uhDm6ESCGw8mCLWCYK8nzFPte8FLJd3G4T/EVdns25jBXyw5n1jc+8S+RiJyR5qu/PLd/Y+TkS/5MXBQJCWV6/+prQIDAQAB",
   "permissions": [
-    "activeTab",
     "scripting",
     "storage",
     "webNavigation"
@@ -33,9 +32,8 @@
     }
   },
   "host_permissions": [
-    "http://127.0.0.1:19735/*"
-  ],
-  "optional_host_permissions": [
-    "https://*/*"
+    "http://127.0.0.1:19735/*",
+    "https://*/*",
+    "http://*/*"
   ]
 }

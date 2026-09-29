@@ -203,7 +203,7 @@ struct KeeForgeApp: App {
             environment: BrowserBridgeRequestHandler.Environment(
                 vault: { activeViewModel.wrappedValue },
                 pairings: BrowserBridgePairingStore(),
-                approvePairing: { await BrowserBridgeConnector.approvePairing(browserName: $0) },
+                approvePairing: { await BrowserBridgeConnector.approvePairing(browserName: $0, code: $1) },
                 presentForUnlock: { BrowserBridgeConnector.presentForUnlock() },
                 copyToClipboard: { ClipboardService.copy($0) }
             )
@@ -212,8 +212,22 @@ struct KeeForgeApp: App {
             let server = BrowserBridgeServer(extensionID: BrowserBridgeConnector.extensionID) {
                 await bridgeHandler.handle($0)
             }
-            server.start()
             browserBridge = server
+            let applySetting = {
+                if SettingsService.browserExtensionEnabled {
+                    server.start()
+                } else {
+                    server.stop()
+                }
+            }
+            applySetting()
+            NotificationCenter.default.addObserver(
+                forName: BrowserBridgeConnector.settingDidChangeNotification,
+                object: nil,
+                queue: .main
+            ) { _ in
+                applySetting()
+            }
         }
         #endif
     }

@@ -2888,6 +2888,46 @@
         }
       }
     },
+    "Allow Browser Extension" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Browsererweiterung erlauben"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permitir extensión del navegador"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autoriser l'extension de navigateur"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ブラウザ拡張機能を許可"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "允许浏览器扩展"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "允許瀏覽器延伸功能"
+          }
+        }
+      }
+    },
     "Allow camera access in Settings to scan verification-code QR codes." : {
       "localizations" : {
         "de" : {
@@ -4765,6 +4805,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "依標籤瀏覽項目"
+          }
+        }
+      }
+    },
+    "Browser" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Browser"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Navegador"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Navigateur"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ブラウザ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "浏览器"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "瀏覽器"
           }
         }
       }
@@ -14656,46 +14736,6 @@
         }
       }
     },
-    "Forget Connected Browsers" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verbundene Browser vergessen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Olvidar navegadores conectados"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oublier les navigateurs connectés"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "接続済みのブラウザを削除"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "忘记已连接的浏览器"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "忘記已連接的瀏覽器"
-          }
-        }
-      }
-    },
     "Format" : {
       "localizations" : {
         "de" : {
@@ -15892,6 +15932,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "圖示"
+          }
+        }
+      }
+    },
+    "ID %@ · Connected %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ID %1$@ · Verbunden am %2$@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ID %1$@ · Conectado el %2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ID %1$@ · Connecté le %2$@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ID %1$@ · %2$@に接続"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ID %1$@ · 连接于 %2$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ID %1$@ · 連接於 %2$@"
           }
         }
       }
@@ -17097,6 +17177,46 @@
         }
       }
     },
+    "Last used %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zuletzt verwendet %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Último uso %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dernière utilisation %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最終使用：%@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上次使用：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上次使用：%@"
+          }
+        }
+      }
+    },
     "Legacy KDBX 3.1 databases can be opened, but NextPass intentionally keeps them read-only." : {
       "localizations" : {
         "de" : {
@@ -17213,6 +17333,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "長度"
+          }
+        }
+      }
+    },
+    "Lets the NextPass extension for Brave and Chrome connect while NextPass is running. The first time, NextPass shows a code that must match the one in the browser before you allow it. When this is off, NextPass does not listen for the extension at all." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erlaubt der NextPass-Erweiterung für Brave und Chrome, sich zu verbinden, solange NextPass läuft. Beim ersten Mal zeigt NextPass einen Code, der mit dem im Browser übereinstimmen muss, bevor Sie zustimmen. Ist dies aus, wartet NextPass überhaupt nicht auf die Erweiterung."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permite que la extensión de NextPass para Brave y Chrome se conecte mientras NextPass está abierto. La primera vez, NextPass muestra un código que debe coincidir con el del navegador antes de que lo permitas. Si está desactivado, NextPass no espera conexiones de la extensión."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permet à l'extension NextPass pour Brave et Chrome de se connecter tant que NextPass est ouvert. La première fois, NextPass affiche un code qui doit correspondre à celui du navigateur avant que vous l'autorisiez. Si cette option est désactivée, NextPass n'attend aucune connexion de l'extension."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NextPass の実行中に、Brave と Chrome 用の NextPass 拡張機能が接続できるようにします。初回は、許可する前に NextPass に表示されるコードがブラウザのコードと一致する必要があります。オフの場合、NextPass は拡張機能からの接続をまったく待ち受けません。"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "允许适用于 Brave 和 Chrome 的 NextPass 扩展在 NextPass 运行时连接。首次连接时，NextPass 会显示一个代码，你必须确认它与浏览器中的代码一致后再允许。关闭后，NextPass 完全不会监听扩展的连接。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "允許適用於 Brave 和 Chrome 的 NextPass 延伸功能在 NextPass 執行時連線。首次連線時，NextPass 會顯示一個代碼，你必須確認它與瀏覽器中的代碼一致後再允許。關閉後，NextPass 完全不會監聽延伸功能的連線。"
           }
         }
       }
@@ -20537,6 +20697,46 @@
         }
       }
     },
+    "No browsers connected." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Browser verbunden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay navegadores conectados."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun navigateur connecté."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "接続されたブラウザはありません。"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有已连接的浏览器。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有已連接的瀏覽器。"
+          }
+        }
+      }
+    },
     "No cloud accounts connected" : {
       "localizations" : {
         "de" : {
@@ -22094,6 +22294,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "OneDrive 上傳失敗。"
+          }
+        }
+      }
+    },
+    "Only allow this if the NextPass extension in %@ shows the code %@. It will then be able to search your unlocked database and fill passwords into web pages." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erlauben Sie dies nur, wenn die NextPass-Erweiterung in %@ den Code %@ anzeigt. Sie kann dann Ihre entsperrte Datenbank durchsuchen und Passwörter in Webseiten eintragen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permítelo solo si la extensión de NextPass en %@ muestra el código %@. Después podrá buscar en tu base de datos desbloqueada y rellenar contraseñas en páginas web."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "N'autorisez ceci que si l'extension NextPass dans %@ affiche le code %@. Elle pourra alors rechercher dans votre base de données déverrouillée et remplir des mots de passe dans les pages web."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ の NextPass 拡張機能にコード %@ が表示されている場合にのみ許可してください。許可すると、ロック解除されたデータベースを検索し、Webページにパスワードを入力できるようになります。"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仅当 %@ 中的 NextPass 扩展显示代码 %@ 时才允许。允许后，它将能够搜索你已解锁的数据库并在网页中填充密码。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "僅在 %@ 中的 NextPass 延伸功能顯示代碼 %@ 時才允許。允許後，它將能搜尋你已解鎖的資料庫並在網頁中填入密碼。"
           }
         }
       }
@@ -24494,6 +24734,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "移除"
+          }
+        }
+      }
+    },
+    "Remove %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ entfernen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@を削除"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除 %@"
           }
         }
       }
@@ -30178,86 +30458,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新的主金鑰已上傳，但本機副本無法更新。雲端檔案現在需要新的主金鑰。"
-          }
-        }
-      }
-    },
-    "The NextPass extension for Brave and Chrome connects to NextPass while it is running. The first time, NextPass asks you to allow that browser." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die NextPass-Erweiterung für Brave und Chrome verbindet sich mit NextPass, solange es läuft. Beim ersten Mal fragt NextPass, ob Sie diesen Browser erlauben."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La extensión de NextPass para Brave y Chrome se conecta a NextPass mientras está abierto. La primera vez, NextPass te pide que permitas ese navegador."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L'extension NextPass pour Brave et Chrome se connecte à NextPass tant qu'il est ouvert. La première fois, NextPass vous demande d'autoriser ce navigateur."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Brave と Chrome 用の NextPass 拡張機能は、NextPass の実行中に接続します。初回は、そのブラウザを許可するかどうか NextPass が確認します。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "适用于 Brave 和 Chrome 的 NextPass 扩展会在 NextPass 运行时与之连接。首次连接时，NextPass 会请你允许该浏览器。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "適用於 Brave 和 Chrome 的 NextPass 延伸功能會在 NextPass 執行時與之連線。首次連線時，NextPass 會請你允許該瀏覽器。"
-          }
-        }
-      }
-    },
-    "The NextPass extension in %@ will be able to search your unlocked database and fill passwords into web pages. Only allow this if you just set up the extension yourself." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die NextPass-Erweiterung in %@ kann dann Ihre entsperrte Datenbank durchsuchen und Passwörter in Webseiten eintragen. Erlauben Sie dies nur, wenn Sie die Erweiterung gerade selbst eingerichtet haben."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La extensión de NextPass en %@ podrá buscar en tu base de datos desbloqueada y rellenar contraseñas en páginas web. Permítelo solo si acabas de configurar la extensión tú mismo."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L'extension NextPass dans %@ pourra rechercher dans votre base de données déverrouillée et remplir des mots de passe dans les pages web. N'autorisez ceci que si vous venez de configurer l'extension vous-même."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ の NextPass 拡張機能が、ロック解除されたデータベースを検索し、Webページにパスワードを入力できるようになります。拡張機能を自分で設定した直後の場合にのみ許可してください。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ 中的 NextPass 扩展将能够搜索你已解锁的数据库，并在网页中填充密码。仅在你刚刚亲自设置该扩展时才允许。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ 中的 NextPass 延伸功能將能搜尋你已解鎖的資料庫，並在網頁中填入密碼。僅在你剛親自設定此延伸功能時才允許。"
           }
         }
       }

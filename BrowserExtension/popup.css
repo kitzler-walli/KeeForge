@@ -36,6 +36,8 @@ header {
   font-weight: 600;
 }
 main { padding: 10px 12px 12px; }
+footer:empty { display: none; }
+footer { padding: 6px 12px 8px; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; }
 input[type="search"] {
   width: 100%;
   padding: 7px 9px;
@@ -73,3 +75,9 @@ button.primary { background: var(--accent); border-color: var(--accent); color: 
 .message { padding: 6px 0 10px; }
 .message.warn { color: var(--warn); }
 .empty { color: var(--muted); padding: 10px 2px; }
+.code {
+  margin: 4px 0 10px;
+  font: 600 26px/1.2 ui-monospace, "SF Mono", Menlo, monospace;
+  letter-spacing: 0.08em;
+  text-align: center;
+}

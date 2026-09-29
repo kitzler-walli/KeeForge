@@ -874,20 +874,47 @@ private struct MacDisplaySettingsTab: View {
 /// Browsers the NextPass extension was allowed in; see
 /// `KeeForge/Services/BrowserBridge`.
 private struct BrowserExtensionSettingsSection: View {
-    @State private var hasPairings = BrowserBridgePairingStore().hasPairings
+    @State private var isEnabled = SettingsService.browserExtensionEnabled
+    @State private var pairings = BrowserBridgePairingStore().pairings
 
     var body: some View {
         Section {
-            Button("Forget Connected Browsers", role: .destructive) {
-                BrowserBridgePairingStore().removeAll()
-                hasPairings = false
+            Toggle("Allow Browser Extension", isOn: $isEnabled)
+                .accessibilityIdentifier("settings.browser.enabled")
+                .onChange(of: isEnabled) { _, newValue in
+                    SettingsService.browserExtensionEnabled = newValue
+                    NotificationCenter.default.post(name: BrowserBridgeConnector.settingDidChangeNotification, object: nil)
+                }
+
+            if pairings.isEmpty {
+                Text("No browsers connected.")
+                    .foregroundStyle(.secondary)
+                    .accessibilityIdentifier("settings.browser.none")
             }
-            .disabled(hasPairings == false)
-            .accessibilityIdentifier("settings.browser.forget")
+            ForEach(pairings) { pairing in
+                let name = pairing.browserName.isEmpty ? String(localized: "Browser") : pairing.browserName
+                LabeledContent {
+                    Button("Remove", role: .destructive) {
+                        BrowserBridgePairingStore().remove(pairing)
+                    }
+                    .accessibilityLabel(Text("Remove \(name)"))
+                    .accessibilityIdentifier("settings.browser.remove")
+                } label: {
+                    Text(name)
+                    Text("ID \(pairing.shortID) · Connected \(pairing.pairedAt.formatted(date: .abbreviated, time: .shortened))")
+                    if let lastUsedAt = pairing.lastUsedAt {
+                        Text("Last used \(lastUsedAt.formatted(.relative(presentation: .named)))")
+                    }
+                }
+                .accessibilityIdentifier("settings.browser.pairing")
+            }
         } header: {
             Text("Browser Extension")
         } footer: {
-            Text("The NextPass extension for Brave and Chrome connects to NextPass while it is running. The first time, NextPass asks you to allow that browser.")
+            Text("Lets the NextPass extension for Brave and Chrome connect while NextPass is running. The first time, NextPass shows a code that must match the one in the browser before you allow it. When this is off, NextPass does not listen for the extension at all.")
+        }
+        .onReceive(NotificationCenter.default.publisher(for: BrowserBridgePairingStore.didChangeNotification)) { _ in
+            pairings = BrowserBridgePairingStore().pairings
         }
     }
 }

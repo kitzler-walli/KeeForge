@@ -327,6 +327,13 @@ final class SettingsServiceTests: XCTestCase {
         XCTAssertTrue(SettingsService.blurWhenInactive)
     }
 
+    // MARK: - Browser Extension
+
+    func testBrowserExtensionIsOffByDefault() {
+        UserDefaults.standard.removeObject(forKey: "KeeForge.browserExtensionEnabled")
+        XCTAssertFalse(SettingsService.browserExtensionEnabled)
+    }
+
     // MARK: - Password Generator Options
 
     func testPasswordGeneratorOptionsDefaultToGeneratorDefaults() {

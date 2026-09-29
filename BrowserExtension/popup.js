@@ -6,6 +6,7 @@
 const ENDPOINT = "http://127.0.0.1:19735/";
 const content = document.getElementById("content");
 const databaseLabel = document.getElementById("database");
+const footer = document.getElementById("connection");
 
 let clientKey;
 let activeTab;
@@ -35,8 +36,22 @@ async function loadClientKey() {
   return key;
 }
 
+/// What NextPass lists this browser as, e.g. "Brave (Chromium 140)" or
+/// "Google Chrome 140".
 function browserName() {
-  return navigator.brave ? "Brave" : "Chrome";
+  const brands = navigator.userAgentData?.brands ?? [];
+  const chromium = brands.find((entry) => entry.brand === "Chromium");
+  const own = brands.find((entry) => entry.brand !== "Chromium" && !/not.?a.?brand/i.test(entry.brand));
+  if (navigator.brave) return chromium ? `Brave (Chromium ${chromium.version})` : "Brave";
+  if (own) return `${own.brand} ${own.version}`;
+  return chromium ? `Chromium ${chromium.version}` : "Chromium";
+}
+
+/// The first four hex digits of the key's SHA-256, as NextPass shows them
+/// beside this browser in Settings.
+async function connectionID() {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(clientKey));
+  return [...new Uint8Array(digest).slice(0, 2)].map((byte) => byte.toString(16).padStart(2, "0")).join("").toUpperCase();
 }
 
 function element(tag, props = {}, children = []) {
@@ -75,6 +90,7 @@ async function refresh() {
     return;
   }
   if (status.database) databaseLabel.textContent = status.database;
+  footer.textContent = `Connection ID ${await connectionID()} · ${browserName()}`;
   if (!status.unlocked) {
     showMessage("NextPass is locked.", { button: "Unlock in NextPass", onClick: unlock });
     return;
@@ -82,11 +98,20 @@ async function refresh() {
   showSearch();
 }
 
+// NextPass shows this code in its approval dialog; a prompt raised by
+// anything else has no matching code on the user's screen.
 async function pair() {
-  showMessage("Confirm in NextPass…");
-  const response = await send({ action: "pair", clientName: browserName() }).catch(() => null);
+  const digits = crypto.getRandomValues(new Uint32Array(1))[0] % 1000000;
+  const code = String(digits).padStart(6, "0");
+  showMessage("In NextPass, allow this browser only if it shows this code:");
+  content.append(element("div", { className: "code", textContent: `${code.slice(0, 3)} ${code.slice(3)}` }));
+  const response = await send({ action: "pair", clientName: browserName(), pairingCode: code }).catch(() => null);
   if (response?.ok) {
     refresh();
+  } else if (response?.error === "busy") {
+    showMessage("NextPass is already asking about a browser. Answer that first.", { warn: true, button: "Try Again", onClick: pair });
+  } else if (response?.error === "tooManyAttempts") {
+    showMessage("Too many connection attempts. Try again in a few minutes.", { warn: true });
   } else {
     showMessage("NextPass didn't allow this browser.", { warn: true, button: "Try Again", onClick: pair });
   }
@@ -220,29 +245,26 @@ async function fill(entry) {
     return;
   }
   if (!activeTab?.id) return;
-  const pageHost = new URL(activeTab.url).hostname;
-  const allowedHosts = [pageHost, ...(await grantedHosts())];
-  if (await fillFrames(response, allowedHosts)) {
+  const pageSite = siteOf(new URL(activeTab.url).hostname);
+  const allowedSites = [pageSite, ...(await grantedSites(pageSite))];
+  if (await fillFrames(response, allowedSites)) {
     window.close();
     return;
   }
 
   // Some sites load the login form from another site in a frame (ID Austria
-  // from service.a-trust.at). Filling there takes the user's explicit consent,
-  // and the browser's own permission for exactly that site.
-  const otherHosts = (await embeddedFrameHosts()).filter((host) => !allowedHosts.some((allowed) => sameSite(host, allowed)));
-  if (otherHosts.length === 0) {
+  // from service.a-trust.at). Filling there takes the user's explicit consent.
+  const otherSites = skippedSites();
+  if (otherSites.length === 0) {
     showMessage(fillError ? `NextPass couldn't reach this page: ${fillError}` : `No login fields found on this page. ${describeFrames()}`, { warn: true });
     return;
   }
-  const host = otherHosts[0];
-  showMessage(`The login form on this page comes from ${host}. Fill it there?`, {
-    button: `Allow ${host} and Fill`,
+  const site = otherSites[0];
+  showMessage(`The login form on this page comes from ${site}. Fill it there?`, {
+    button: `Fill on ${site}`,
     onClick: async () => {
-      const granted = await chrome.permissions.request({ origins: [`https://${host}/*`] });
-      if (!granted) {
-        showMessage(`NextPass didn't fill the form on ${host}.`, { warn: true });
-      } else if (await fillFrames(response, [...allowedHosts, host])) {
+      await rememberGrant(pageSite, site);
+      if (await fillFrames(response, [...allowedSites, site])) {
         window.close();
       } else {
         showMessage(`No login fields found on this page. ${describeFrames()}`, { warn: true });
@@ -255,7 +277,7 @@ async function fill(entry) {
 /// their current addresses: an iframe's `src` goes stale after a redirect (ID
 /// Austria's login frame lands on service.a-trust.at), and one off-limits frame
 /// would make an all-frames injection fail outright.
-async function fillFrames(credentials, allowedHosts) {
+async function fillFrames(credentials, allowedSites) {
   frameReports = [];
   fillError = undefined;
   let lastError;
@@ -263,15 +285,15 @@ async function fillFrames(credentials, allowedHosts) {
     const host = hostOf(frame.url);
     // A frame without a host of its own (about:blank) is judged inside by the
     // origin it inherited.
-    if (host && !allowedHosts.some((allowed) => sameSite(host, allowed))) {
-      frameReports.push({ host, skipped: true });
+    if (host && !isOnSite(host, allowedSites)) {
+      frameReports.push({ host, site: siteOf(host), skipped: true });
       continue;
     }
     try {
       const [result] = await chrome.scripting.executeScript({
         target: { tabId: activeTab.id, frameIds: [frame.frameId] },
         func: fillLogin,
-        args: [credentials.username, credentials.password, allowedHosts],
+        args: [credentials.username, credentials.password, allowedSites],
       });
       if (result?.result) frameReports.push(result.result);
     } catch (error) {
@@ -297,17 +319,33 @@ function hostOf(url) {
   }
 }
 
-/// Sites the user has allowed NextPass to fill in, beyond the page's own.
-async function grantedHosts() {
-  const { origins = [] } = await chrome.permissions.getAll();
-  return origins
-    .filter((origin) => origin.startsWith("https://") && !origin.includes("*."))
-    .map((origin) => new URL(origin.replace(/\*$/, "")).hostname);
+/// A host's registrable domain (apple.com for idmsa.apple.com), from the
+/// Public Suffix List; an IP address or single-label host stands for itself.
+function siteOf(host) {
+  return tldts.getDomain(host, { allowPrivateDomains: true }) ?? host;
+}
+
+function isOnSite(host, sites) {
+  return sites.some((site) => host === site || host.endsWith(`.${site}`));
+}
+
+/// Other sites the user allowed NextPass to fill in on this page's site. An
+/// allowance stays with the site it was given on: allowing A-Trust on ID
+/// Austria does not let an A-Trust frame on another site get filled.
+async function grantedSites(pageSite) {
+  const { siteGrants = {} } = await chrome.storage.local.get("siteGrants");
+  return siteGrants[pageSite] ?? [];
+}
+
+async function rememberGrant(pageSite, frameSite) {
+  const { siteGrants = {} } = await chrome.storage.local.get("siteGrants");
+  siteGrants[pageSite] = [...new Set([...(siteGrants[pageSite] ?? []), frameSite])];
+  await chrome.storage.local.set({ siteGrants });
 }
 
 /// Sites whose frames the last fill had to skip: where a login form may be.
-async function embeddedFrameHosts() {
-  return [...new Set(frameReports.filter((report) => report.skipped).map((report) => report.host))];
+function skippedSites() {
+  return [...new Set(frameReports.filter((report) => report.skipped).map((report) => report.site))];
 }
 
 function describeFrames() {
@@ -318,27 +356,15 @@ function describeFrames() {
   return `(${parts.join("; ")})`;
 }
 
-function sameSite(first, second) {
-  const bare = (host) => host.replace(/^www\./, "");
-  const a = bare(first);
-  const b = bare(second);
-  return a === b || a.endsWith(`.${b}`) || b.endsWith(`.${a}`);
-}
-
-// Runs inside the page (each frame). Fills only frames on an allowed host or a
-// parent/subdomain of one — the page's own site, plus sites the user allowed —
-// so a login box embedded from anywhere else never receives the password.
-function fillLogin(username, password, allowedHosts) {
-  const bare = (host) => host.replace(/^www\./, "");
+// Runs inside the page (each frame). Fills only frames on an allowed site —
+// the page's own, plus sites the user allowed — so a login box embedded from
+// anywhere else never receives the password.
+function fillLogin(username, password, allowedSites) {
   // The origin, not the URL: an about:blank or srcdoc frame a page writes its
   // login form into has no host of its own but inherits the page's origin.
-  const originHost = location.origin === "null" ? "" : new URL(location.origin).hostname;
-  const frameHost = bare(originHost);
-  const report = { host: originHost || location.href.slice(0, 40), inputs: 0, passwords: 0, filled: 0 };
-  const allowed = frameHost !== "" && allowedHosts.some((host) => {
-    const pageHost = bare(host);
-    return frameHost === pageHost || frameHost.endsWith(`.${pageHost}`) || pageHost.endsWith(`.${frameHost}`);
-  });
+  const frameHost = location.origin === "null" ? "" : new URL(location.origin).hostname;
+  const report = { host: frameHost || location.href.slice(0, 40), inputs: 0, passwords: 0, filled: 0 };
+  const allowed = frameHost !== "" && allowedSites.some((site) => frameHost === site || frameHost.endsWith(`.${site}`));
   if (!allowed) return { ...report, skipped: true };
 
   const isUsable = (input) => {

@@ -328,23 +328,39 @@ The NextPass extension for Brave and Chrome (`BrowserExtension/`) is new attack
 surface: the app listens on 127.0.0.1:19735 and answers credential requests.
 What bounds it:
 
+- Off unless the user turns on "Allow Browser Extension" (Settings ▸ AutoFill),
+  so a Mac that never uses the extension exposes no port at all.
 - Loopback only, so nothing off this Mac can connect. Every request must carry
   `Origin: chrome-extension://<NextPass extension ID>`; browsers set that header
   for extension requests and web pages cannot forge it, so no website can reach
   the bridge. A local process can send any header, which is why pairing exists.
-- Nothing but `status` and `pair` answers an unpaired extension, and pairing
-  needs the user's click in NextPass. The app stores only hashes of each
-  extension's random key.
+- Nothing but `status` and `pair` answers an unpaired extension, and an
+  unpaired `status` reveals nothing about the vault. Pairing needs the user's
+  click on a NextPass dialog showing the code the extension's popup displays;
+  one dialog at a time, a few per five minutes. The app stores only hashes of
+  each extension's random key, in its own Keychain access group — its
+  preferences file would let any process running as the user approve itself.
+- A client gets five seconds to send its request and at most eight are
+  served at once, so a local process cannot exhaust the app's file
+  descriptors.
 - Credentials leave one entry at a time, only while the vault is unlocked, and
   search results carry no secrets. The extension fills only frames on the
-  page's own host (or a parent/subdomain), plus a site the user explicitly
-  allowed after being told a login form comes from it (the browser's own
-  per-site permission), so an unannounced third-party frame never receives a
+  page's own site (registrable domain, from the Public Suffix List), plus a
+  site the user explicitly allowed on that site after being told a login form
+  comes from it, so an unannounced third-party frame never receives a
   password. Password copy goes through the app's clipboard handling, never
   through the browser.
+- The extension holds host access to every http(s) site from install, as
+  KeePassXC-Browser and Strongbox do — the browser cannot inject into an
+  embedded sign-in frame (Apple's idmsa.apple.com) otherwise. It declares no
+  content scripts, web-accessible resources, or external connections, so no
+  page can see or message it; it runs code in a page only when the user picks
+  an entry to fill.
 - Residual: anything that can run as the user and read the browser profile can
   take the extension's pairing key and, while the vault is unlocked, request
-  credentials — the same exposure KeePassXC-Browser accepts. Local malware with
+  credentials — the same exposure KeePassXC-Browser accepts. Any website can
+  tell whether the port is open, i.e. that NextPass is running with the
+  extension allowed; it learns nothing else. Local malware with
   that reach can also read the screen and keystrokes (see below).
 
 ## Sparkle update channel — direct builds only
