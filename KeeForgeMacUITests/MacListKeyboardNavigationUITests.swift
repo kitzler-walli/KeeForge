@@ -46,6 +46,58 @@ final class MacListKeyboardNavigationUITests: MacUITestCase {
         )
     }
 
+    /// Unlocking focuses the search field, and an arrow key from the field
+    /// selects a result and hands focus to the list. Neither step has a seam a
+    /// unit test reaches: both are first-responder moves across the toolbar.
+    func testTypingAfterUnlockSearchesAndArrowKeysLeaveTheField() {
+        unlockSuccessfully()
+
+        // Escape in the field clears the query but keeps the cursor there.
+        app.typeText("Login")
+        XCTAssertGreaterThanOrEqual(searchResultCount(), 1, "Typing right after unlock did not reach the search field")
+        app.typeKey(XCUIKeyboardKey.escape, modifierFlags: [])
+        XCTAssertTrue(
+            app.staticTexts["search.results.count"].waitForNonExistence(timeout: 10),
+            "Escape in the search field did not clear the query"
+        )
+
+        // A second Escape on the now-empty field must not drop focus either.
+        app.typeKey(XCUIKeyboardKey.escape, modifierFlags: [])
+        app.typeText("Login")
+
+        XCTAssertGreaterThanOrEqual(
+            searchResultCount(),
+            2,
+            "Escape in the search field did not keep the cursor there"
+        )
+
+        app.typeKey(XCUIKeyboardKey.downArrow, modifierFlags: [])
+
+        let firstTitle = waitForAnyDetailTitle()
+        XCTAssertFalse(firstTitle.isEmpty, "Down arrow in the search field did not select a result")
+
+        app.typeKey(XCUIKeyboardKey.downArrow, modifierFlags: [])
+
+        XCTAssertNotNil(
+            waitForDetailTitleToChange(from: firstTitle),
+            "The second Down arrow did not move the selection within the results"
+        )
+
+        // Escape from the results clears the query and returns the cursor to
+        // the field, so typing starts a fresh search.
+        app.typeKey(XCUIKeyboardKey.escape, modifierFlags: [])
+        XCTAssertTrue(
+            app.staticTexts["search.results.count"].waitForNonExistence(timeout: 10),
+            "Escape in the results did not clear the search"
+        )
+        app.typeText("Login")
+        XCTAssertGreaterThanOrEqual(
+            searchResultCount(),
+            2,
+            "Typing after Escape did not reach the search field"
+        )
+    }
+
     func testDownArrowMovesTheTagResultSelection() {
         unlockSuccessfully()
 

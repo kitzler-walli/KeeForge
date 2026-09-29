@@ -8,6 +8,7 @@ struct PasswordGeneratorSheet: View {
     @State private var generatedPassword = PasswordGenerator.generate(
         options: SettingsService.passwordGeneratorOptions
     )
+    @State private var copyCount = 0
 
     var body: some View {
         NavigationStack {
@@ -27,10 +28,12 @@ struct PasswordGeneratorSheet: View {
 
                             CopyButton(
                                 text: generatedPassword,
-                                accessibilityID: "password-generator.copy"
+                                accessibilityID: "password-generator.copy",
+                                onCopied: { copyCount += 1 }
                             )
                         }
                     }
+                    .copyConfirmation(trigger: copyCount)
                 }
 
                 Section("Length") {

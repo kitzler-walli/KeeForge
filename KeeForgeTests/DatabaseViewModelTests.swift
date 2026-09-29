@@ -2720,6 +2720,62 @@ final class DatabaseViewModelTests: XCTestCase {
         XCTAssertTrue(vm.searchResults.isEmpty)
     }
 
+    func testMovingSelectionIntoSearchResultsStartsAtTheEdgeAndSteps() async throws {
+        let vm = try makeViewModel()
+        await vm.unlock(password: fixturePassword)
+
+        XCTAssertFalse(vm.moveSelectionIntoSearchResults(by: 1), "No query, nothing to select")
+        XCTAssertEqual(vm.searchResultsFocusRequestID, 0)
+
+        vm.searchText = "e"
+        let results = vm.searchResults.map(\.id)
+        XCTAssertGreaterThanOrEqual(results.count, 2)
+
+        XCTAssertTrue(vm.moveSelectionIntoSearchResults(by: 1))
+        XCTAssertEqual(vm.selectedEntryID, results.first)
+        XCTAssertEqual(vm.searchResultsFocusRequestID, 1)
+
+        vm.moveSelectionIntoSearchResults(by: 1)
+        XCTAssertEqual(vm.selectedEntryID, results[1])
+
+        vm.moveSelectionIntoSearchResults(by: -1)
+        vm.moveSelectionIntoSearchResults(by: -1)
+        XCTAssertEqual(vm.selectedEntryID, results.first, "Up stops at the first result")
+
+        vm.selectEntry(nil)
+        vm.moveSelectionIntoSearchResults(by: -1)
+        XCTAssertEqual(vm.selectedEntryID, results.last, "Up from no selection starts at the last result")
+    }
+
+    func testCancellingSearchFromResultsClearsQueryAndRefocusesField() async throws {
+        let vm = try makeViewModel()
+        await vm.unlock(password: fixturePassword)
+        vm.searchText = "e"
+        vm.moveSelectionIntoSearchResults(by: 1)
+        let focusRequestsBefore = vm.searchFocusRequestID
+
+        vm.cancelSearchFromResults()
+
+        XCTAssertEqual(vm.searchText, "")
+        XCTAssertTrue(vm.searchResults.isEmpty)
+        XCTAssertEqual(vm.searchFocusRequestID, focusRequestsBefore + 1)
+    }
+
+    func testRecordedEntryCopyIsReportedOnlyForItsFieldAndEntry() throws {
+        let vm = try makeViewModel()
+        let entryID = UUID()
+
+        XCTAssertNil(vm.entryCopyID(.password, entryID: entryID))
+
+        vm.recordEntryCopy(.password, entryID: entryID)
+        let firstCopy = try XCTUnwrap(vm.entryCopyID(.password, entryID: entryID))
+        XCTAssertNil(vm.entryCopyID(.username, entryID: entryID))
+        XCTAssertNil(vm.entryCopyID(.password, entryID: UUID()))
+
+        vm.recordEntryCopy(.password, entryID: entryID)
+        XCTAssertNotEqual(vm.entryCopyID(.password, entryID: entryID), firstCopy, "Each copy needs a fresh id to re-trigger the confirmation")
+    }
+
     func testSearchResultsMatchDiacriticInsensitively() async throws {
         let created = try await DatabaseCreationService.create(
             request: DatabaseCreationRequest(

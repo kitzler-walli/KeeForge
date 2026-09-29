@@ -22,6 +22,9 @@ struct MacEntriesList: View {
     /// Kept as the iOS lists' identifier so both platforms' UI tests match the
     /// same rows; the group column uses `entry.navlink`.
     var rowIdentifier: String = "search.entry.navlink"
+    /// A change hands keyboard focus to the list; search results use it to
+    /// take over from the search field on an arrow key.
+    var focusRequestID = 0
     /// Set by containers that already host a `PendingDeletion` on this
     /// presentation context — the workspace content column, which renders both
     /// the search results and the tag browser. A second `.alert(item:)` there
@@ -55,6 +58,10 @@ struct MacEntriesList: View {
         }
         .listStyle(.inset)
         .focused($isListFocused)
+        .macCopiesSelectedPassword(viewModel: viewModel)
+        .onChange(of: focusRequestID) { _, _ in
+            isListFocused = true
+        }
         .onKeyPress(.return) {
             guard let entryID = viewModel.selectedEntryID else { return .ignored }
             openEntry(entryID)
@@ -104,6 +111,26 @@ struct MacEntriesList: View {
     private func openEntry(_ entryID: UUID) {
         viewModel.selectedEntryID = entryID
         viewModel.requestEntryEdit()
+    }
+}
+
+extension View {
+    /// Edit ▸ Copy (⌘C) on a focused entry list copies the selected entry's
+    /// password, the way KeePassXC does. Scoped to list focus by the responder
+    /// chain, so ⌘C in the search field, an editor, or selected detail text
+    /// still copies that text.
+    func macCopiesSelectedPassword(viewModel: DatabaseViewModel) -> some View {
+        onCopyCommand {
+            guard let entryID = viewModel.selectedEntryID,
+                  let entry = viewModel.entry(withID: entryID) else { return [] }
+            // Deferred past this handler, which writes the providers it returns
+            // to the pasteboard; the copy goes through `ClipboardService`
+            // (concealed type, expiry) and may first wait on authentication.
+            Task { @MainActor in
+                EntryRowCopyActions.copyPassword(of: entry, viewModel: viewModel)
+            }
+            return []
+        }
     }
 }
 

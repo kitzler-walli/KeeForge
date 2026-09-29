@@ -581,6 +581,7 @@
 		BEA7CF4FC9DDC7B42398DAA5 /* PendingUploadQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B7062FC711FD8F8EA1BEE3 /* PendingUploadQueue.swift */; };
 		BEB5A614DD49992B5C45A80B /* PasswordGeneratorSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F6233A5A7173BAA633FF6A /* PasswordGeneratorSheet.swift */; };
 		BED9E471BE35247840681EC2 /* DatabaseExportServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7846C0D51BFF3B0340550C /* DatabaseExportServiceTests.swift */; };
+		BF5C11EE0516B8B1AF8F7AA3 /* CopyConfirmationOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E8810C9FB3FBE6DDE060DB /* CopyConfirmationOverlay.swift */; };
 		BFA3725153EF5A3C0BECC4DF /* foreign-twofish.kdbx in Resources */ = {isa = PBXBuildFile; fileRef = E38AF9B69C365E5B0B3029D1 /* foreign-twofish.kdbx */; };
 		BFAC75E3B9EC2BB3E1B11FAB /* KeychainMigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BB465F403FF88189ACE559 /* KeychainMigrationTests.swift */; };
 		BFB9B3CB53F5C29E4AB01037 /* KDBXParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012690B5F23A7226C211D172 /* KDBXParserTests.swift */; };
@@ -724,6 +725,7 @@
 		EBA8FB4FD8A41B3393459A10 /* KDBXTreeAssertions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F65B45F45792580B0A8707 /* KDBXTreeAssertions.swift */; };
 		EBD709D81118B4E176ED37FF /* MacWindowCloseGuardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E00D0D53A542542B165F15C /* MacWindowCloseGuardTests.swift */; };
 		EBD80723C6978E5DAB7C41F9 /* EntryRowCopyActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE329B5193927500F922C84C /* EntryRowCopyActions.swift */; };
+		EBF2B2DE2E87D6EEBA9902E2 /* CopyConfirmationOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E8810C9FB3FBE6DDE060DB /* CopyConfirmationOverlay.swift */; };
 		EBFD74CE74894EF9389066CC /* DatabaseListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E56924FBDB62B185403ECA2 /* DatabaseListStore.swift */; };
 		EC05FE5DC3A230B30A8FD47E /* PasswordInputRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A81C906DE4BC0FFCA1CC754 /* PasswordInputRow.swift */; };
 		EC45F184AB465775C886305B /* WhatsNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9375E87713DD1DFA65000AA1 /* WhatsNewView.swift */; };
@@ -993,6 +995,7 @@
 		44E0A599916DAE57D4D11320 /* SettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsService.swift; sourceTree = "<group>"; };
 		455FD53F5742BDF61762E71D /* MacListKeyboardNavigationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacListKeyboardNavigationUITests.swift; sourceTree = "<group>"; };
 		4617181C6F1D225941A512C1 /* MacTransitionNoticeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacTransitionNoticeService.swift; sourceTree = "<group>"; };
+		46E8810C9FB3FBE6DDE060DB /* CopyConfirmationOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyConfirmationOverlay.swift; sourceTree = "<group>"; };
 		4784704BFD6946A69C67FDF3 /* MacTransitionNoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacTransitionNoticeView.swift; sourceTree = "<group>"; };
 		47CCBDF8ED23DD32B45AD2C3 /* AutoFillMemoryLimit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoFillMemoryLimit.swift; sourceTree = "<group>"; };
 		48B7208FC9199C3B6A619B18 /* SaveConflictMergeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveConflictMergeUITests.swift; sourceTree = "<group>"; };
@@ -1432,6 +1435,7 @@
 		2DACE43FAB9153B60611CC9E /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				46E8810C9FB3FBE6DDE060DB /* CopyConfirmationOverlay.swift */,
 				3D07D803277E1C8581E2FB51 /* FaviconView.swift */,
 				3AD4237706B18C568583C16A /* PasswordDisplay.swift */,
 				60F6233A5A7173BAA633FF6A /* PasswordGeneratorSheet.swift */,
@@ -2691,6 +2695,7 @@
 				AEC81D019DB2D3A4C93F1404 /* CloudSyncModels.swift in Sources */,
 				A2CDD7392EFE6D1A2B4D0F27 /* CloudTokenStore.swift in Sources */,
 				4E4FE2E39C56991A0024DF37 /* CoordinatedFileReader.swift in Sources */,
+				BF5C11EE0516B8B1AF8F7AA3 /* CopyConfirmationOverlay.swift in Sources */,
 				1E9386AAE54BC4C0D33B1F5B /* CredentialIdentityStoreManager.swift in Sources */,
 				111B6AE6CDEBB6946C6F2BE7 /* CredentialMatcher.swift in Sources */,
 				520B3801B3A8394E7B89CE17 /* CredentialProviderCoordinator.swift in Sources */,
@@ -2880,6 +2885,7 @@
 				A5AFC786A01BD83B1C89EEA1 /* CloudSyncModels.swift in Sources */,
 				0718F58CE195F5E5FECEB5D3 /* CloudTokenStore.swift in Sources */,
 				B5DA8B6E4A9149E1B59C5D25 /* CoordinatedFileReader.swift in Sources */,
+				EBF2B2DE2E87D6EEBA9902E2 /* CopyConfirmationOverlay.swift in Sources */,
 				90E81BC3B648E87B0D4BFB37 /* CredentialIdentityStoreManager.swift in Sources */,
 				96335AB328E6C5ABBE87CAEB /* CredentialMatcher.swift in Sources */,
 				AAE58420285704CD0AA393B0 /* CredentialProviderCoordinator.swift in Sources */,

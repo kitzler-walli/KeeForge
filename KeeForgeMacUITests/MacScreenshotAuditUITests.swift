@@ -75,14 +75,6 @@ final class MacScreenshotAuditUITests: MacUITestCase {
         app.launchEnvironment["UI_TEST_HIDE_SEARCH_RESULTS_COUNT"] = "1"
     }
 
-    private func insertLaunchArguments(_ arguments: [String], into app: XCUIApplication) {
-        if let index = app.launchArguments.firstIndex(of: "-ui-testing") {
-            app.launchArguments.insert(contentsOf: arguments, at: index)
-        } else {
-            app.launchArguments += arguments
-        }
-    }
-
     private static let appBundleIdentifier = "at.kw.nextpass"
 
     /// PID of the running app-under-test.

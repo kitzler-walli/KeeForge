@@ -172,7 +172,8 @@ struct EntryDetailView: View {
                             value: viewModel.resolvingFieldReferences(entry.username),
                             icon: "person.fill",
                             accessibilityKey: "username",
-                            copiesOnTap: true
+                            copiesOnTap: true,
+                            externalCopyID: viewModel.entryCopyID(.username, entryID: entry.id)
                         )
                     }
 
@@ -180,12 +181,16 @@ struct EntryDetailView: View {
                         PasswordFieldRow(
                             password: entry.password,
                             sessionKey: sessionKey,
-                            resolveReferences: viewModel.resolvingFieldReferences
+                            resolveReferences: viewModel.resolvingFieldReferences,
+                            externalCopyID: viewModel.entryCopyID(.password, entryID: entry.id)
                         )
                     }
 
                     if !entry.url.isEmpty {
-                        URLFieldRow(url: viewModel.resolvingFieldReferences(entry.url))
+                        URLFieldRow(
+                            url: viewModel.resolvingFieldReferences(entry.url),
+                            externalCopyID: viewModel.entryCopyID(.url, entryID: entry.id)
+                        )
                     }
 
                     ForEach(Array(entry.additionalURLs.enumerated()), id: \.offset) { index, url in
@@ -193,7 +198,11 @@ struct EntryDetailView: View {
                     }
 
                     if let totpConfig = entry.totpConfig {
-                        TOTPSection(config: totpConfig, sessionKey: sessionKey)
+                        TOTPSection(
+                            config: totpConfig,
+                            sessionKey: sessionKey,
+                            externalCopyID: viewModel.entryCopyID(.verificationCode, entryID: entry.id)
+                        )
                     }
 
                     if !entry.notes.isEmpty {
@@ -718,7 +727,10 @@ struct FieldRow: View {
     /// inconsistent separator insets.
     var showsInlineLabel: Bool = false
     var copiesOnTap: Bool = false
+    /// Changes when this field was copied from outside the row (⌘B).
+    var externalCopyID: UUID?
     @State private var rowTaps = 0
+    @State private var copyCount = 0
 
     @ViewBuilder
     var body: some View {
@@ -751,12 +763,17 @@ struct FieldRow: View {
             CopyButton(
                 text: value,
                 accessibilityID: "\(accessibilityPrefix).copy.\(normalizedLabel)",
-                rowTaps: rowTaps
+                rowTaps: rowTaps,
+                onCopied: { copyCount += 1 }
             )
         }
         .contentShape(Rectangle())
         .onTapGesture {
             if copiesOnTap { rowTaps += 1 }
+        }
+        .copyConfirmation(trigger: copyCount)
+        .onChange(of: externalCopyID) { _, id in
+            if id != nil { copyCount += 1 }
         }
     }
 
@@ -772,6 +789,7 @@ struct ProtectedFieldRow: View {
     var showsInlineLabel: Bool = false
     @State private var revealed = false
     @State private var authenticating = false
+    @State private var copyCount = 0
 
     @ViewBuilder
     var body: some View {
@@ -821,9 +839,11 @@ struct ProtectedFieldRow: View {
                 text: value,
                 requireAuth: true,
                 authenticationReason: String(localized: "Copy protected field"),
-                accessibilityID: "\(accessibilityPrefix).copy.\(normalizedLabel)"
+                accessibilityID: "\(accessibilityPrefix).copy.\(normalizedLabel)",
+                onCopied: { copyCount += 1 }
             )
         }
+        .copyConfirmation(trigger: copyCount)
     }
 
     private var normalizedLabel: String {
@@ -873,10 +893,13 @@ struct PasswordFieldRow: View {
     /// entry detail's long-standing `entry.*` ids; the history viewer passes its own
     /// so the two screens never contribute the same identifier to one hierarchy.
     var accessibilityPrefix: String = "entry"
+    /// Changes when the password was copied from outside the row (⌘C).
+    var externalCopyID: UUID?
     @State private var revealed = false
     @State private var revealedText: String?
     @State private var authenticating = false
     @State private var rowTaps = 0
+    @State private var copyCount = 0
 
     var body: some View {
         Section("Password") {
@@ -898,11 +921,16 @@ struct PasswordFieldRow: View {
                     resolveText: { plaintext(of: password) },
                     requireAuth: true,
                     accessibilityID: "\(accessibilityPrefix).copy.password",
-                    rowTaps: rowTaps
+                    rowTaps: rowTaps,
+                    onCopied: { copyCount += 1 }
                 )
             }
             .contentShape(Rectangle())
             .onTapGesture { rowTaps += 1 }
+            .copyConfirmation(trigger: copyCount)
+        }
+        .onChange(of: externalCopyID) { _, id in
+            if id != nil { copyCount += 1 }
         }
         .onChange(of: password) { _, updatedPassword in
             guard revealed else { return }
@@ -970,7 +998,10 @@ struct PasswordFieldRow: View {
 struct URLFieldRow: View {
     let url: String
     var label: String = String(localized: "URL")
+    /// Changes when this URL was copied from outside the row (⇧⌘U).
+    var externalCopyID: UUID?
     @Environment(\.openURL) private var openURL
+    @State private var copyCount = 0
 
     var body: some View {
         Section(label) {
@@ -994,8 +1025,12 @@ struct URLFieldRow: View {
                     .buttonStyle(.borderless)
                     .accessibilityIdentifier("entry.url.open")
                 }
-                CopyButton(text: url, accessibilityID: "entry.copy.url")
+                CopyButton(text: url, accessibilityID: "entry.copy.url", onCopied: { copyCount += 1 })
             }
+            .copyConfirmation(trigger: copyCount)
+        }
+        .onChange(of: externalCopyID) { _, id in
+            if id != nil { copyCount += 1 }
         }
     }
 }
@@ -1008,7 +1043,8 @@ struct CopyButton: View {
     /// Incremented by the enclosing row on a tap outside the button, so the row
     /// copies through the same auth gate and feedback as the button itself.
     var rowTaps: Int = 0
-    @State private var copied = false
+    /// Tells the enclosing row, which covers itself with the confirmation.
+    var onCopied: () -> Void = {}
 
     /// Copy a plaintext value.
     init(
@@ -1016,13 +1052,15 @@ struct CopyButton: View {
         requireAuth: Bool = false,
         authenticationReason: String = String(localized: "Copy password"),
         accessibilityID: String,
-        rowTaps: Int = 0
+        rowTaps: Int = 0,
+        onCopied: @escaping () -> Void = {}
     ) {
         self.resolveText = { text }
         self.requireAuth = requireAuth
         self.authenticationReason = authenticationReason
         self.accessibilityID = accessibilityID
         self.rowTaps = rowTaps
+        self.onCopied = onCopied
     }
 
     /// Copy a value that is decrypted lazily on demand.
@@ -1031,20 +1069,22 @@ struct CopyButton: View {
         requireAuth: Bool = false,
         authenticationReason: String = String(localized: "Copy password"),
         accessibilityID: String,
-        rowTaps: Int = 0
+        rowTaps: Int = 0,
+        onCopied: @escaping () -> Void = {}
     ) {
         self.resolveText = resolveText
         self.requireAuth = requireAuth
         self.authenticationReason = authenticationReason
         self.accessibilityID = accessibilityID
         self.rowTaps = rowTaps
+        self.onCopied = onCopied
     }
 
     var body: some View {
         Button(action: copy) {
-            Image(systemName: copied ? "checkmark" : "doc.on.doc")
+            Image(systemName: "doc.on.doc")
                 .font(.body)
-                .foregroundStyle(copied ? Color.green : Color.accentColor)
+                .foregroundStyle(Color.accentColor)
         }
         .frame(width: 44, height: 44)
         .contentShape(Rectangle())
@@ -1082,12 +1122,8 @@ struct CopyButton: View {
 
     private func performCopy() {
         ClipboardService.copy(resolveText())
-        copied = true
         HapticService.success()
-        Task {
-            try? await Task.sleep(for: .seconds(1.5))
-            copied = false
-        }
+        onCopied()
     }
 }
 
@@ -1097,11 +1133,20 @@ struct TOTPSection: View {
     let config: TOTPConfig
     /// Identifier namespace, matching `FieldRow` / `PasswordFieldRow`.
     var accessibilityPrefix: String = "entry"
+    /// Changes when the code was copied from outside the row (⇧⌘T).
+    var externalCopyID: UUID?
     @State private var totpVM: TOTPViewModel
+    @State private var copyCount = 0
 
-    init(config: TOTPConfig, sessionKey: SymmetricKey, accessibilityPrefix: String = "entry") {
+    init(
+        config: TOTPConfig,
+        sessionKey: SymmetricKey,
+        accessibilityPrefix: String = "entry",
+        externalCopyID: UUID? = nil
+    ) {
         self.config = config
         self.accessibilityPrefix = accessibilityPrefix
+        self.externalCopyID = externalCopyID
         self._totpVM = State(initialValue: TOTPViewModel(config: config, sessionKey: sessionKey))
     }
 
@@ -1118,8 +1163,16 @@ struct TOTPSection: View {
 
                 Spacer()
 
-                CopyButton(text: totpVM.code, accessibilityID: "\(accessibilityPrefix).copy.totp")
+                CopyButton(
+                    text: totpVM.code,
+                    accessibilityID: "\(accessibilityPrefix).copy.totp",
+                    onCopied: { copyCount += 1 }
+                )
             }
+            .copyConfirmation(trigger: copyCount)
+        }
+        .onChange(of: externalCopyID) { _, id in
+            if id != nil { copyCount += 1 }
         }
         .onAppear { totpVM.start() }
         .onDisappear { totpVM.stop() }

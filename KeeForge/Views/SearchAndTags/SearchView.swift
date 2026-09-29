@@ -67,8 +67,13 @@ private struct SearchResultsList: View {
         MacEntriesList(
             viewModel: viewModel,
             entries: viewModel.searchResults,
+            focusRequestID: viewModel.searchResultsFocusRequestID,
             onRequestDeletion: onRequestDeletion
         )
+        .onKeyPress(.escape) {
+            viewModel.cancelSearchFromResults()
+            return .handled
+        }
         #else
         EntryListView(
             entries: viewModel.searchResults,

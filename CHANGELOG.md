@@ -19,6 +19,9 @@
 - Copying a password no longer has to ask for Touch ID or Face ID: turn off "Require Authentication to Copy Passwords" in Settings → Security. It stays on by default, and showing a password still asks.
 - Press Return on the unlock screen with an empty password field to unlock with Touch ID or Face ID.
 - Mac: the unlock screen now waits for Touch ID while NextPass is in front — just place your finger on the sensor, no dialog. Cancelling a Touch ID prompt on the Mac returns to the unlock screen instead of showing an error.
+- Mac: unlocking a database puts the cursor in the search field, so you can start typing right away. Press the down or up arrow to move from the search field into the results, then keep using the arrows to go through them. Press Escape to clear the search: the cursor stays in the search field, or returns to it from the results.
+- Mac: press ⌘B to copy the selected entry's username, and ⌘C to copy its password while the entry list is focused. ⌘C still copies selected text in the search field and elsewhere, and Copy Password stays available as ⇧⌘C.
+- Copying a field now covers it with a green "Copied to Clipboard" banner instead of a small checkmark, including when you copy with a keyboard shortcut or from an entry's context menu.
 - Tap the username or password in an entry to copy it. The password stays hidden until you tap the eye button; tapping anywhere on its row used to reveal it.
 
 ### Fixes

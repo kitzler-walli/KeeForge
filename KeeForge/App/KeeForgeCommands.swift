@@ -126,13 +126,14 @@ struct KeeForgeCommands: Commands {
 
             Button("Copy Username") {
                 guard let viewModel, let entry = selectedEntry else { return }
-                ClipboardService.copy(viewModel.resolvingFieldReferences(entry.username))
+                EntryRowCopyActions.copyUsername(of: entry, viewModel: viewModel)
             }
-            .keyboardShortcut("b", modifiers: [.command, .shift])
+            .keyboardShortcut("b", modifiers: .command)
             .disabled(selectedEntry?.username.isEmpty != false)
 
             Button("Copy Password") {
-                copySelectedEntryPassword()
+                guard let viewModel, let entry = selectedEntry else { return }
+                EntryRowCopyActions.copyPassword(of: entry, viewModel: viewModel)
             }
             .keyboardShortcut("c", modifiers: [.command, .shift])
             .disabled(selectedEntry?.hasPassword != true)
@@ -140,6 +141,7 @@ struct KeeForgeCommands: Commands {
             Button("Copy URL") {
                 guard let viewModel, let entry = selectedEntry else { return }
                 ClipboardService.copy(viewModel.resolvingFieldReferences(entry.url))
+                viewModel.recordEntryCopy(.url, entryID: entry.id)
             }
             .keyboardShortcut("u", modifiers: [.command, .shift])
             .disabled(selectedEntry?.url.isEmpty != false)
@@ -265,31 +267,15 @@ struct KeeForgeCommands: Commands {
         alert.runModal()
     }
 
-    private func copySelectedEntryPassword() {
-        guard let viewModel, let entry = selectedEntry, viewModel.sessionKey != nil else { return }
-
-        Task { @MainActor in
-            // Same device-owner gate as reveal/copy in the entry detail view:
-            // biometrics when available, login password / Apple Watch
-            // otherwise. Only skipped when the device has no protection at all.
-            if SettingsService.requireAuthenticationToCopyPasswords, BiometricService.canAuthenticateDeviceOwner {
-                do {
-                    _ = try await BiometricService.authenticateDeviceOwner(reason: String(localized: "Copy password"))
-                } catch {
-                    return
-                }
-            }
-            ClipboardService.copy(viewModel.resolvedPassword(for: entry))
-        }
-    }
-
     /// Not behind the device-owner gate, matching the entry detail view's
     /// verification-code copy button: the code expires on its own.
     private func copySelectedEntryTOTP() {
         guard let viewModel,
-              let config = selectedEntry?.totpConfig,
+              let entry = selectedEntry,
+              let config = entry.totpConfig,
               let sessionKey = viewModel.sessionKey else { return }
         ClipboardService.copy(TOTPGenerator.generateCode(config: config, sessionKey: sessionKey))
+        viewModel.recordEntryCopy(.verificationCode, entryID: entry.id)
     }
 
     private func showAboutPanel() {

@@ -78,6 +78,16 @@ class MacUITestCase: XCTestCase {
     /// Override to add launch environment (e.g. WebDAV payloads) before launch.
     func configureLaunch(app: XCUIApplication) throws {}
 
+    /// Adds `-key value` defaults overrides ahead of the bare `-ui-testing`
+    /// flag, which would otherwise swallow the first key as its value.
+    func insertLaunchArguments(_ arguments: [String], into app: XCUIApplication) {
+        if let index = app.launchArguments.firstIndex(of: "-ui-testing") {
+            app.launchArguments.insert(contentsOf: arguments, at: index)
+        } else {
+            app.launchArguments += arguments
+        }
+    }
+
     func fixtureData(resourceName: String, resourceExtension: String) throws -> Data {
         guard let fixtureURL = Bundle(for: MacUITestCase.self).url(
             forResource: resourceName,

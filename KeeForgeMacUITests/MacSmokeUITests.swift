@@ -390,6 +390,35 @@ final class MacPasswordAuthBoundaryUITests: MacUITestCase {
     }
 }
 
+/// ⌘B and ⌘C on a focused entry list. The device-owner gate is off under
+/// `-ui-testing`, so the password lands without a prompt.
+@MainActor
+final class MacEntryCopyShortcutUITests: MacUITestCase {
+    func testCommandBCopiesUsernameAndCommandCCopiesPassword() {
+        unlockSuccessfully()
+        openGroup(named: "Work")
+        openEntry(named: "GitHub")
+
+        let username = copiedString { app.typeKey("b", modifierFlags: .command) }
+        XCTAssertEqual(username?.isEmpty, false, "⌘B did not copy the username")
+
+        let password = copiedString { app.typeKey("c", modifierFlags: .command) }
+        XCTAssertEqual(password?.isEmpty, false, "⌘C in the entry list did not copy the password")
+        XCTAssertNotEqual(password, username, "⌘C copied the username instead of the password")
+    }
+
+    private func copiedString(after action: () -> Void) -> String? {
+        let changeCountBefore = NSPasteboard.general.changeCount
+        action()
+        let deadline = Date().addingTimeInterval(10)
+        while NSPasteboard.general.changeCount == changeCountBefore, Date() < deadline {
+            RunLoop.current.run(until: Date().addingTimeInterval(0.2))
+        }
+        guard NSPasteboard.general.changeCount != changeCountBefore else { return nil }
+        return NSPasteboard.general.string(forType: .string)
+    }
+}
+
 /// Database-list management smoke coverage (two seeded databases).
 @MainActor
 final class MacDatabaseListUITests: MacUITestCase {

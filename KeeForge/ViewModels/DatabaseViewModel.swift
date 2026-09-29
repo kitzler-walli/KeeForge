@@ -413,6 +413,13 @@ final class DatabaseViewModel {
     /// Incremented by the macOS menu-bar "Find" command (⌘F); the group list
     /// observes it and focuses the search field.
     private(set) var searchFocusRequestID = 0
+    /// The last copy made from outside the entry detail view — a menu-bar
+    /// shortcut or a row's context menu — so the detail view can confirm it
+    /// on the field the same way its own copy buttons do.
+    private(set) var lastEntryCopy: EntryCopyEvent?
+    /// Incremented when an arrow key leaves the macOS search field; the search
+    /// results list observes it and takes keyboard focus.
+    private(set) var searchResultsFocusRequestID = 0
     /// Incremented by the macOS menu-bar "New Group" command (⇧⌘N); the
     /// unlocked workspace observes it and presents the new-group sheet.
     private(set) var newGroupRequestID = 0
@@ -1637,6 +1644,44 @@ final class DatabaseViewModel {
     func requestSearchFocus() {
         guard case .unlocked = state else { return }
         searchFocusRequestID += 1
+    }
+
+    func recordEntryCopy(_ field: CopiedEntryField, entryID: UUID) {
+        lastEntryCopy = EntryCopyEvent(entryID: entryID, field: field)
+    }
+
+    /// The id of the last recorded copy of `field` on `entryID`, or nil.
+    func entryCopyID(_ field: CopiedEntryField, entryID: UUID) -> UUID? {
+        guard let lastEntryCopy, lastEntryCopy.entryID == entryID, lastEntryCopy.field == field else { return nil }
+        return lastEntryCopy.id
+    }
+
+    /// Escape from the macOS search results: drops the query, which returns
+    /// the content column to the sidebar selection, and puts the cursor back
+    /// in the empty search field.
+    func cancelSearchFromResults() {
+        guard case .unlocked = state else { return }
+        searchText = ""
+        searchFocusRequestID += 1
+    }
+
+    /// Arrow-key hand-off from the macOS search field into its results: Down
+    /// selects the first result and Up the last, or steps from a selection
+    /// already among them. Returns false when there is nothing to select, so
+    /// the field keeps the key.
+    @discardableResult
+    func moveSelectionIntoSearchResults(by offset: Int) -> Bool {
+        guard searchResults.isEmpty == false else { return false }
+        let index: Int
+        if let selectedEntryID,
+           let currentIndex = searchResults.firstIndex(where: { $0.id == selectedEntryID }) {
+            index = min(max(currentIndex + offset, 0), searchResults.count - 1)
+        } else {
+            index = offset > 0 ? 0 : searchResults.count - 1
+        }
+        selectedEntryID = searchResults[index].id
+        searchResultsFocusRequestID += 1
+        return true
     }
 
     /// Requests presenting the new-group sheet under the selected group. Used
@@ -3554,4 +3599,17 @@ final class DatabaseViewModel {
         }
         return try url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
     }
+}
+
+enum CopiedEntryField: Equatable {
+    case username
+    case password
+    case url
+    case verificationCode
+}
+
+struct EntryCopyEvent: Equatable {
+    let id = UUID()
+    let entryID: UUID
+    let field: CopiedEntryField
 }

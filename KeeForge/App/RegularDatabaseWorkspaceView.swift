@@ -43,6 +43,9 @@ struct RegularDatabaseWorkspaceView: View {
     @State private var newGroupParentID: UUID?
     @State private var isShowingDatabaseDetails = false
     @FocusState private var isSearchFieldFocused: Bool
+    /// The workspace is rebuilt on every unlock, so this makes unlock — not a
+    /// re-fired `onAppear` — the one moment search takes focus.
+    @State private var hasFocusedSearchOnUnlock = false
     #endif
 
     var body: some View {
@@ -361,8 +364,23 @@ struct RegularDatabaseWorkspaceView: View {
         .onChange(of: viewModel.searchFocusRequestID) { _, _ in
             isSearchFieldFocused = true
         }
+        .modifier(MacSearchFieldKeys { key in
+            switch key {
+            case .down:
+                return viewModel.moveSelectionIntoSearchResults(by: 1)
+            case .up:
+                return viewModel.moveSelectionIntoSearchResults(by: -1)
+            case .escape:
+                viewModel.searchText = ""
+                return true
+            }
+        })
         .toolbar { macToolbar }
         .onAppear {
+            if hasFocusedSearchOnUnlock == false {
+                hasFocusedSearchOnUnlock = true
+                isSearchFieldFocused = true
+            }
             // The tag check keeps a re-fired onAppear from silently clearing a
             // sidebar tag selection — selecting a group deselects the tag.
             if viewModel.selectedGroupID == nil, viewModel.selectedTag == nil {
@@ -850,6 +868,7 @@ private struct MacEntriesColumn: View {
                     }
                     .listStyle(.inset)
                     .focused($isListFocused)
+                    .macCopiesSelectedPassword(viewModel: viewModel)
                     .onKeyPress(.return) {
                         guard let entryID = viewModel.selectedEntryID else { return .ignored }
                         onOpenEntry(entryID)
@@ -865,6 +884,63 @@ private struct MacEntriesColumn: View {
                 description: Text("Choose a group to view its entries.")
             )
         }
+    }
+}
+
+/// Up, Down, and Escape typed in the toolbar search field. `.searchable`
+/// draws an `NSSearchField` in the window's `NSToolbar`, outside the SwiftUI
+/// hierarchy `.onKeyPress` observes, so the only layer that sees these keys is
+/// a local event monitor. Left alone, Escape there ends the search and drops
+/// focus; the workspace keeps focus in the field and only clears the query.
+private struct MacSearchFieldKeys: ViewModifier {
+    enum Key {
+        case down
+        case up
+        case escape
+    }
+
+    /// Returning false leaves the key to the field.
+    let onKey: @MainActor (Key) -> Bool
+    @State private var monitor: Any?
+
+    func body(content: Content) -> some View {
+        content
+            .onAppear {
+                guard monitor == nil else { return }
+                monitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+                    guard let key = Self.key(for: event) else { return event }
+                    let window = event.window
+                    let handled = MainActor.assumeIsolated {
+                        Self.isEditingSearchField(in: window) && onKey(key)
+                    }
+                    return handled ? nil : event
+                }
+            }
+            .onDisappear {
+                if let monitor {
+                    NSEvent.removeMonitor(monitor)
+                }
+                monitor = nil
+            }
+    }
+
+    private static let escapeKeyCode: UInt16 = 53
+
+    private static func key(for event: NSEvent) -> Key? {
+        guard event.modifierFlags.isDisjoint(with: [.command, .option, .control, .shift]) else { return nil }
+        if event.keyCode == escapeKeyCode { return .escape }
+        switch event.specialKey {
+        case .downArrow: return .down
+        case .upArrow: return .up
+        default: return nil
+        }
+    }
+
+    /// A focused text field is edited through the window's shared field
+    /// editor, whose delegate is the field itself.
+    @MainActor
+    private static func isEditingSearchField(in window: NSWindow?) -> Bool {
+        (window?.firstResponder as? NSTextView)?.delegate is NSSearchField
     }
 }
 
