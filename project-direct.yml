@@ -4,8 +4,7 @@
 #
 # It produces the same project as `project.yml` with one difference: the
 # `KeeForgeMac` target links Sparkle and compiles with KEEFORGE_DIRECT_DOWNLOAD,
-# which turns on in-app updates and swaps the StoreKit tip jar for a GitHub
-# Sponsors link.
+# which turns on in-app updates and leaves out the StoreKit tip jar.
 #
 # Why an overlay and not a second target: both channels must ship an app called
 # KeeForge.app — the bundle name is user-visible and the executable name is

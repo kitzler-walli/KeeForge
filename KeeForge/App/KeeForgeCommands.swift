@@ -43,7 +43,7 @@ struct KeeForgeCommands: Commands {
 
     var body: some Commands {
         CommandGroup(replacing: .appInfo) {
-            Button("About KeeForge") {
+            Button("About NextPass") {
                 showAboutPanel()
             }
         }
@@ -182,7 +182,7 @@ struct KeeForgeCommands: Commands {
         }
 
         CommandGroup(replacing: .help) {
-            Button("KeeForge Help") {
+            Button("NextPass Help") {
                 open(Self.helpURLString)
             }
 

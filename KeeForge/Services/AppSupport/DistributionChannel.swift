@@ -25,7 +25,7 @@ enum DistributionChannel {
     }
 
     /// StoreKit — the tip jar and the review prompt — only works for an App
-    /// Store install. A direct build offers GitHub Sponsors instead.
+    /// Store install; a direct build shows no tip jar.
     static var supportsStoreKit: Bool {
         current == .appStore
     }
