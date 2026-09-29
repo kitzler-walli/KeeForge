@@ -18,6 +18,7 @@ enum SettingsService {
         static let blockScreenCapture = "KeeForge.blockScreenCapture"
         static let blurWhenInactive = "KeeForge.blurWhenInactive"
         static let browserExtensionEnabled = "KeeForge.browserExtensionEnabled"
+        static let requireAuthenticationToCopyPasswords = "KeeForge.requireAuthenticationToCopyPasswords"
         static let passwordGeneratorOptions = "KeeForge.passwordGeneratorOptions"
     }
 
@@ -297,10 +298,6 @@ enum SettingsService {
         }
     }
 
-    // MARK: - Blur When Inactive (macOS)
-    //
-    // Same storage rationale as `blockScreenCapture`.
-
     // MARK: - Browser Extension (macOS)
     //
     // Whether NextPass listens for its browser extension at all. Off by
@@ -311,6 +308,10 @@ enum SettingsService {
         set { UserDefaults.standard.set(newValue, forKey: Key.browserExtensionEnabled) }
     }
 
+    // MARK: - Blur When Inactive (macOS)
+    //
+    // Same storage rationale as `blockScreenCapture`.
+
     static var blurWhenInactive: Bool {
         get {
             if UserDefaults.standard.object(forKey: Key.blurWhenInactive) == nil {
@@ -320,6 +321,21 @@ enum SettingsService {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Key.blurWhenInactive)
+        }
+    }
+
+    // MARK: - Copy Password Authentication
+    //
+    // Whether copying a password or protected field asks for Touch ID / Face
+    // ID (or the device password) first. On by default; revealing a password
+    // always asks.
+
+    static var requireAuthenticationToCopyPasswords: Bool {
+        get {
+            UserDefaults.standard.object(forKey: Key.requireAuthenticationToCopyPasswords) as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Key.requireAuthenticationToCopyPasswords)
         }
     }
 }

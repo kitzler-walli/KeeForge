@@ -25218,6 +25218,46 @@
         }
       }
     },
+    "Require Authentication to Copy Passwords" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zum Kopieren von Passwörtern authentifizieren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Requerir autenticación para copiar contraseñas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Authentification requise pour copier les mots de passe"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "パスワードのコピーに認証を要求"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "复制密码时需要身份验证"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拷貝密碼時需要身分驗證"
+          }
+        }
+      }
+    },
     "Restore" : {
       "localizations" : {
         "de" : {

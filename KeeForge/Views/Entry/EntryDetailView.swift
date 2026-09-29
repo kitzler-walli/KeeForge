@@ -1058,7 +1058,7 @@ struct CopyButton: View {
         // Same device-owner gate as password reveal: biometrics when
         // available, passcode/login password/Apple Watch fallback
         // otherwise. Skipped only when the device has no protection.
-        if requireAuth && BiometricService.canAuthenticateDeviceOwner {
+        if requireAuth, SettingsService.requireAuthenticationToCopyPasswords, BiometricService.canAuthenticateDeviceOwner {
             Task {
                 await MainActor.run {
                     BiometricService.isBiometricAuthInProgress = true

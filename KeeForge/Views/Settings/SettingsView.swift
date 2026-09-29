@@ -352,6 +352,19 @@ struct SettingsView: View {
 
 }
 
+/// Shared by the iOS Security page and the macOS Security tab.
+private struct RequireAuthenticationToCopyToggle: View {
+    @State private var isOn = SettingsService.requireAuthenticationToCopyPasswords
+
+    var body: some View {
+        Toggle("Require Authentication to Copy Passwords", isOn: $isOn)
+            .accessibilityIdentifier("settings.require-auth-to-copy.toggle")
+            .onChange(of: isOn) { _, newValue in
+                SettingsService.requireAuthenticationToCopyPasswords = newValue
+            }
+    }
+}
+
 private struct SecuritySettingsView: View {
     @Binding var autoLockTimeout: SettingsService.AutoLockTimeout
     @Binding var lockOnBackground: Bool
@@ -378,6 +391,8 @@ private struct SecuritySettingsView: View {
                         Text(option.title).tag(option)
                     }
                 }
+
+                RequireAuthenticationToCopyToggle()
             } footer: {
                 if BiometricAutoUnlockPolicy.allowsAutomaticUnlock {
                     Text("Auto-Unlock with Face ID prompts after a database is opened. When background locking is off, NextPass still uses the auto-lock timeout and locks the next time the app becomes active after that deadline has passed.")
@@ -802,6 +817,8 @@ private struct MacSecuritySettingsTab: View {
                         Text(option.title).tag(option)
                     }
                 }
+
+                RequireAuthenticationToCopyToggle()
             } header: {
                 Text("Clipboard")
             } footer: {

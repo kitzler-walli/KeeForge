@@ -329,6 +329,15 @@ final class SettingsServiceTests: XCTestCase {
 
     // MARK: - Browser Extension
 
+    func testCopyingPasswordsRequiresAuthenticationByDefaultAndCanBeTurnedOff() {
+        UserDefaults.standard.removeObject(forKey: "KeeForge.requireAuthenticationToCopyPasswords")
+        defer { UserDefaults.standard.removeObject(forKey: "KeeForge.requireAuthenticationToCopyPasswords") }
+        XCTAssertTrue(SettingsService.requireAuthenticationToCopyPasswords)
+
+        SettingsService.requireAuthenticationToCopyPasswords = false
+        XCTAssertFalse(SettingsService.requireAuthenticationToCopyPasswords)
+    }
+
     func testBrowserExtensionIsOffByDefault() {
         UserDefaults.standard.removeObject(forKey: "KeeForge.browserExtensionEnabled")
         XCTAssertFalse(SettingsService.browserExtensionEnabled)
